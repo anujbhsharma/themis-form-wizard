@@ -1,0 +1,106 @@
+{
+    "disclaimer": "Please be advised that the legal clinic is operated by third-year law students under the supervision of the clinic director and supervising lawyer. Our ability to accept cases depends on the availability of our students and resources within the clinic, with a limited waiting list capacity across New Brunswick. While we offer comprehensive services in Fredericton, Saint John, and Woodstock, our services in other areas are restricted to providing free advice and information. Individuals in those regions must complete this intake form to receive a call back or email response. If your matter is urgent, please contact us by telephone; however, we make no promises or guarantees of assistance, as we can only take on as many cases as our student capacity allows. Thank you for your understanding.",
+    "formFields": [
+        {
+            "type": "checkbox",
+            "name": "disclaimer_consent",
+            "label": "I understand",
+            "required": true
+        },
+        {
+            "type": "text",
+            "name": "full_name",
+            "label": "Full Name",
+            "required": true
+        },
+        {
+            "type": "date",
+            "name": "date_of_birth",
+            "label": "Date of Birth",
+            "required": true
+        },
+        {
+            "type": "text",
+            "name": "city_province",
+            "label": "City/Province",
+            "required": true
+        },
+        {
+            "type": "tel",
+            "name": "cell_phone",
+            "label": "Cell Phone",
+            "required": true
+        },
+        {
+            "type": "email",
+            "name": "email",
+            "label": "Email Address",
+            "required": true,
+            "hint": "Please provide an accessible email address, as this will be our primary means of communication"
+        },
+        {
+            "type": "number",
+            "name": "total_income",
+            "label": "Total Income per month",
+            "required": true
+        },
+        {
+            "type": "number",
+            "name": "total_expenses",
+            "label": "Total Expenses per month",
+            "required": true
+        },
+        {
+            "type": "select",
+            "name": "legal_matter_category",
+            "label": "Legal Matter Category",
+            "required": true,
+            "options": [
+                "Housing and Tenancy",
+                "Provincial and Federal benefits (Social Assistance, CPP and OAS, E.I., CERB)",
+                "Employment Law",
+                "Human Rights",
+                "Small Claims",
+                "Notary Services",
+                "Uncontested Divorce",
+                "Provincial Offences (Tickets)",
+                "Immigration and Refugee Assistance",
+                "Other"
+            ]
+        },
+        {
+            "type": "textarea",
+            "name": "matter_description",
+            "label": "Please describe your matter in as much detail as possible",
+            "required": true
+        },
+        {
+            "type": "radio",
+            "name": "previous_legal_assistance",
+            "label": "Have you previously sought legal assistance for this issue?",
+            "required": true,
+            "options": ["Yes", "No"]
+        },
+        {
+            "type": "textarea",
+            "name": "previous_assistance_details",
+            "label": "If yes, please provide details",
+            "conditional": {
+                "field": "previous_legal_assistance",
+                "value": "Yes"
+            }
+        },
+        {
+            "type": "text",
+            "name": "opposing_party",
+            "label": "Opposing Party Details (Last name, First Name, Middle Name, Date of Birth)",
+            "hint": "For example, if you're a tenant in a housing dispute - give the landlord's name"
+        },
+        {
+            "type": "checkbox",
+            "name": "consent",
+            "label": "I consent to the collection and use of my information for the purpose of legal assistance and understand that this form does not create an attorney-client relationship.",
+            "required": true
+        }
+    ]
+}
