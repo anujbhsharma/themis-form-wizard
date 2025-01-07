@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { AlertCircle, Check, ChevronRight, ChevronLeft, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -94,6 +94,7 @@ const IntakeForm = () => {
         return '';
     }
   };
+  
 
   const handleChange = (name, value) => {
     setFormData(prev => ({
@@ -182,12 +183,31 @@ const IntakeForm = () => {
     setCurrentStep(prev => prev - 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateStep()) {
-      console.log('Form submitted:', formData);
-      setSubmitted(true);
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/save/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to submit the form');
+        }
+  
+        const data = await response.json();
+        console.log('Form submitted successfully:', data);
+        setSubmitted(true);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Error submitting form. Please try again later.');
+      }
     }
-  };
+  };  
+
 
   const renderField = (field) => {
     const commonLabelProps = {
