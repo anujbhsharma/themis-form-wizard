@@ -29,9 +29,9 @@ const AdditionalResources = ({ resources }) => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto px-4 ">
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center ">
         <h1 className="text-3xl font-semibold text-gray-900 mb-3">
           Support Resources
         </h1>
@@ -41,7 +41,7 @@ const AdditionalResources = ({ resources }) => {
       </div>
       
       {/* Search and Filters */}
-      <div className="mb-10 space-y-4">
+      <div className="mb-4 space-y-4">
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto relative">
           <input 

@@ -1,49 +1,67 @@
 "use client"
 import React from 'react';
 import Image from 'next/image';
-import logo from './logo.png'
-const HomeHeader: React.FC = () => {
+import logo from './logo.png';
+import tclogo from './tclogo.png'
+
+const HomeHeader = () => {
   return (
-    <header className="relative overflow-hidden py-12 px-4 text-center md:py-16 ">
-  <div className="max-w-4xl mx-auto">
-    {/* Logo and Title Section */}
-    <div className="flex flex-col items-center justify-center gap-4 mb-6">
-    <div className="relative w-64  md:w-80 ">
-            <Image 
-              src={logo}
-              alt="UNB Legal Clinic Logo" 
-              width={320} 
-              height={320}
-              className="object-contain filter brightness-0"
-            />
+    <header className="relative bg-white border-b border-gray-100 rounded-lg shadow-md">
+      <div className="container mx-auto px-8">
+        <div className="flex items-center justify-between h-24">
+          {/* Left Section */}
+          <div className="flex-1 flex items-center justify-start">
+            <div className="text-sm text-gray-600">
+              Accessible Legal Services
+            </div>
           </div>
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 tracking-tight">
-        Legal Clinic
-      </h1>
-    </div>
 
-    {/* Divider */}
-    <div className="flex items-center justify-center gap-4 mb-8">
-      <span className="h-[1px] w-12 bg-red-200"></span>
-      <p className="text-red-600 font-medium">
-        Powered by Themiscore
-      </p>
-      <span className="h-[1px] w-12 bg-red-200"></span>
-    </div>
+          {/* Centered Logo and Title */}
+          <div className="flex items-center gap-3">
+            <div className="relative w-16 h-16 transition-transform duration-300 hover:scale-105">
+              
+            </div>
+            <div className="flex flex-col items-center">
+              <h1 className="text-xl font-bold text-gray-900">
+                Legal Clinic
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="h-px w-8 bg-gradient-to-r from-transparent via-red-200 to-transparent"></span>
+                <Image 
+                src={logo}
+                alt="UNB Legal Clinic Logo" 
+                width={64}
+                height={64}
+                className="object-contain filter brightness-0"
+                priority
+              />
+                <span className="h-px w-8 bg-gradient-to-r from-transparent via-red-200 to-transparent"></span>
+              </div>
+            </div>
+          </div>
 
-    {/* Description */}
-    <div className="max-w-2xl mx-auto">
-      <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
-        Providing accessible legal services to our community through supervised law students
-      </p>
-    </div>
-
-    {/* Decorative Background Elements */}
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-6xl">
-      <div className="absolute inset-0 bg-[radial-gradient(closest-side,rgba(255,0,0,0.03),transparent)] pointer-events-none"></div>
-    </div>
-  </div>
-</header>
+          {/* Right Section */}
+          <div className="flex-1 flex items-center justify-end">
+            <div className="flex items-center text-sm">
+              <span className="text-gray-500 font-bold">Powered by</span>
+              <Image 
+                src={tclogo}
+                alt="UNB Legal Clinic Logo" 
+                width={128}
+                height={128}
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-50/10 to-transparent"></div>
+      </div>
+    </header>
   );
 };
 

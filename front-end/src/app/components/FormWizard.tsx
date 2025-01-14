@@ -19,7 +19,7 @@ import {
   RefreshCcw
 } from 'lucide-react';
 
-
+import { Card,  CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { formConfig,CONSTANTS,RESOURCES } from '../lib/formConfig';
 import { submitFormWithFiles } from '../lib/api';
 export default function LegalClinicForm() {
@@ -424,23 +424,25 @@ export default function LegalClinicForm() {
     </div>
   );
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50  md:p-2">
       {showSuccess && <SuccessModal />}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 text-center bg-white rounded-xl p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {formConfig.metadata.clinic.name}
-          </h1>
-          <div className="text-gray-600 mt-2 space-y-1">
-            <p>{formConfig.metadata.clinic.address}</p>
-            <p>Phone: {formConfig.metadata.clinic.phone}</p>
-            <p>Email: {formConfig.metadata.clinic.email}</p>
-          </div>
+        <div className=" text-center bg-white rounded-xl  shadow-sm">
+        <Card className="mb-4">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center text-red-800">
+              {formConfig.metadata.clinic.name}
+            </CardTitle>
+            <CardDescription className="text-center">
+              Phone: {formConfig.metadata.clinic.phone} • Email: {formConfig.metadata.clinic.email} •  {formConfig.metadata.clinic.address}
+            </CardDescription>
+          </CardHeader>
+        </Card>
         </div>
   
         {/* Progress bar */}
-        <div className="mb-12">
+        <div className="mb-4">
           <div className="max-w-3xl mx-auto">
             <div className="h-1 mb-8 rounded-full bg-gray-100 overflow-hidden">
               <div 

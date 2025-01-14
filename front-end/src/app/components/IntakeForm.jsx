@@ -620,24 +620,24 @@ export default function IntakeForm() {
   const currentStepConfig = formConfig.steps[currentStep];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50  md:p-2">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <Card className="mb-8">
+        <Card className="mb-4">
           <CardHeader>
             <CardTitle className="text-2xl text-center text-red-800">
               {formConfig.metadata.clinic.name}
             </CardTitle>
             <CardDescription className="text-center">
-              Phone: {formConfig.metadata.clinic.phone} • Email: {formConfig.metadata.clinic.email}
+              Phone: {formConfig.metadata.clinic.phone} • Email: {formConfig.metadata.clinic.email} • {formConfig.metadata.clinic.address}
             </CardDescription>
           </CardHeader>
         </Card>
 
         {/* Progress bar */}
-        <div className="mb-12">
+        <div className="mb-4">
           <div className="max-w-3xl mx-auto">
-            <Progress value={progress} className="h-2 mb-8" />
+            <Progress value={progress} className="h-2 mb-4" />
             <div className="flex justify-between">
               {formConfig.steps.map((step, index) => (
                 <div
