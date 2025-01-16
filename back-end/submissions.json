@@ -1,0 +1,117 @@
+{
+  "submissions": [
+    {
+      "id": "fa6b7bed-3184-431c-87de-40ffeaa9f730",
+      "type": "intake_submission",
+      "timestamp": "2025-01-14T14:33:21.198Z",
+      "formData": {
+        "disclaimer": "understand",
+        "fullName": "afaf",
+        "dateOfBirth": "1995-02-07",
+        "cityProvince": "asfaf",
+        "phone": "1231231234",
+        "email": "ad@sd.ca",
+        "monthlyIncome": "1222",
+        "monthlyExpenses": "1222",
+        "legalIssueType": "benefits",
+        "description": "dqwrr",
+        "priorLegalAssistance": "yes",
+        "priorLegalDetails": "cf",
+        "opposingParty": "sfs",
+        "finalConsent": "understand"
+      }
+    },
+    {
+      "id": "ad8abd07-3ce7-476f-8aec-1d73ebb68211",
+      "type": "file_submission",
+      "timestamp": "2025-01-14T14:53:32.493Z",
+      "formData": {
+        "immediateRisk": "no",
+        "shelterNeeded": "no",
+        "intakeDisclaimer": "agree",
+        "emailCommunicationConsent": "accept",
+        "firstName": "Anuj",
+        "lastName": "Sharma",
+        "address": "401 Univeristy Avenue",
+        "cityProvince": "Fredericton",
+        "postalCode": "E3B 4H9",
+        "phoneNumber": "5068974572",
+        "phoneMessagePermission": "yes",
+        "dateOfBirth": "1994-02-01",
+        "gender": "female",
+        "indigenous": "metis",
+        "preferredLanguage": "english",
+        "nbResidency": "4-6",
+        "maritalStatus": "common-law",
+        "unbStudent": "yes",
+        "householdSize": "2",
+        "employed": "yes",
+        "phoneType": "home",
+        "employmentIncome": "1001",
+        "spouseIncome": "1001",
+        "socialAssistance": "999",
+        "ei": "1001",
+        "wcbCppDisability": "1001",
+        "pensions": "1001",
+        "supportPayments": "1001",
+        "rentalIncome": "1001",
+        "childTaxCredit": "1001",
+        "otherIncome": "1000.99",
+        "totalMonthlyIncome": "1001",
+        "childcareExpenses": "1001",
+        "medicalExpenses": "1001",
+        "supportPaymentsDeduction": "1001",
+        "totalDeductions": "1001",
+        "cashAndBank": "1001",
+        "investments": "1001",
+        "otherAssets": "1001",
+        "totalAssets": "1001",
+        "legalIssueType": "provincial-offences",
+        "issueDescription": "wesdfas",
+        "opposingParties": "asfaf",
+        "hasDeadline": "yes",
+        "deadlineDetails": "a",
+        "documentsSubmitted": true,
+        "submitterName": "Anuj Sharma",
+        "submitterEmail": "anuj.sharma@unb.ca",
+        "submitterPhone": "5068974572",
+        "evaluationConsent": true,
+        "relationshipToClient": "dasdf",
+        "informationDeclaration": true
+      },
+      "files": [
+        {
+          "id": "0c3c30d3-9c0b-4a95-83cb-216af5092954",
+          "name": "Screenshot 2025-01-13 at 4.49.59â¯PM.png",
+          "path": "/Users/anujsharma/Downloads/legalclinic/themis-form-wizard/back-end/uploads/0c3c30d3-9c0b-4a95-83cb-216af5092954.png"
+        },
+        {
+          "id": "56e1bd10-83f7-4ab1-869d-b23f359b671f",
+          "name": "Screenshot 2025-01-13 at 9.13.31â¯AM.png",
+          "path": "/Users/anujsharma/Downloads/legalclinic/themis-form-wizard/back-end/uploads/56e1bd10-83f7-4ab1-869d-b23f359b671f.png"
+        }
+      ]
+    },
+    {
+      "id": "d3bcd35f-2070-470b-8c5f-1c375d82cfb0",
+      "type": "intake_submission",
+      "timestamp": "2025-01-14T15:07:14.781Z",
+      "formData": {
+        "disclaimer": "understand",
+        "fullName": "Anuj ",
+        "dateOfBirth": "1994-02-01",
+        "cityProvince": "Fredericto ",
+        "phone": "1234567543",
+        "email": "an8@mn.cq",
+        "monthlyIncome": "1222",
+        "monthlyExpenses": "1222",
+        "legalIssueType": "small-claims",
+        "description": "Andaf",
+        "priorLegalAssistance": "yes",
+        "priorLegalDetails": "dasd",
+        "opposingParty": "dasdd",
+        "finalConsent": "understand"
+      }
+    }
+  ]
+}

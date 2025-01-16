@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   AlertCircle, Shield, User, Phone, Home, DollarSign, 
   Scale, ChevronRight, ChevronLeft, Info, Check, Send,
-  FileText
+  FileText,
+  CheckCircle,
+  RefreshCcw
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,8 +15,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-
+import { submitFormWithOutFiles } from '../lib/api';
 // Resource definitions
+
+
 const RESOURCES = {
   shelters: [
     {
@@ -255,7 +259,22 @@ export default function IntakeForm() {
   const [visitedSteps, setVisitedSteps] = useState(new Set([0]));
   const [activeResources, setActiveResources] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+ const [submitStatus, setSubmitStatus] = useState({ loading: false, error: null });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [submissionId, setSubmissionId] = useState(null);
 
+  const resetForm = () => {
+    setFormData({});
+    setErrors({});
+    setCurrentStep(0);
+    setVisitedSteps(new Set([0]));
+    
+    setSubmitStatus({ loading: false, error: null });
+    setShowSuccess(false);
+    setSubmissionId(null);
+    setActiveResources(null);
+    setSubmitted(false);
+  };
   useEffect(() => {
     const newProgress = ((currentStep + 1) / formConfig.steps.length) * 100;
     setProgress(newProgress);
@@ -268,6 +287,10 @@ export default function IntakeForm() {
         message: `${field.label} is required`
       };
     }
+// Helper function to filter and categorize resources
+
+
+// Improved resource suggestion logic
 
     switch (field.name) {
       case 'dateOfBirth':
@@ -317,114 +340,177 @@ export default function IntakeForm() {
         return { isValid: true };
     }
   };
-
+  const filterResourcesByCategory = (resources, category, criteria = {}) => {
+    return resources
+      .filter(resource => resource.category === category)
+      .filter(resource => {
+        if (criteria.gender) {
+          if (resource.notes?.toLowerCase().includes(`${criteria.gender} only`)) {
+            return true;
+          }
+        }
+        if (criteria.isFirstNations && resource.notes?.toLowerCase().includes('first nations')) {
+          return true;
+        }
+        return !resource.notes || 
+              (!resource.notes.toLowerCase().includes('only') && 
+               !resource.notes.toLowerCase().includes('first nations'));
+      });
+  };
+  const getRelevantResources = (issueType, userData) => {
+    let relevantResources = [];
+    
+    // Base legal resources for most issues
+    if (issueType !== 'notary') {
+      relevantResources = [...RESOURCES.legal];
+    }
+  
+    // Add category-specific resources
+    switch (issueType) {
+      case 'housing':
+        const shelterResources = filterResourcesByCategory(
+          RESOURCES.shelters, 
+          'shelters',
+          {
+            gender: userData.gender,
+            isFirstNations: userData.isFirstNations
+          }
+        );
+        relevantResources = [...relevantResources, ...shelterResources];
+        break;
+        
+      case 'benefits':
+      case 'employment':
+      case 'human-rights':
+        // Add mental health support for potentially stressful cases
+        relevantResources = [
+          ...relevantResources,
+          RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line")
+        ].filter(Boolean);
+        break;
+        
+      case 'immigration':
+        // Immigration cases might need comprehensive support
+        const immigrationResources = [
+          ...relevantResources,
+          RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line"),
+          ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
+            isFirstNations: userData.isFirstNations
+          })
+        ].filter(Boolean);
+        relevantResources = immigrationResources;
+        break;
+        
+      case 'divorce':
+        // Domestic cases might need shelter and crisis support
+        relevantResources = [
+          ...relevantResources,
+          ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
+            gender: userData.gender
+          }),
+          RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line")
+        ].filter(Boolean);
+        break;
+        
+      case 'offences':
+        // Only specific legal aid for provincial offences
+        relevantResources = [RESOURCES.legal.find(r => r.name === "Legal Aid New Brunswick")].filter(Boolean);
+        break;
+        
+      case 'small-claims':
+      case 'notary':
+        // Law Society for small claims and notary
+        relevantResources = [RESOURCES.legal.find(r => r.name === "Law Society of New Brunswick")].filter(Boolean);
+        break;
+    }
+  
+    // Remove duplicates
+    return Array.from(new Set(relevantResources.map(r => JSON.stringify(r))))
+      .map(str => JSON.parse(str));
+  };
   const handleFieldChange = (name, value) => {
     const newData = { ...formData, [name]: value };
     setFormData(newData);
-
+  
     // Clear error when field is modified
     if (errors[name]) {
       const newErrors = { ...errors };
       delete newErrors[name];
       setErrors(newErrors);
     }
-
+  
     // Find the current field
     const field = formConfig.steps[currentStep].fields.find(f => f.name === name);
     
-    // Check for legal issue type to show resources
-    // Resource suggestion logic
-    // Resource suggestion logic
+    // Resource suggestion logic based on field changes
+    let updatedResources = [];
+    
+    // Handle legal issue type changes
     if (name === 'legalIssueType') {
-      let relevantResources = [];
-      
-      // Always add Legal Aid NB for all legal issues except notary services
-      if (value !== 'notary') {
-        relevantResources = [...RESOURCES.legal];
-      }
-
-      // Add specific resources based on issue type
-      switch (value) {
-        case 'housing':
-          relevantResources = [...relevantResources, ...RESOURCES.shelters];
-          break;
-        case 'benefits':
-        case 'employment':
-        case 'human-rights':
-          // Add crisis line for sensitive cases
-          relevantResources = [...relevantResources, RESOURCES.emergency[1]];
-          break;
-        case 'immigration':
-          // Immigration cases might need both emergency support and shelter resources
-          relevantResources = [
-            ...relevantResources,
-            RESOURCES.emergency[1],
-            ...RESOURCES.shelters
-          ];
-          break;
-        case 'divorce':
-          // Domestic cases might need shelter resources
-          relevantResources = [...relevantResources, ...RESOURCES.shelters];
-          break;
-        case 'offences':
-          // Only legal aid for provincial offences
-          relevantResources = [RESOURCES.legal[0]]; // Legal Aid NB only
-          break;
-        case 'small-claims':
-          // Law Society for small claims
-          relevantResources = [RESOURCES.legal[1]]; // Law Society NB only
-          break;
-        case 'notary':
-          // Law Society for notary services
-          relevantResources = [RESOURCES.legal[1]]; // Law Society NB only
-          break;
-        case 'other':
-          // Both legal resources for other cases
-          relevantResources = [...RESOURCES.legal];
-          break;
-      }
-
-      // Filter out duplicates
-      const uniqueResources = relevantResources.filter((resource, index, self) =>
-        index === self.findIndex((r) => r.name === resource.name)
-      );
-
-      setActiveResources(uniqueResources.length > 0 ? uniqueResources : null);
-    }
-
-    // Show shelter resources if needed
-    if (name === 'shelterNeeded' && value === 'yes') {
-      const currentResources = activeResources || [];
-      const shelterResources = [...currentResources, ...RESOURCES.shelters];
-      // Filter out duplicates
-      const uniqueResources = shelterResources.filter((resource, index, self) =>
-        index === self.findIndex((r) => r.name === resource.name)
-      );
-      setActiveResources(uniqueResources);
-    }
-
-    // Show emergency resources for immediate danger
-    if (name === 'immediateRisk' && value === 'yes') {
-      const currentResources = activeResources || [];
-      const emergencyResources = [...RESOURCES.emergency, ...currentResources];
-      // Filter out duplicates
-      const uniqueResources = emergencyResources.filter((resource, index, self) =>
-        index === self.findIndex((r) => r.name === resource.name)
-      );
-      setActiveResources(uniqueResources);
+      updatedResources = getRelevantResources(value, formData);
     }
     
-    // Show shelter resources if needed
-    if (name === 'shelterNeeded' && value === 'yes') {
-      setActiveResources(RESOURCES.shelters);
+    // Handle emergency/safety concerns
+    if (name === 'safetyRisk' && value === 'yes') {
+      updatedResources = [
+        ...RESOURCES.emergency,
+        ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
+          gender: formData.gender,
+          isFirstNations: formData.isFirstNations
+        })
+      ];
     }
     
-    // Show emergency resources for immediate danger
-    if (name === 'immediateRisk' && value === 'yes') {
-      setActiveResources(RESOURCES.emergency);
+    // Handle housing needs
+    if (name === 'needsHousing' && value === 'yes') {
+      const shelterResources = filterResourcesByCategory(
+        RESOURCES.shelters, 
+        'shelters',
+        {
+          gender: formData.gender,
+          isFirstNations: formData.isFirstNations
+        }
+      );
+      updatedResources = [
+        ...(activeResources || []),
+        ...shelterResources
+      ];
     }
-
-    // Validate field
+  
+    // Add mental health resources for specific stress indicators
+    if (['stressLevel', 'mentalHealth'].includes(name) && 
+        (value === 'high' || value === 'yes')) {
+      const mentalHealthResource = RESOURCES.emergency.find(
+        r => r.name === "Mental Health Crisis Line"
+      );
+      if (mentalHealthResource) {
+        updatedResources = [
+          ...(activeResources || []),
+          mentalHealthResource
+        ];
+      }
+    }
+  
+    // Update active resources with deduplication
+    if (updatedResources.length > 0) {
+      const uniqueResources = Array.from(
+        new Set(updatedResources.map(r => JSON.stringify(r)))
+      ).map(str => JSON.parse(str));
+  
+      // Sort resources by category
+      const sortedResources = uniqueResources.sort((a, b) => {
+        const categoryOrder = {
+          emergency: 1,
+          shelters: 2,
+          legal: 3
+        };
+        return (categoryOrder[a.category] || 99) - (categoryOrder[b.category] || 99);
+      });
+  
+      setActiveResources(sortedResources);
+    }
+  
+    // Field validation
     if (field) {
       const validation = validateField(field, value, newData);
       if (!validation.isValid) {
@@ -483,10 +569,27 @@ export default function IntakeForm() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateStep(currentStep)) {
       console.log('Form submitted:', formData);
-      setSubmitted(true);
+      setSubmitStatus({ loading: true, error: null });
+       try {
+            const response = await submitFormWithOutFiles(formData);
+            setSubmitStatus({ loading: true, error: null });
+            
+            setSubmissionId(response.submissionId);
+            setShowSuccess(true);
+            // Optional: Reset form or redirect
+            setSubmitted(true);
+          } catch (error) {
+            setSubmitStatus({ 
+              loading: false, 
+              error: 'Failed to submit form. Please try again.' 
+            });
+            alert("contact admin")
+            console.log(error)
+            setSubmitted(false)
+          }
     }
   };
 
@@ -520,7 +623,7 @@ export default function IntakeForm() {
                   `}
                 >
                   <RadioGroupItem value={option.value} id={`${field.name}-${option.value}`} />
-                  <Label htmlFor={`${field.name}-${option.value}`} className="ml-3">
+                  <Label htmlFor={`${field.name}-${option.value}`} style={{ marginLeft: '0.75rem' }}>
                     {option.label}
                   </Label>
                 </div>
@@ -546,7 +649,7 @@ export default function IntakeForm() {
             </SelectTrigger>
             <SelectContent>
               {field.options.map(option => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem key={option.value} value={option.value}  >
                   {option.label}
                 </SelectItem>
               ))}
@@ -599,21 +702,45 @@ export default function IntakeForm() {
 
   if (submitted) {
     return (
-      <Card className="max-w-2xl mx-auto">
-        <CardContent className="pt-6">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
           <div className="text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="text-green-600 w-8 h-8" />
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl text-green-800 mb-4">
-              Form Submitted Successfully
-            </CardTitle>
-            <CardDescription className="text-green-700">
-              Thank you for submitting your intake form. Our team will review your request and contact you soon.
-            </CardDescription>
+            <h2 className="mt-4 text-2xl font-bold text-gray-900">
+              Application Submitted Successfully
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Your application has been received. Reference ID: {submissionId}
+            </p>
+            {/* Add any additional information or next steps here */}
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={() => {
+                  // Add navigation logic here if needed
+                  window.location.href = '/thank-you';
+                }}
+                className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 
+                  rounded-lg hover:bg-green-700"
+              >
+                Continue to Thank You Page
+              </button>
+              <button
+                onClick={() => {
+                  resetForm();
+                  setShowSuccess(false);
+                }}
+                className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
+                  rounded-lg hover:bg-gray-200 flex items-center justify-center gap-2"
+              >
+                <RefreshCcw className="w-4 h-4" />
+                Submit Another Application
+              </button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   }
 
@@ -636,7 +763,7 @@ export default function IntakeForm() {
 
         {/* Progress bar */}
         <div className="mb-4">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto ">
             <Progress value={progress} className="h-2 mb-4" />
             <div className="flex justify-between">
               {formConfig.steps.map((step, index) => (
@@ -746,48 +873,86 @@ export default function IntakeForm() {
           </Card>
 
           {/* Side panel */}
-          {activeResources && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Available Resources</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {activeResources.map((resource, index) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <h4 className="font-medium text-gray-900">{resource.name}</h4>
-                    <div className="space-y-2 mt-2">
-                      {resource.phoneNumber && (
-                        <p className="text-sm text-red-600 flex items-center gap-2">
-                          <Phone className="h-4 w-4" />
-                          {resource.phoneNumber}
-                        </p>
-                      )}
-                      {resource.location && (
-                        <p className="text-sm text-gray-600 flex items-center gap-2">
-                          <Home className="h-4 w-4" />
-                          {resource.location}
-                        </p>
-                      )}
-                      {resource.description && (
-                        <p className="text-sm text-gray-500 flex items-start gap-2">
-                          <Info className="h-4 w-4 mt-0.5" />
-                          {resource.description}
-                        </p>
-                      )}
-                      {resource.notes && (
-                        <p className="text-sm text-amber-600 flex items-start gap-2 font-medium">
-                          <AlertCircle className="h-4 w-4 mt-0.5" />
-                          {resource.notes}
-                        </p>
-                      )}
+         {/* Resource Display Component */}
+{activeResources && (
+  <Card>
+    <CardHeader>
+      <CardTitle className="text-lg">Available Resources</CardTitle>
+      <CardDescription>
+        Support services relevant to your situation
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      {/* Group resources by category */}
+      {Object.entries(
+        activeResources.reduce((acc, resource) => {
+          const category = resource.category || 'other';
+          acc[category] = acc[category] || [];
+          acc[category].push(resource);
+          return acc;
+        }, {})
+      ).map(([category, resources]) => (
+        <div key={category} className="mb-6 last:mb-0">
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </h4>
+          <div className="space-y-4">
+            {resources.map((resource, index) => (
+              <div 
+                key={index} 
+                className={`rounded-lg p-4 border transition-colors ${
+                  resource.category === 'emergency' 
+                    ? 'bg-red-50 border-red-100' 
+                    : 'bg-gray-50 border-gray-200'
+                }`}
+              >
+                <h4 className="font-medium text-gray-900 flex items-center justify-between">
+                  {resource.name}
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    resource.category === 'emergency'
+                      ? 'bg-red-100 text-red-700'
+                      : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    {resource.category}
+                  </span>
+                </h4>
+                <div className="space-y-2 mt-2">
+                  {resource.phoneNumber && (
+                    <a 
+                      href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
+                      className="text-sm text-red-600 hover:text-red-700 flex items-center gap-2"
+                    >
+                      <Phone className="h-4 w-4" />
+                      {resource.phoneNumber}
+                    </a>
+                  )}
+                  {resource.location && (
+                    <p className="text-sm text-gray-600 flex items-center gap-2">
+                      <Home className="h-4 w-4" />
+                      {resource.location}
+                    </p>
+                  )}
+                  {resource.description && (
+                    <p className="text-sm text-gray-500 flex items-start gap-2">
+                      <Info className="h-4 w-4 mt-0.5" />
+                      {resource.description}
+                    </p>
+                  )}
+                  {resource.notes && (
+                    <div className="mt-2 text-sm bg-amber-50 text-amber-700 p-2 rounded flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 mt-0.5" />
+                      <span>{resource.notes}</span>
                     </div>
-                  </div>
-                  ))}
+                  )}
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </CardContent>
+  </Card>
+)}
         </div>
       </div>
     </div>

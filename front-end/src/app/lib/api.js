@@ -32,3 +32,28 @@ export const submitFormWithFiles = async (formData, files) => {
       throw error;
     }
   };
+
+  // api.js
+  export const submitFormWithOutFiles = async (formData) => {
+    try {
+      // Create FormData instance
+      const submitData = new FormData();
+      
+      // Add form data as a string
+      submitData.append('formData', JSON.stringify(formData));
+      
+      const response = await fetch('http://localhost:3001/api/submitintake', {
+        method: 'POST',
+        body: submitData,
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Form submission failed');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      throw error;
+    }
+  };
