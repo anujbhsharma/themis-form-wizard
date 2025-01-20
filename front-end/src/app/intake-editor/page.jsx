@@ -1,579 +1,4 @@
-// "use client"
-// import React, { useState, useEffect } from 'react';
-// import { 
-//   Trash2, 
-//   Plus, 
-//   GripVertical, 
-//   ChevronDown, 
-//   ChevronUp, 
-//   EyeIcon, 
-//   Settings, 
-//   Save 
-// } from 'lucide-react';
-// import { saveFormData, getFormData } from './formHelper';
-// // Form Preview Component
-// const FormPreview = ({ formData }) => {
-//   return (
-//     <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow space-y-6">
-//       {/* Disclaimer */}
-//       <div className="bg-gray-50 p-4 rounded text-sm">
-//         {formData.disclaimer}
-//       </div>
 
-//       {/* Form Fields */}
-//       <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-//         {formData.formFields.map((field, index) => {
-//           // Check if field should be shown based on conditional logic
-//           const shouldShow = !field.conditional || 
-//             (field.conditional && formData.formFields.find(f => 
-//               f.name === field.conditional.field)?.value === field.conditional.value);
-
-//           if (!shouldShow) return null;
-
-//           return (
-//             <div key={index} className="space-y-2">
-//               <label className="block font-medium">
-//                 {field.label}
-//                 {field.required && <span className="text-red-500 ml-1">*</span>}
-//               </label>
-              
-//               {field.hint && (
-//                 <p className="text-sm text-gray-500 mb-1">{field.hint}</p>
-//               )}
-
-//               {field.type === 'text' && (
-//                 <input
-//                   type="text"
-//                   className="w-full p-2 border rounded"
-//                   placeholder={field.label}
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'textarea' && (
-//                 <textarea
-//                   className="w-full p-2 border rounded h-24"
-//                   placeholder={field.label}
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'number' && (
-//                 <input
-//                   type="number"
-//                   className="w-full p-2 border rounded"
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'email' && (
-//                 <input
-//                   type="email"
-//                   className="w-full p-2 border rounded"
-//                   placeholder="email@example.com"
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'tel' && (
-//                 <input
-//                   type="tel"
-//                   className="w-full p-2 border rounded"
-//                   placeholder="(123) 456-7890"
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'date' && (
-//                 <input
-//                   type="date"
-//                   className="w-full p-2 border rounded"
-//                   name={field.name}
-//                   required={field.required}
-//                 />
-//               )}
-
-//               {field.type === 'checkbox' && (
-//                 <div className="flex items-center gap-2">
-//                   <input
-//                     type="checkbox"
-//                     className="w-4 h-4"
-//                     name={field.name}
-//                     required={field.required}
-//                   />
-//                   <span>{field.label}</span>
-//                 </div>
-//               )}
-
-//               {field.type === 'radio' && field.options && (
-//                 <div className="space-y-2">
-//                   {field.options.map((option, optIndex) => (
-//                     <div key={optIndex} className="flex items-center gap-2">
-//                       <input
-//                         type="radio"
-//                         name={field.name}
-//                         value={option}
-//                         className="w-4 h-4"
-//                         required={field.required}
-//                       />
-//                       <span>{option}</span>
-//                     </div>
-//                   ))}
-//                 </div>
-//               )}
-
-//               {field.type === 'select' && field.options && (
-//                 <select 
-//                   className="w-full p-2 border rounded"
-//                   name={field.name}
-//                   required={field.required}
-//                 >
-//                   <option value="">Select {field.label}</option>
-//                   {field.options.map((option, optIndex) => (
-//                     <option key={optIndex} value={option}>
-//                       {option}
-//                     </option>
-//                   ))}
-//                 </select>
-//               )}
-//             </div>
-//           );
-//         })}
-
-//         <button 
-//           type="submit" 
-//           className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-//         >
-//           Submit
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// // Main Form Editor Component
-// const FormEditor = () => {
-//   const [formData, setFormData] = useState(null);
-//   const [draggedIndex, setDraggedIndex] = useState(null);
-//   const [expandedField, setExpandedField] = useState(null);
-//   const [activeTab, setActiveTab] = useState('editor');
-//   const [saveStatus, setSaveStatus] = useState('');
-//   useEffect(() => {
-//     const autoSave = async () => {
-//       if (formData) {
-//         try {
-//           setSaveStatus('Saving...');
-//           const { success, error } = await saveFormData(formData);
-          
-//           if (success) {
-//             setSaveStatus('Saved successfully!');
-//           } else {
-//             throw new Error(error);
-//           }
-//         } catch (error) {
-//           console.error('Error auto-saving form data:', error);
-//           setSaveStatus('Error saving changes');
-//         } finally {
-//           setTimeout(() => setSaveStatus(''), 3000);
-//         }
-//       }
-//     };
-  
-//     // Debounce the auto-save to avoid too many requests
-//     const timeoutId = setTimeout(() => {
-//       autoSave();
-//     }, 1000);
-  
-//     return () => clearTimeout(timeoutId);
-//   }, [formData]);
-//   // Load initial data
-//   useEffect(() => {
-//     const loadData = async () => {
-//       const { success, data, error } = await getFormData();
-//       if (success) {
-//         setFormData(data);
-//       } else {
-//         console.error('Error loading data:', error);
-//         setFormData({
-//           disclaimer: '',
-//           formFields: []
-//         });
-//       }
-//     };
-//     loadData();
-//   }, []);
-  
-//   // Update saveChanges function
-//   const saveChanges = async () => {
-//     try {
-//       setSaveStatus('Saving...');
-//       const { success, error } = await saveFormData(formData);
-      
-//       if (success) {
-//         setSaveStatus('Saved successfully!');
-//       } else {
-//         throw new Error(error);
-//       }
-//     } catch (error) {
-//       console.error('Error saving form data:', error);
-//       setSaveStatus('Error saving changes');
-//     } finally {
-//       setTimeout(() => setSaveStatus(''), 3000);
-//     }
-//   };
-
-//   if (!formData) {
-//     return <div className="p-8 text-center">Loading form data...</div>;
-//   }
-
-//   // Save changes to file
-// //   const saveChanges = async () => {
-// //     try {
-// //       const jsonString = JSON.stringify(formData, null, 4);
-// //       await window.fs.writeFile('dummy.json', jsonString);
-// //       setSaveStatus('Saved successfully!');
-// //       setTimeout(() => setSaveStatus(''), 3000);
-// //     } catch (error) {
-// //       console.error('Error saving form data:', error);
-// //       setSaveStatus('Error saving changes');
-// //       setTimeout(() => setSaveStatus(''), 3000);
-// //     }
-// //   };
-
-//   const handleDisclaimerChange = (e) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       disclaimer: e.target.value
-//     }));
-//   };
-
-//   const handleFieldChange = (index, field, value) => {
-//     setFormData(prev => {
-//       const newFields = [...prev.formFields];
-//       newFields[index] = {
-//         ...newFields[index],
-//         [field]: value
-//       };
-//       return { ...prev, formFields: newFields };
-//     });
-//   };
-
-//   const addNewField = () => {
-//     setFormData(prev => ({
-//       ...prev,
-//       formFields: [...prev.formFields, {
-//         type: 'text',
-//         name: `field_${prev.formFields.length + 1}`,
-//         label: 'New Field',
-//         required: false
-//       }]
-//     }));
-//   };
-
-//   const removeField = (index) => {
-//     setFormData(prev => ({
-//       ...prev,
-//       formFields: prev.formFields.filter((_, i) => i !== index)
-//     }));
-//   };
-
-//   const moveField = (fromIndex, toIndex) => {
-//     setFormData(prev => {
-//       const newFields = [...prev.formFields];
-//       const [movedItem] = newFields.splice(fromIndex, 1);
-//       newFields.splice(toIndex, 0, movedItem);
-//       return { ...prev, formFields: newFields };
-//     });
-//   };
-
-//   const handleDragStart = (index) => {
-//     setDraggedIndex(index);
-//   };
-
-//   const handleDragOver = (e, index) => {
-//     e.preventDefault();
-//     if (draggedIndex === null || draggedIndex === index) return;
-//     moveField(draggedIndex, index);
-//     setDraggedIndex(index);
-//   };
-
-//   const handleDragEnd = () => {
-//     setDraggedIndex(null);
-//   };
-
-//   const toggleFieldExpansion = (index) => {
-//     setExpandedField(expandedField === index ? null : index);
-//   };
-
-//   return (
-//     <div className="max-w-6xl mx-auto p-4">
-//       {/* Header with Save Button */}
-//       <div className="flex justify-between items-center mb-6">
-//         <div className="flex gap-4">
-//           <button
-//             onClick={() => setActiveTab('editor')}
-//             className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-//               activeTab === 'editor' 
-//                 ? 'bg-blue-500 text-white' 
-//                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-//             }`}
-//           >
-//             <Settings size={16} />
-//             Editor
-//           </button>
-//           <button
-//             onClick={() => setActiveTab('preview')}
-//             className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-//               activeTab === 'preview' 
-//                 ? 'bg-blue-500 text-white' 
-//                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-//             }`}
-//           >
-//             <EyeIcon size={16} />
-//             Preview
-//           </button>
-//         </div>
-//         <div className="flex items-center gap-4">
-//           {saveStatus && (
-//             <span className={`text-sm ${
-//               saveStatus.includes('Error') ? 'text-red-500' : 'text-green-500'
-//             }`}>
-//               {saveStatus}
-//             </span>
-//           )}
-//           <button
-//             onClick={saveChanges}
-//             className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-//           >
-//             <Save size={16} />
-//             Save Changes
-//           </button>
-//         </div>
-//       </div>
-
-//       <div className="grid grid-cols-2 gap-8">
-//         {/* Editor Panel */}
-//         {activeTab === 'editor' && (
-//           <div className="col-span-2 lg:col-span-1 bg-white rounded-lg shadow p-6 space-y-6">
-//             {/* Disclaimer Editor */}
-//             <div className="space-y-2">
-//               <label className="block font-medium">Disclaimer</label>
-//               <textarea
-//                 value={formData.disclaimer}
-//                 onChange={handleDisclaimerChange}
-//                 className="w-full h-32 p-2 border rounded"
-//               />
-//             </div>
-
-//             {/* Fields Editor */}
-//             <div className="space-y-4">
-//               <div className="flex justify-between items-center">
-//                 <h3 className="text-lg font-semibold">Form Fields</h3>
-//                 <button
-//                   onClick={addNewField}
-//                   className="flex items-center gap-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-//                 >
-//                   <Plus size={16} /> Add Field
-//                 </button>
-//               </div>
-
-//               <div className="space-y-2">
-//                 {formData.formFields.map((field, index) => (
-//                   <div
-//                     key={index}
-//                     draggable
-//                     onDragStart={() => handleDragStart(index)}
-//                     onDragOver={(e) => handleDragOver(e, index)}
-//                     onDragEnd={handleDragEnd}
-//                     className="bg-gray-50 rounded p-4 border cursor-move"
-//                   >
-//                     <div className="flex items-center gap-4">
-//                       <GripVertical className="text-gray-400" size={20} />
-//                       <div className="flex-1">
-//                         <div className="flex items-center justify-between">
-//                           <span className="font-medium">{field.label || 'Unnamed Field'}</span>
-//                           <div className="flex items-center gap-2">
-//                             <button
-//                               onClick={() => toggleFieldExpansion(index)}
-//                               className="p-1 hover:bg-gray-200 rounded"
-//                             >
-//                               {expandedField === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-//                             </button>
-//                             <button
-//                               onClick={() => removeField(index)}
-//                               className="p-1 text-red-500 hover:bg-red-50 rounded"
-//                             >
-//                               <Trash2 size={16} />
-//                             </button>
-//                           </div>
-//                         </div>
-                        
-//                         {expandedField === index && (
-//                           <div className="mt-4 space-y-4">
-//                             <div className="grid grid-cols-2 gap-4">
-//                               <div>
-//                                 <label className="block text-sm font-medium mb-1">Label</label>
-//                                 <input
-//                                   type="text"
-//                                   value={field.label || ''}
-//                                   onChange={(e) => handleFieldChange(index, 'label', e.target.value)}
-//                                   className="w-full p-2 border rounded"
-//                                 />
-//                               </div>
-//                               <div>
-//                                 <label className="block text-sm font-medium mb-1">Name</label>
-//                                 <input
-//                                   type="text"
-//                                   value={field.name || ''}
-//                                   onChange={(e) => handleFieldChange(index, 'name', e.target.value)}
-//                                   className="w-full p-2 border rounded"
-//                                 />
-//                               </div>
-//                             </div>
-                            
-//                             <div className="grid grid-cols-2 gap-4">
-//                               <div>
-//                                 <label className="block text-sm font-medium mb-1">Type</label>
-//                                 <select
-//                                   value={field.type}
-//                                   onChange={(e) => handleFieldChange(index, 'type', e.target.value)}
-//                                   className="w-full p-2 border rounded"
-//                                 >
-//                                   <option value="text">Text</option>
-//                                   <option value="textarea">Textarea</option>
-//                                   <option value="number">Number</option>
-//                                   <option value="email">Email</option>
-//                                   <option value="tel">Telephone</option>
-//                                   <option value="date">Date</option>
-//                                   <option value="checkbox">Checkbox</option>
-//                                   <option value="radio">Radio</option>
-//                                   <option value="select">Select</option>
-//                                 </select>
-//                               </div>
-//                               <div className="flex items-center">
-//                                 <label className="flex items-center gap-2">
-//                                   <input
-//                                     type="checkbox"
-//                                     checked={field.required || false}
-//                                     onChange={(e) => handleFieldChange(index, 'required', e.targetchecked)}
-//                                     className="w-4 h-4"
-//                                   />
-//                                   <span className="text-sm font-medium">Required</span>
-//                                 </label>
-//                               </div>
-//                             </div>
-
-//                             {(field.type === 'select' || field.type === 'radio') && (
-//                               <div>
-//                                 <label className="block text-sm font-medium mb-1">Options (comma-separated)</label>
-//                                 <input
-//                                   type="text"
-//                                   value={field.options?.join(', ') || ''}
-//                                   onChange={(e) => handleFieldChange(index, 'options', e.target.value.split(',').map(opt => opt.trim()))}
-//                                   className="w-full p-2 border rounded"
-//                                 />
-//                               </div>
-//                             )}
-
-//                             <div>
-//                               <label className="block text-sm font-medium mb-1">Hint (optional)</label>
-//                               <input
-//                                 type="text"
-//                                 value={field.hint || ''}
-//                                 onChange={(e) => handleFieldChange(index, 'hint', e.target.value)}
-//                                 className="w-full p-2 border rounded"
-//                               />
-//                             </div>
-
-//                             {/* Conditional Logic */}
-//                             <div className="space-y-2">
-//                               <label className="block text-sm font-medium">Conditional Display</label>
-//                               <div className="grid grid-cols-2 gap-4">
-//                                 <div>
-//                                   <label className="block text-xs text-gray-500 mb-1">Depends on Field</label>
-//                                   <select
-//                                     value={field.conditional?.field || ''}
-//                                     onChange={(e) => {
-//                                       const value = e.target.value;
-//                                       handleFieldChange(index, 'conditional', value ? {
-//                                         field: value,
-//                                         value: field.conditional?.value || ''
-//                                       } : undefined);
-//                                     }}
-//                                     className="w-full p-2 border rounded"
-//                                   >
-//                                     <option value="">None</option>
-//                                     {formData.formFields
-//                                       .filter((f, i) => i !== index && (f.type === 'radio' || f.type === 'select'))
-//                                       .map((f, i) => (
-//                                         <option key={i} value={f.name}>{f.label}</option>
-//                                       ))
-//                                     }
-//                                   </select>
-//                                 </div>
-//                                 {field.conditional?.field && (
-//                                   <div>
-//                                     <label className="block text-xs text-gray-500 mb-1">Show when value is</label>
-//                                     <select
-//                                       value={field.conditional?.value || ''}
-//                                       onChange={(e) => {
-//                                         handleFieldChange(index, 'conditional', {
-//                                           ...field.conditional,
-//                                           value: e.target.value
-//                                         });
-//                                       }}
-//                                       className="w-full p-2 border rounded"
-//                                     >
-//                                       <option value="">Select value</option>
-//                                       {formData.formFields
-//                                         .find(f => f.name === field.conditional.field)
-//                                         ?.options?.map((opt, i) => (
-//                                           <option key={i} value={opt}>{opt}</option>
-//                                         ))
-//                                       }
-//                                     </select>
-//                                   </div>
-//                                 )}
-//                               </div>
-//                             </div>
-//                           </div>
-//                         )}
-//                       </div>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Preview Panel */}
-//         {activeTab === 'preview' && (
-//           <div className="col-span-2 lg:col-span-1">
-//             <FormPreview formData={formData} />
-//           </div>
-//         )}
-
-//         {/* JSON Preview for debugging */}
-//         <div className="col-span-2 mt-8">
-//           <details className="bg-gray-50 p-4 rounded">
-//             <summary className="cursor-pointer font-medium">Current JSON Structure</summary>
-//             <pre className="mt-2 p-4 bg-gray-100 rounded overflow-x-auto text-sm">
-//               {JSON.stringify(formData, null, 2)}
-//             </pre>
-//           </details>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default FormEditor;
 "use client"
 import React, { useState, useEffect } from 'react';
 import { 
@@ -582,6 +7,7 @@ import {
   GripVertical, 
   ChevronDown, 
   ChevronUp, 
+  ChevronRight,
   EyeIcon, 
   Settings, 
   Save,
@@ -615,6 +41,9 @@ const ICONS = {
 const FormPreview = ({ formData }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const [activeResources, setActiveResources] = useState([]);
+  const [showEmergencyAlert, setShowEmergencyAlert] = useState(false);
 
   if (!formData?.steps?.length) {
     return (
@@ -629,194 +58,394 @@ const FormPreview = ({ formData }) => {
     );
   }
 
-  const handleInputChange = (name, value) => {
+  const handleInputChange = (name, value, field) => {
     setFormValues(prev => ({
       ...prev,
       [name]: value
     }));
+
+    // Clear error when field is modified
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+
+    // Handle emergency and resource checks
+    if (name === 'immediateRisk' && value === 'yes') {
+      setShowEmergencyAlert(true);
+      setActiveResources(formData.RESOURCES?.emergency || []);
+    } else if (name === 'shelterNeeded' && value === 'yes') {
+      setActiveResources(prev => [...prev, ...(formData.RESOURCES?.shelters || [])]);
+    }
+
+    // Validate field if it has validation rules
+    if (field.validation?.rules) {
+      validateField(field, value);
+    }
+  };
+
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    
+    if (field.required && !value) {
+      newErrors[field.name] = `${field.label} is required`;
+    } else if (field.validation?.rules) {
+      field.validation.rules.forEach(rule => {
+        switch (rule) {
+          case 'email':
+            if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+              newErrors[field.name] = 'Please enter a valid email address';
+            }
+            break;
+          case 'phoneNumber':
+            if (value && !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value)) {
+              newErrors[field.name] = 'Please enter a valid phone number (XXX) XXX-XXXX';
+            }
+            break;
+          case 'postalCode':
+            if (value && !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(value)) {
+              newErrors[field.name] = 'Please enter a valid postal code A1A 1A1';
+            }
+            break;
+        }
+      });
+    }
+
+    setErrors(newErrors);
+  };
+
+  const validateStep = () => {
+    const currentFields = formData.steps[activeStep].fields;
+    const newErrors = {};
+    let isValid = true;
+
+    currentFields.forEach(field => {
+      if (field.required && !formValues[field.name]) {
+        newErrors[field.name] = `${field.label} is required`;
+        isValid = false;
+      }
+      if (field.validation?.rules) {
+        validateField(field, formValues[field.name]);
+        if (errors[field.name]) {
+          isValid = false;
+        }
+      }
+    });
+
+    setErrors(prev => ({ ...prev, ...newErrors }));
+    return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formValues);
-    // Add your form submission logic here
+    if (validateStep()) {
+      console.log('Form submitted:', formValues);
+    }
   };
 
+  const progressPercentage = ((activeStep + 1) / formData.steps.length) * 100;
+
   return (
-    <div className="max-w-3xl mx-auto bg-white">
-      {/* Form Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-3xl mx-auto px-6 py-4">
-          <h2 className="text-xl font-semibold text-gray-900">{formData.metadata.clinic.name}</h2>
-          {formData.metadata.clinic.phone && (
-            <p className="text-sm text-gray-500 mt-1">
-              Contact: {formData.metadata.clinic.phone}
-              {formData.metadata.clinic.email && ` | ${formData.metadata.clinic.email}`}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Progress Steps */}
-      <div className="border-b bg-gray-50">
-        <div className="max-w-3xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-2 overflow-x-auto">
-            {formData.steps.map((step, index) => {
-              const Icon = ICONS[step.icon] || User;
-              const isActive = activeStep === index;
-              const isPast = activeStep > index;
-              const isFuture = activeStep < index;
-
-              return (
-                <button
-                  key={step.id}
-                  onClick={() => setActiveStep(index)}
-                  disabled={isFuture}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
-                    isActive 
-                      ? 'bg-blue-500 text-white shadow-sm' 
-                      : isPast
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-500'
-                  } ${isFuture ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'}`}
-                >
-                  <Icon size={16} />
-                  <span className="text-sm font-medium">{step.title}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Form Content */}
-      <div className="max-w-2xl mx-auto px-6 py-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {formData.steps[activeStep].fields.map((field, index) => {
-            // Check if field should be shown based on conditional logic
-            const shouldShow = !field.conditional || 
-              (field.conditional && formValues[field.conditional.field] === field.conditional.value);
-
-            if (!shouldShow) return null;
-
-            const fieldProps = {
-              name: field.name,
-              required: field.required,
-              onChange: (e) => handleInputChange(field.name, e.target.value),
-              value: formValues[field.name] || '',
-              className: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            };
-
-            return (
-              <div key={index} className="space-y-2">
-                <label className="block font-medium text-gray-700">
-                  {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
-                </label>
-                
-                {field.hint && (
-                  <p className="text-sm text-gray-500">{field.hint}</p>
-                )}
-
-                {field.type === 'text' && (
-                  <input type="text" {...fieldProps} />
-                )}
-
-                {field.type === 'textarea' && (
-                  <textarea {...fieldProps} rows={4} />
-                )}
-
-                {field.type === 'number' && (
-                  <input type="number" {...fieldProps} />
-                )}
-
-                {field.type === 'email' && (
-                  <input type="email" {...fieldProps} placeholder="email@example.com" />
-                )}
-
-                {field.type === 'tel' && (
-                  <input type="tel" {...fieldProps} placeholder="(123) 456-7890" />
-                )}
-
-                {field.type === 'date' && (
-                  <input type="date" {...fieldProps} />
-                )}
-
-                {field.type === 'checkbox' && (
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      name={field.name}
-                      checked={formValues[field.name] || false}
-                      onChange={(e) => handleInputChange(field.name, e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
-                    />
-                    <span className="text-gray-700">{field.label}</span>
-                  </div>
-                )}
-
-                {field.type === 'radio' && field.options && (
-                  <div className="space-y-2">
-                    {field.options.map((option, optIndex) => (
-                      <div key={optIndex} className="flex items-center gap-2">
-                        <input
-                          type="radio"
-                          name={field.name}
-                          value={option.value}
-                          checked={formValues[field.name] === option.value}
-                          onChange={(e) => handleInputChange(field.name, e.target.value)}
-                          className="h-4 w-4 border-gray-300 text-blue-500 focus:ring-blue-500"
-                        />
-                        <span className="text-gray-700">{option.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {field.type === 'select' && field.options && (
-                  <select {...fieldProps}>
-                    <option value="">Select {field.label}</option>
-                    {field.options.map((option, optIndex) => (
-                      <option key={optIndex} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+    <div className="max-w-7xl mx-auto flex gap-6">
+      <div className="flex-1">
+        <Card className="shadow-sm">
+          {/* Form Header */}
+          <CardHeader className="border-b bg-white">
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle>{formData.metadata.clinic.name}</CardTitle>
+                {formData.metadata.clinic.phone && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Contact: {formData.metadata.clinic.phone}
+                    {formData.metadata.clinic.email && ` | ${formData.metadata.clinic.email}`}
+                  </p>
                 )}
               </div>
-            );
-          })}
+              <div className="text-sm text-gray-500">
+                Step {activeStep + 1} of {formData.steps.length}
+              </div>
+            </div>
+            
+          </CardHeader>
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-between pt-6 border-t">
-            {activeStep > 0 && (
-              <button
-                type="button"
-                onClick={() => setActiveStep(prev => prev - 1)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Previous
-              </button>
-            )}
-            {activeStep < formData.steps.length - 1 ? (
-              <button
-                type="button"
-                onClick={() => setActiveStep(prev => prev + 1)}
-                className="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="ml-auto px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                Submit
-              </button>
-            )}
+          {/* Progress Steps */}
+          <div className="border-b bg-gray-50">
+            <div className="px-6 py-4">
+              <div className="flex flex-wrap items-center gap-2">
+                {formData.steps.map((step, index) => {
+                  const Icon = ICONS[step.icon] || User;
+                  const isActive = activeStep === index;
+                  const isPast = activeStep > index;
+                  const isFuture = activeStep < index;
+
+                  return (
+                    <div
+                      key={step.id}
+                      className="flex items-center"
+                    >
+                      <button
+                        onClick={() => validateStep() && setActiveStep(index)}
+                        disabled={isFuture}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm whitespace-nowrap transition-colors ${
+                          isActive 
+                            ? 'bg-blue-500 text-white shadow-sm' 
+                            : isPast
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-gray-100 text-gray-500'
+                        } ${isFuture ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-90'}`}
+                      >
+                        <Icon size={14} />
+                        <span className="font-medium">{step.title}</span>
+                      </button>
+                      {index < formData.steps.length - 1 && (
+                        <ChevronRight className="mx-1 text-gray-400" size={16} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </form>
+
+          <CardContent className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {formData.steps[activeStep].fields.map((field, index) => {
+                // Check conditional display
+                const shouldShow = !field.conditional || 
+                  (field.conditional && formValues[field.conditional.field] === field.conditional.value);
+
+                if (!shouldShow) return null;
+
+                const baseFieldProps = {
+                  name: field.name,
+                  required: field.required,
+                  onChange: (e) => handleInputChange(
+                    field.name, 
+                    e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+                    field
+                  ),
+                  value: formValues[field.name] || '',
+                  className: `w-full px-3 py-2 border ${
+                    errors[field.name] 
+                      ? 'border-red-300 bg-red-50' 
+                      : 'border-gray-300'
+                  } rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500`
+                };
+
+                return (
+                  <div key={index} className="space-y-2">
+                    <label className="block font-medium text-gray-700">
+                      {field.label}
+                      {field.required && <span className="text-red-500 ml-1">*</span>}
+                    </label>
+                    
+                    {field.hint && (
+                      <p className="text-sm text-gray-500">{field.hint}</p>
+                    )}
+
+                    {/* Field Type Rendering */}
+                    {field.type === 'text' && (
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          {...baseFieldProps}
+                          placeholder={field.placeholder}
+                        />
+                        {field.name === 'postalCode' && (
+                          <p className="mt-1 text-xs text-gray-500">Format: A1A 1A1</p>
+                        )}
+                      </div>
+                    )}
+
+                    {field.type === 'textarea' && (
+                      <textarea {...baseFieldProps} rows={4} />
+                    )}
+
+                    {field.type === 'number' && (
+                      <div className="relative">
+                        {field.name.toLowerCase().includes('income') || 
+                         field.name.toLowerCase().includes('expense') || 
+                         field.name.toLowerCase().includes('assets') ? (
+                          <>
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <input 
+                              type="number" 
+                              {...baseFieldProps} 
+                              className={`${baseFieldProps.className} pl-8`}
+                              min="0"
+                              step="0.01"
+                            />
+                          </>
+                        ) : (
+                          <input type="number" {...baseFieldProps} />
+                        )}
+                      </div>
+                    )}
+
+                    {field.type === 'email' && (
+                      <input 
+                        type="email" 
+                        {...baseFieldProps} 
+                        placeholder="email@example.com" 
+                      />
+                    )}
+
+                    {field.type === 'tel' && (
+                      <div>
+                        <input 
+                          type="tel" 
+                          {...baseFieldProps} 
+                          placeholder="(123) 456-7890" 
+                        />
+                        <p className="mt-1 text-xs text-gray-500">Format: (XXX) XXX-XXXX</p>
+                      </div>
+                    )}
+
+                    {field.type === 'date' && (
+                      <div>
+                        <input type="date" {...baseFieldProps} />
+                        {field.name === 'dateOfBirth' && formData.CONSTANTS?.AGE && (
+                          <p className="mt-1 text-xs text-gray-500">
+                            Age must be between {formData.CONSTANTS.AGE.MIN} and {formData.CONSTANTS.AGE.MAX} years
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {field.type === 'checkbox' && (
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          {...baseFieldProps}
+                          checked={formValues[field.name] || false}
+                          className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
+                        />
+                        <span className="text-gray-700">{field.label}</span>
+                      </div>
+                    )}
+
+                    {field.type === 'radio' && field.options && (
+                      <div className="space-y-2">
+                        {field.options.map((option, optIndex) => (
+                          <div key={optIndex} className="flex items-center gap-2">
+                            <input
+                              type="radio"
+                              name={field.name}
+                              value={option.value}
+                              checked={formValues[field.name] === option.value}
+                              onChange={(e) => handleInputChange(field.name, e.target.value, field)}
+                              className="h-4 w-4 border-gray-300 text-blue-500 focus:ring-blue-500"
+                            />
+                            <span className="text-gray-700">{option.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {field.type === 'select' && field.options && (
+                      <select {...baseFieldProps}>
+                        <option value="">Select {field.label}</option>
+                        {field.options.map((option, optIndex) => (
+                          <option key={optIndex} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+
+                    {errors[field.name] && (
+                      <p className="text-sm text-red-600">{errors[field.name]}</p>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-between pt-6 border-t">
+                {activeStep > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveStep(prev => prev - 1)}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Previous
+                  </button>
+                )}
+                {activeStep < formData.steps.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => validateStep() && setActiveStep(prev => prev + 1)}
+                    className="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="ml-auto px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
+            </form>
+            </CardContent>
+        </Card>
       </div>
+
+      {/* Resources Sidebar */}
+      {(showEmergencyAlert || activeResources.length > 0) && (
+        <div className="w-80 shrink-0 space-y-4">
+          {showEmergencyAlert && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                If you are in immediate danger, please call emergency services (911) immediately.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {activeResources.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Available Resources</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {activeResources.map((resource, index) => (
+                    <div key={index} className="p-3 bg-gray-50 rounded-lg">
+                      <h3 className="font-medium">{resource.name}</h3>
+                      {resource.phoneNumber && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          Phone: {resource.phoneNumber}
+                        </p>
+                      )}
+                      {resource.location && (
+                        <p className="text-sm text-gray-600">
+                          Location: {resource.location}
+                        </p>
+                      )}
+                      {resource.notes && (
+                        <p className="text-sm text-gray-600 mt-1 italic">
+                          Note: {resource.notes}
+                        </p>
+                      )}
+                      {resource.description && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          {resource.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </div>
   );
 };
