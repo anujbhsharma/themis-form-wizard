@@ -24,7 +24,7 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-
+import {saveFormData} from "./formHelper"
 const ICONS = {
   User,
   Shield,
@@ -1123,6 +1123,7 @@ const FormEditor = () => {
   const [saveStatus, setSaveStatus] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -1149,43 +1150,65 @@ const FormEditor = () => {
         setFormData(initialState);
       } finally {
         setIsLoading(false);
+        setIsInitialized(true);
       }
     };
 
     loadData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading form configuration...</p>
+  
+
+  useEffect(() => {
+      if (!isInitialized) return;
+  
+      const autoSave = async () => {
+        console.log(formData)
+        if (formData) {
+          try {
+            setSaveStatus('Saving...');
+            const { success, error } = await saveFormData(formData);
+            
+            if (success) {
+              setSaveStatus('Saved successfully!');
+            } else {
+              throw new Error(error);
+            }
+          } catch (error) {
+            console.error('Error auto-saving form data:', error);
+            setSaveStatus('Error saving changes');
+          } finally {
+            setTimeout(() => setSaveStatus(''), 3000);
+          }
+        }
+      };
+  
+      const timeoutId = setTimeout(autoSave, 1000);
+      return () => clearTimeout(timeoutId);
+    }, [formData, isInitialized]);
+    if (isLoading) {
+      return (
+        <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading form configuration...</p>
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  if (loadError) {
-    return (
-      <div className="max-w-6xl mx-auto p-6">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {loadError}. Using default configuration.
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
-
-  const handleSave = async () => {
-    setSaveStatus('Saving...');
-    const { success } = await saveFormData(formData);
-    setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
-    setTimeout(() => setSaveStatus(''), 3000);
-  };
-
+      );
+    }
+  
+    if (loadError) {
+      return (
+        <div className="max-w-6xl mx-auto p-6">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              {loadError}. Using default configuration.
+            </AlertDescription>
+          </Alert>
+        </div>
+      );
+    }
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Header */}
@@ -1219,12 +1242,8 @@ const FormEditor = () => {
             }`}>
               {saveStatus}
             </span>
-            <button
-              onClick={handleSave}
-              className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              <Save size={16} /> Save Changes
-            </button>
+            
+              
           </div>
         </div>
       </div>

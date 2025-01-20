@@ -9,30 +9,6 @@
   },
   "steps": [
     {
-      "id": "disclaimer",
-      "title": "Disclaimer",
-      "icon": "Shield",
-      "fields": [
-        {
-          "name": "disclaimer",
-          "label": "Disclaimer",
-          "type": "radio",
-          "required": true,
-          "options": [
-            {
-              "value": "understand",
-              "label": "I understand"
-            },
-            {
-              "value": "not-understand",
-              "label": "I do not understand"
-            }
-          ],
-          "guidance": "Please be advised that the legal clinic is operated by third-year law students under the supervision of the clinic director and supervising lawyer. Our ability to accept cases depends on the availability of our students and resources within the clinic, with a limited waiting list capacity across New Brunswick. While we offer comprehensive services in Fredericton, Saint John, and Woodstock, our services in other areas are restricted to providing free advice and information. Individuals in those regions must complete this intake form to receive a call back or email response. If your matter is urgent, please contact us by telephone; however, we make no promises or guarantees of assistance, as we can only take on as many cases as our student capacity allows. Thank you for your understanding."
-        }
-      ]
-    },
-    {
       "id": "contact",
       "title": "Contact Information",
       "icon": "Phone",
