@@ -21,6 +21,24 @@ import {
   RefreshCcw,
   CheckCircle
 } from 'lucide-react';
+import { 
+  DndContext, 
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverlay
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -86,7 +104,180 @@ const initialState = {
     }]
   }
 };
+const SortableField = ({ field, fieldId, onRemove, onEdit, stepIndex }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: fieldId,
+  });
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <div
+        className={`bg-gray-50 rounded-lg p-4 ${
+          isDragging ? 'border-2 border-blue-500 shadow-lg' : 'border border-gray-200'
+        }`}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div {...attributes} {...listeners} className="cursor-move">
+              <GripVertical className="text-gray-400" size={16} />
+            </div>
+            <span className="font-medium">{field.label || 'Unnamed Field'}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1 hover:bg-gray-200 rounded"
+              type="button"
+            >
+              {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            <button
+              onClick={() => onRemove(stepIndex, parseInt(fieldId.split('-')[1]))}
+              className="p-1 text-red-500 hover:bg-red-50 rounded"
+              type="button"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        </div>
+
+        {isExpanded && (
+          <div className="mt-4 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm mb-1">Label</label>
+                <input
+                  type="text"
+                  value={field.label || ''}
+                  onChange={(e) => onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'label', e.target.value)}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Name</label>
+                <input
+                  type="text"
+                  value={field.name || ''}
+                  onChange={(e) => onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'name', e.target.value)}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm mb-1">Type</label>
+                <select
+                  value={field.type}
+                  onChange={(e) => onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'type', e.target.value)}
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="text">Text</option>
+                  <option value="textarea">Textarea</option>
+                  <option value="number">Number</option>
+                  <option value="email">Email</option>
+                  <option value="tel">Telephone</option>
+                  <option value="date">Date</option>
+                  <option value="checkbox">Checkbox</option>
+                  <option value="radio">Radio</option>
+                  <option value="select">Select</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm mb-1">Validation</label>
+                <select
+                  value={field.validation?.rules[0] || "required"}
+                  onChange={(e) => onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'validation', {
+                    rules: [e.target.value]
+                  })}
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="required">Required Only</option>
+                  <option value="email">Email</option>
+                  <option value="phoneNumber">Phone Number</option>
+                  <option value="postalCode">Postal Code</option>
+                  <option value="dateOfBirth">Date of Birth</option>
+                  <option value="numeric">Numeric</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={field.required || false}
+                  onChange={(e) => onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'required', e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300"
+                />
+                <span className="text-sm">Required</span>
+              </label>
+            </div>
+
+            {(field.type === 'select' || field.type === 'radio') && (
+              <div className="space-y-2">
+                <label className="block text-sm mb-1">Options</label>
+                {field.options?.map((option, optIndex) => (
+                  <div key={optIndex} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={option.label || ''}
+                      onChange={(e) => {
+                        const newOptions = [...(field.options || [])];
+                        newOptions[optIndex] = {
+                          value: e.target.value.toLowerCase().replace(/\s+/g, '-'),
+                          label: e.target.value
+                        };
+                        onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'options', newOptions);
+                      }}
+                      className="flex-1 p-2 border rounded"
+                      placeholder="Option label"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newOptions = field.options.filter((_, i) => i !== optIndex);
+                        onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'options', newOptions);
+                      }}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newOptions = [...(field.options || []), { value: '', label: '' }];
+                    onEdit(stepIndex, parseInt(fieldId.split('-')[1]), 'options', newOptions);
+                  }}
+                  className="flex items-center gap-2 text-blue-500 hover:bg-blue-50 px-3 py-1 rounded"
+                >
+                  <Plus size={14} /> Add Option
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 const FormPreview = ({ formData }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({});
@@ -850,7 +1041,34 @@ const ResourcesEditor = ({ resources, onChange }) => {
 // Form Steps Editor Component
 const FormStepsEditor = ({ formConfig, onChange }) => {
   const [expandedStep, setExpandedStep] = useState(null);
-  const [expandedField, setExpandedField] = useState(null);
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event, stepIndex) => {
+    const { active, over } = event;
+    
+    if (active.id !== over?.id) {
+      const oldIndex = parseInt(active.id.split('-')[1]);
+      const newIndex = parseInt(over.id.split('-')[1]);
+
+      const newSteps = [...formConfig.steps];
+      newSteps[stepIndex] = {
+        ...newSteps[stepIndex],
+        fields: arrayMove(newSteps[stepIndex].fields, oldIndex, newIndex)
+      };
+
+      onChange({ ...formConfig, steps: newSteps });
+    }
+  };
 
   const addStep = () => {
     const newSteps = [
@@ -879,8 +1097,9 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
 
   const addField = (stepIndex) => {
     const newSteps = [...formConfig.steps];
+    const fieldCount = newSteps[stepIndex].fields.length;
     newSteps[stepIndex].fields.push({
-      name: `field_${newSteps[stepIndex].fields.length + 1}`,
+      name: `field_${fieldCount + 1}`,
       label: "New Field",
       type: "text",
       required: false,
@@ -912,6 +1131,7 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
           <CardTitle>Form Steps</CardTitle>
           <button
             onClick={addStep}
+            type="button"
             className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             <Plus size={16} /> Add Step
@@ -943,6 +1163,7 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
                     ))}
                   </select>
                   <button
+                    type="button"
                     onClick={() => removeStep(stepIndex)}
                     className="p-2 text-red-500 hover:bg-red-50 rounded"
                   >
@@ -951,11 +1172,11 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
                 </div>
               </div>
 
-              {/* Fields Section */}
               <div className="pl-6 border-l-2 border-gray-200">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-medium">Fields</h3>
                   <button
+                    type="button"
                     onClick={() => addField(stepIndex)}
                     className="flex items-center gap-2 text-blue-500 hover:bg-blue-50 px-3 py-1 rounded"
                   >
@@ -963,149 +1184,30 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
                   </button>
                 </div>
 
-                <div className="space-y-4">
-                  {step.fields.map((field, fieldIndex) => (
-                    <div key={fieldIndex} className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                          <GripVertical className="text-gray-400" size={16} />
-                          <span className="font-medium">{field.label || 'Unnamed Field'}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setExpandedField(expandedField === fieldIndex ? null : fieldIndex)}
-                            className="p-1 hover:bg-gray-200 rounded"
-                          >
-                            {expandedField === fieldIndex ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                          </button>
-                          <button
-                            onClick={() => removeField(stepIndex, fieldIndex)}
-                            className="p-1 text-red-500 hover:bg-red-50 rounded"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </div>
-
-                      {expandedField === fieldIndex && (
-                        <div className="mt-4 space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm mb-1">Label</label>
-                              <input
-                                type="text"
-                                value={field.label || ''}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'label', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm mb-1">Name</label>
-                              <input
-                                type="text"
-                                value={field.name || ''}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'name', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm mb-1">Type</label>
-                              <select
-                                value={field.type}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'type', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              >
-                                <option value="text">Text</option>
-                                <option value="textarea">Textarea</option>
-                                <option value="number">Number</option>
-                                <option value="email">Email</option>
-                                <option value="tel">Telephone</option>
-                                <option value="date">Date</option>
-                                <option value="checkbox">Checkbox</option>
-                                <option value="radio">Radio</option>
-                                <option value="select">Select</option>
-                              </select>
-                            </div>
-                            <div>
-                              <label className="block text-sm mb-1">Validation</label>
-                              <select
-                                value={field.validation?.rules[0] || "required"}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'validation', {
-                                  rules: [e.target.value]
-                                })}
-                                className="w-full p-2 border rounded"
-                              >
-                                <option value="required">Required Only</option>
-                                <option value="email">Email</option>
-                                <option value="phoneNumber">Phone Number</option>
-                                <option value="postalCode">Postal Code</option>
-                                <option value="dateOfBirth">Date of Birth</option>
-                                <option value="numeric">Numeric</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2">
-                              <input
-                                type="checkbox"
-                                checked={field.required || false}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'required', e.target.checked)}
-                                className="w-4 h-4 rounded border-gray-300"
-                              />
-                              <span className="text-sm">Required</span>
-                            </label>
-                          </div>
-
-                          {(field.type === 'select' || field.type === 'radio') && (
-                            <div className="space-y-2">
-                              <label className="block text-sm mb-1">Options</label>
-                              {field.options?.map((option, optIndex) => (
-                                <div key={optIndex} className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    value={option.label || ''}
-                                    onChange={(e) => {
-                                      const newOptions = [...(field.options || [])];
-                                      newOptions[optIndex] = {
-                                        value: e.target.value.toLowerCase().replace(/\s+/g, '-'),
-                                        label: e.target.value
-                                      };
-                                      updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                    }}
-                                    className="flex-1 p-2 border rounded"
-                                    placeholder="Option label"
-                                  />
-                                  <button
-                                    onClick={() => {
-                                      const newOptions = field.options.filter((_, i) => i !== optIndex);
-                                      updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                    }}
-                                    className="p-2 text-red-500 hover:bg-red-50 rounded"
-                                  >
-                                    <Trash2 size={16} />
-                                  </button>
-                                </div>
-                              ))}
-                              <button
-                                onClick={() => {
-                                  const newOptions = [...(field.options || []), { value: '', label: '' }];
-                                  updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                }}
-                                className="flex items-center gap-2 text-blue-500 hover:bg-blue-50 px-3 py-1 rounded"
-                              >
-                                <Plus size={14} /> Add Option
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={(event) => handleDragEnd(event, stepIndex)}
+                  modifiers={[restrictToVerticalAxis]}
+                >
+                  <SortableContext
+                    items={step.fields.map((_, index) => `${stepIndex}-${index}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <div className="space-y-4">
+                      {step.fields.map((field, fieldIndex) => (
+                        <SortableField
+                          key={`${stepIndex}-${fieldIndex}`}
+                          field={field}
+                          fieldId={`${stepIndex}-${fieldIndex}`}
+                          onRemove={removeField}
+                          onEdit={updateField}
+                          stepIndex={stepIndex}
+                        />
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </SortableContext>
+                </DndContext>
               </div>
             </div>
           ))}
@@ -1113,6 +1215,7 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
       </CardContent>
     </Card>
   );
+
 };
 
 // Main Form Editor Component
@@ -1135,7 +1238,6 @@ const FormEditor = () => {
         const response = await fetch('/api/eligibility');
         
         if (!response.ok) {
-          // If API fails, use initial state
           console.warn('Failed to load form data, using initial state');
           setFormData(initialState);
           return;
@@ -1146,7 +1248,6 @@ const FormEditor = () => {
       } catch (error) {
         console.error('Error loading form data:', error);
         setLoadError('Failed to load form data');
-        // Fallback to initial state if API fails
         setFormData(initialState);
       } finally {
         setIsLoading(false);
@@ -1157,58 +1258,57 @@ const FormEditor = () => {
     loadData();
   }, []);
 
-  
-
   useEffect(() => {
-      if (!isInitialized) return;
-  
-      const autoSave = async () => {
-        console.log(formData)
-        if (formData) {
-          try {
-            setSaveStatus('Saving...');
-            const { success, error } = await saveFormData(formData);
-            
-            if (success) {
-              setSaveStatus('Saved successfully!');
-            } else {
-              throw new Error(error);
-            }
-          } catch (error) {
-            console.error('Error auto-saving form data:', error);
-            setSaveStatus('Error saving changes');
-          } finally {
-            setTimeout(() => setSaveStatus(''), 3000);
+    if (!isInitialized) return;
+
+    const autoSave = async () => {
+      if (formData) {
+        try {
+          setSaveStatus('Saving...');
+          const { success, error } = await saveFormData(formData);
+          
+          if (success) {
+            setSaveStatus('Saved successfully!');
+          } else {
+            throw new Error(error);
           }
+        } catch (error) {
+          console.error('Error auto-saving form data:', error);
+          setSaveStatus('Error saving changes');
+        } finally {
+          setTimeout(() => setSaveStatus(''), 3000);
         }
-      };
-  
-      const timeoutId = setTimeout(autoSave, 1000);
-      return () => clearTimeout(timeoutId);
-    }, [formData, isInitialized]);
-    if (isLoading) {
-      return (
-        <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading form configuration...</p>
-          </div>
+      }
+    };
+
+    const timeoutId = setTimeout(autoSave, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [formData, isInitialized]);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading form configuration...</p>
         </div>
-      );
-    }
-  
-    if (loadError) {
-      return (
-        <div className="max-w-6xl mx-auto p-6">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              {loadError}. Using default configuration.
-            </AlertDescription>
-          </Alert>
-        </div>
-      );
-    }
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="max-w-6xl mx-auto p-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            {loadError}. Using default configuration.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Header */}
@@ -1242,8 +1342,6 @@ const FormEditor = () => {
             }`}>
               {saveStatus}
             </span>
-            
-              
           </div>
         </div>
       </div>
@@ -1276,14 +1374,20 @@ const FormEditor = () => {
             <TabsContent value="thresholds">
               <ThresholdsEditor 
                 thresholds={formData.MONTHLY_THRESHOLDS}
-                onChange={(newThresholds) => setFormData({ ...formData, MONTHLY_THRESHOLDS: newThresholds })}
+                onChange={(newThresholds) => setFormData({ 
+                  ...formData, 
+                  MONTHLY_THRESHOLDS: newThresholds 
+                })}
               />
             </TabsContent>
 
             <TabsContent value="resources">
               <ResourcesEditor 
                 resources={formData.RESOURCES}
-                onChange={(newResources) => setFormData({ ...formData, RESOURCES: newResources })}
+                onChange={(newResources) => setFormData({ 
+                  ...formData, 
+                  RESOURCES: newResources 
+                })}
               />
             </TabsContent>
           </Tabs>

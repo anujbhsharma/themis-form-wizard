@@ -200,17 +200,6 @@
         "icon": "User",
         "fields": [
           {
-            "name": "firstName",
-            "label": "First Name",
-            "type": "text",
-            "required": true,
-            "validation": {
-              "rules": [
-                "required"
-              ]
-            }
-          },
-          {
             "name": "middleName",
             "label": "Middle Name",
             "type": "text",
@@ -230,6 +219,17 @@
           {
             "name": "address",
             "label": "Address",
+            "type": "text",
+            "required": true,
+            "validation": {
+              "rules": [
+                "required"
+              ]
+            }
+          },
+          {
+            "name": "firstName",
+            "label": "First Name",
             "type": "text",
             "required": true,
             "validation": {

@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 // Get the absolute path to your JSON file
-const FILE_PATH = path.join(process.cwd(), 'src', 'app', 'elegibility-editor', 'api', 'dummy.json');
+const FILE_PATH = path.join(process.cwd(), 'src', 'app', 'hhgg', 'api', 'dummy.json');
 
 export async function GET() {
   try {

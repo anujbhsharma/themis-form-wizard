@@ -9,26 +9,6 @@
   },
   "steps": [
     {
-      "id": "contact",
-      "title": "Contact Information",
-      "icon": "Phone",
-      "fields": [
-        {
-          "name": "phone",
-          "label": "Cell Phone",
-          "type": "tel",
-          "required": true
-        },
-        {
-          "name": "email",
-          "label": "Email Address",
-          "type": "email",
-          "required": true,
-          "guidance": "Please provide an accessible email address, as this will be our primary means of communication"
-        }
-      ]
-    },
-    {
       "id": "financial",
       "title": "Financial Information",
       "icon": "DollarSign",
@@ -46,6 +26,26 @@
           "type": "number",
           "required": true,
           "guidance": "Add numbers only such as 2000"
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "title": "Contact Information",
+      "icon": "Phone",
+      "fields": [
+        {
+          "name": "email",
+          "label": "Email Address",
+          "type": "email",
+          "required": true,
+          "guidance": "Please provide an accessible email address, as this will be our primary means of communication"
+        },
+        {
+          "name": "phone",
+          "label": "Cell Phone",
+          "type": "tel",
+          "required": true
         }
       ]
     },
