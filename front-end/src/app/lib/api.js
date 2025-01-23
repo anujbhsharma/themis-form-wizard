@@ -1,4 +1,5 @@
 // api.js
+import { getApiUrl } from './config';
 export const submitFormWithFiles = async (formData, files) => {
     try {
       // Create FormData instance
@@ -14,7 +15,7 @@ export const submitFormWithFiles = async (formData, files) => {
         });
       }
   
-      const response = await fetch('http://localhost:3001/api/submit', {
+      const response = await fetch(`${getApiUrl()}/api/submit`, {
         method: 'POST',
         body: submitData,
         // Don't set Content-Type header - browser will set it with boundary
@@ -42,7 +43,7 @@ export const submitFormWithFiles = async (formData, files) => {
       // Add form data as a string
       submitData.append('formData', JSON.stringify(formData));
       
-      const response = await fetch('http://localhost:3001/api/submitintake', {
+      const response = await fetch(`${getApiUrl()}/api/submitintake`, {
         method: 'POST',
         body: submitData,
       });
