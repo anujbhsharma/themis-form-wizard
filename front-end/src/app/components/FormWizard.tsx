@@ -39,7 +39,7 @@ export default function LegalClinicForm() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [submissionId, setSubmissionId] = useState(null);
   const fileInputRef = useRef(null);
-
+  let updatedResources = [];
   // Helper function to filter resources by category and criteria
   const filterResourcesByCategory = (resources, category, criteria = {}) => {
     return resources
@@ -201,7 +201,7 @@ export default function LegalClinicForm() {
   };
   const handleResourceUpdates = (name, value, newData) => {
     // Initialize resources array
-    let updatedResources = [];
+    // let updatedResources = [];
   
     // Handle emergency situations
     if (name === 'immediateRisk') {
