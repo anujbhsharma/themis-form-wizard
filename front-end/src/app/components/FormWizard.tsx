@@ -201,7 +201,7 @@ export default function LegalClinicForm() {
   };
   const handleResourceUpdates = (name, value, newData) => {
     // Initialize resources array
-    const updatedResources = [];
+    let updatedResources = [];
   
     // Handle emergency situations
     if (name === 'immediateRisk') {

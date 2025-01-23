@@ -442,7 +442,7 @@ export default function IntakeForm() {
     const field = formConfig.steps[currentStep].fields.find(f => f.name === name);
     
     // Resource suggestion logic based on field changes
-    const updatedResources = [];
+    let updatedResources = [];
     
     // Handle legal issue type changes
     if (name === 'legalIssueType') {
