@@ -15,7 +15,7 @@ export const submitFormWithFiles = async (formData, files) => {
         });
       }
   
-      const response = await fetch(`${getApiUrl()}/api/submit`, {
+      const response = await fetch(`https://back-end-legal-clinic.onrender.com/api/submit`, {
         method: 'POST',
         body: submitData,
         // Don't set Content-Type header - browser will set it with boundary
@@ -43,7 +43,7 @@ export const submitFormWithFiles = async (formData, files) => {
       // Add form data as a string
       submitData.append('formData', JSON.stringify(formData));
       
-      const response = await fetch(`${getApiUrl()}/api/submitintake`, {
+      const response = await fetch(`https://back-end-legal-clinic.onrender.com/api/submitintake`, {
         method: 'POST',
         body: submitData,
       });
