@@ -4,7 +4,9 @@ import fs from 'fs/promises';
 import path from 'path';
 
 // Get the absolute path to your JSON file
+
 const FILE_PATH = path.join(process.cwd(), 'src', 'app', 'eligibility-editor-legal-clinic-unb', 'api', 'dummy.json');
+
 
 export async function GET() {
   try {
