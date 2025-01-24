@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  AlertCircle, Shield, User, Phone, Home, DollarSign, 
+import {
+  AlertCircle, Shield, User, Phone, Home, DollarSign,
   Scale, ChevronRight, ChevronLeft, Info, Check, Send,
   FileText,
   CheckCircle,
@@ -286,31 +286,31 @@ export default function IntakeForm() {
         message: `${field.label} is required`
       };
     }
-// Helper function to filter and categorize resources
+    // Helper function to filter and categorize resources
 
 
-// Improved resource suggestion logic
+    // Improved resource suggestion logic
 
     switch (field.name) {
       case 'dateOfBirth':
         if (!value) return { isValid: false, message: 'Date of birth is required' };
-        
+
         const dob = new Date(value);
         const today = new Date();
         let age = today.getFullYear() - dob.getFullYear();
         const monthDiff = today.getMonth() - dob.getMonth();
-        
+
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
           age--;
         }
-        
+
         if (age < 18) {
           return {
             isValid: false,
             message: 'You must be at least 18 years old'
           };
         }
-        
+
         return { isValid: true };
 
       case 'email':
@@ -351,24 +351,24 @@ export default function IntakeForm() {
         if (criteria.isFirstNations && resource.notes?.toLowerCase().includes('first nations')) {
           return true;
         }
-        return !resource.notes || 
-              (!resource.notes.toLowerCase().includes('only') && 
-               !resource.notes.toLowerCase().includes('first nations'));
+        return !resource.notes ||
+          (!resource.notes.toLowerCase().includes('only') &&
+            !resource.notes.toLowerCase().includes('first nations'));
       });
   };
   const getRelevantResources = (issueType, userData) => {
     let relevantResources = [];
-    
+
     // Base legal resources for most issues
     if (issueType !== 'notary') {
       relevantResources = [...RESOURCES.legal];
     }
-  
+
     // Add category-specific resources
     switch (issueType) {
       case 'housing':
         const shelterResources = filterResourcesByCategory(
-          RESOURCES.shelters, 
+          RESOURCES.shelters,
           'shelters',
           {
             gender: userData.gender,
@@ -377,7 +377,7 @@ export default function IntakeForm() {
         );
         relevantResources = [...relevantResources, ...shelterResources];
         break;
-        
+
       case 'benefits':
       case 'employment':
       case 'human-rights':
@@ -387,7 +387,7 @@ export default function IntakeForm() {
           RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line")
         ].filter(Boolean);
         break;
-        
+
       case 'immigration':
         // Immigration cases might need comprehensive support
         const immigrationResources = [
@@ -399,7 +399,7 @@ export default function IntakeForm() {
         ].filter(Boolean);
         relevantResources = immigrationResources;
         break;
-        
+
       case 'divorce':
         // Domestic cases might need shelter and crisis support
         relevantResources = [
@@ -410,19 +410,19 @@ export default function IntakeForm() {
           RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line")
         ].filter(Boolean);
         break;
-        
+
       case 'offences':
         // Only specific legal aid for provincial offences
         relevantResources = [RESOURCES.legal.find(r => r.name === "Legal Aid New Brunswick")].filter(Boolean);
         break;
-        
+
       case 'small-claims':
       case 'notary':
         // Law Society for small claims and notary
         relevantResources = [RESOURCES.legal.find(r => r.name === "Law Society of New Brunswick")].filter(Boolean);
         break;
     }
-  
+
     // Remove duplicates
     return Array.from(new Set(relevantResources.map(r => JSON.stringify(r))))
       .map(str => JSON.parse(str));
@@ -430,25 +430,25 @@ export default function IntakeForm() {
   const handleFieldChange = (name, value) => {
     const newData = { ...formData, [name]: value };
     setFormData(newData);
-  
+
     // Clear error when field is modified
     if (errors[name]) {
       const newErrors = { ...errors };
       delete newErrors[name];
       setErrors(newErrors);
     }
-  
+
     // Find the current field
     const field = formConfig.steps[currentStep].fields.find(f => f.name === name);
-    
+
     // Resource suggestion logic based on field changes
     let updatedResources = [];
-    
+
     // Handle legal issue type changes
     if (name === 'legalIssueType') {
       updatedResources = getRelevantResources(value, formData);
     }
-    
+
     // Handle emergency/safety concerns
     if (name === 'safetyRisk' && value === 'yes') {
       updatedResources = [
@@ -459,11 +459,11 @@ export default function IntakeForm() {
         })
       ];
     }
-    
+
     // Handle housing needs
     if (name === 'needsHousing' && value === 'yes') {
       const shelterResources = filterResourcesByCategory(
-        RESOURCES.shelters, 
+        RESOURCES.shelters,
         'shelters',
         {
           gender: formData.gender,
@@ -475,10 +475,10 @@ export default function IntakeForm() {
         ...shelterResources
       ];
     }
-  
+
     // Add mental health resources for specific stress indicators
-    if (['stressLevel', 'mentalHealth'].includes(name) && 
-        (value === 'high' || value === 'yes')) {
+    if (['stressLevel', 'mentalHealth'].includes(name) &&
+      (value === 'high' || value === 'yes')) {
       const mentalHealthResource = RESOURCES.emergency.find(
         r => r.name === "Mental Health Crisis Line"
       );
@@ -489,13 +489,13 @@ export default function IntakeForm() {
         ];
       }
     }
-  
+
     // Update active resources with deduplication
     if (updatedResources.length > 0) {
       const uniqueResources = Array.from(
         new Set(updatedResources.map(r => JSON.stringify(r)))
       ).map(str => JSON.parse(str));
-  
+
       // Sort resources by category
       const sortedResources = uniqueResources.sort((a, b) => {
         const categoryOrder = {
@@ -505,10 +505,10 @@ export default function IntakeForm() {
         };
         return (categoryOrder[a.category] || 99) - (categoryOrder[b.category] || 99);
       });
-  
+
       setActiveResources(sortedResources);
     }
-  
+
     // Field validation
     if (field) {
       const validation = validateField(field, value, newData);
@@ -572,23 +572,23 @@ export default function IntakeForm() {
     if (validateStep(currentStep)) {
       console.log('Form submitted:', formData);
       setSubmitStatus({ loading: true, error: null });
-       try {
-            const response = await submitFormWithOutFiles(formData);
-            setSubmitStatus({ loading: true, error: null });
-            
-            setSubmissionId(response.submissionId);
-            setShowSuccess(true);
-            // Optional: Reset form or redirect
-            setSubmitted(true);
-          } catch (error) {
-            setSubmitStatus({ 
-              loading: false, 
-              error: 'Failed to submit form. Please try again.' 
-            });
-            alert("contact admin")
-            console.log(error)
-            setSubmitted(false)
-          }
+      try {
+        const response = await submitFormWithOutFiles(formData);
+        setSubmitStatus({ loading: true, error: null });
+
+        setSubmissionId(response.submissionId);
+        setShowSuccess(true);
+        // Optional: Reset form or redirect
+        setSubmitted(true);
+      } catch (error) {
+        setSubmitStatus({
+          loading: false,
+          error: 'Failed to submit form. Please try again.'
+        });
+        alert("contact admin")
+        console.log(error)
+        setSubmitted(false)
+      }
     }
   };
 
@@ -616,8 +616,8 @@ export default function IntakeForm() {
                   key={option.value}
                   className={`
                     flex items-center p-4 rounded-lg border cursor-pointer
-                    ${formData[field.name] === option.value 
-                      ? 'border-red-500 bg-red-50' 
+                    ${formData[field.name] === option.value
+                      ? 'border-red-500 bg-red-50'
                       : 'border-gray-200 hover:bg-gray-50'}
                   `}
                 >
@@ -778,11 +778,11 @@ export default function IntakeForm() {
                   <div className={`
                     w-8 h-8 rounded-full flex items-center justify-center text-sm
                     transition-all duration-300
-                    ${currentStep === index 
-                      ? 'bg-red-600 text-white ring-4 ring-red-100' 
+                    ${currentStep === index
+                      ? 'bg-red-600 text-white ring-4 ring-red-100'
                       : visitedSteps.has(index)
-                      ? 'bg-red-100 text-red-600'
-                      : 'bg-gray-100 text-gray-500'}
+                        ? 'bg-red-100 text-red-600'
+                        : 'bg-gray-100 text-gray-500'}
                   `}>
                     {visitedSteps.has(index) && index !== currentStep ? (
                       <Check className="w-4 h-4" />
@@ -827,7 +827,7 @@ export default function IntakeForm() {
                       {field.label}
                       {field.required && <span className="text-red-500 ml-1">*</span>}
                     </Label>
-                    
+
                     {field.guidance && (
                       <p className="text-sm text-gray-500 flex items-center gap-2 mb-2">
                         <Info className="h-4 w-4" />
@@ -856,11 +856,19 @@ export default function IntakeForm() {
                   >
                     {currentStep === formConfig.steps.length - 1 ? (
                       <>
-                        Submit
-                        <Send className="ml-2 h-4 w-4" />
+                        {submitStatus ? (
+                          'Submitting...'
+                        ) : (
+                          <>
+
+                            Submit
+                            <Send className="ml-2 h-4 w-4" />
+                          </>
+                        )}
                       </>
                     ) : (
                       <>
+
                         Next
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </>
@@ -872,86 +880,84 @@ export default function IntakeForm() {
           </Card>
 
           {/* Side panel */}
-         {/* Resource Display Component */}
-{activeResources && (
-  <Card>
-    <CardHeader>
-      <CardTitle className="text-lg">Available Resources</CardTitle>
-      <CardDescription>
-        Support services relevant to your situation
-      </CardDescription>
-    </CardHeader>
-    <CardContent>
-      {/* Group resources by category */}
-      {Object.entries(
-        activeResources.reduce((acc, resource) => {
-          const category = resource.category || 'other';
-          acc[category] = acc[category] || [];
-          acc[category].push(resource);
-          return acc;
-        }, {})
-      ).map(([category, resources]) => (
-        <div key={category} className="mb-6 last:mb-0">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </h4>
-          <div className="space-y-4">
-            {resources.map((resource, index) => (
-              <div 
-                key={index} 
-                className={`rounded-lg p-4 border transition-colors ${
-                  resource.category === 'emergency' 
-                    ? 'bg-red-50 border-red-100' 
-                    : 'bg-gray-50 border-gray-200'
-                }`}
-              >
-                <h4 className="font-medium text-gray-900 flex items-center justify-between">
-                  {resource.name}
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    resource.category === 'emergency'
-                      ? 'bg-red-100 text-red-700'
-                      : 'bg-gray-100 text-gray-600'
-                  }`}>
-                    {resource.category}
-                  </span>
-                </h4>
-                <div className="space-y-2 mt-2">
-                  {resource.phoneNumber && (
-                    <a 
-                      href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
-                      className="text-sm text-red-600 hover:text-red-700 flex items-center gap-2"
-                    >
-                      <Phone className="h-4 w-4" />
-                      {resource.phoneNumber}
-                    </a>
-                  )}
-                  {resource.location && (
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
-                      <Home className="h-4 w-4" />
-                      {resource.location}
-                    </p>
-                  )}
-                  {resource.description && (
-                    <p className="text-sm text-gray-500 flex items-start gap-2">
-                      <Info className="h-4 w-4 mt-0.5" />
-                      {resource.description}
-                    </p>
-                  )}
-                  {resource.notes && (
-                    <div className="mt-2 text-sm bg-amber-50 text-amber-700 p-2 rounded flex items-start gap-2">
-                      <AlertCircle className="h-4 w-4 mt-0.5" />
-                      <span>{resource.notes}</span>
+          {/* Resource Display Component */}
+          {activeResources && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Available Resources</CardTitle>
+                <CardDescription>
+                  Support services relevant to your situation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {/* Group resources by category */}
+                {Object.entries(
+                  activeResources.reduce((acc, resource) => {
+                    const category = resource.category || 'other';
+                    acc[category] = acc[category] || [];
+                    acc[category].push(resource);
+                    return acc;
+                  }, {})
+                ).map(([category, resources]) => (
+                  <div key={category} className="mb-6 last:mb-0">
+                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </h4>
+                    <div className="space-y-4">
+                      {resources.map((resource, index) => (
+                        <div
+                          key={index}
+                          className={`rounded-lg p-4 border transition-colors ${resource.category === 'emergency'
+                              ? 'bg-red-50 border-red-100'
+                              : 'bg-gray-50 border-gray-200'
+                            }`}
+                        >
+                          <h4 className="font-medium text-gray-900 flex items-center justify-between">
+                            {resource.name}
+                            <span className={`text-xs px-2 py-1 rounded-full ${resource.category === 'emergency'
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-gray-100 text-gray-600'
+                              }`}>
+                              {resource.category}
+                            </span>
+                          </h4>
+                          <div className="space-y-2 mt-2">
+                            {resource.phoneNumber && (
+                              <a
+                                href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
+                                className="text-sm text-red-600 hover:text-red-700 flex items-center gap-2"
+                              >
+                                <Phone className="h-4 w-4" />
+                                {resource.phoneNumber}
+                              </a>
+                            )}
+                            {resource.location && (
+                              <p className="text-sm text-gray-600 flex items-center gap-2">
+                                <Home className="h-4 w-4" />
+                                {resource.location}
+                              </p>
+                            )}
+                            {resource.description && (
+                              <p className="text-sm text-gray-500 flex items-start gap-2">
+                                <Info className="h-4 w-4 mt-0.5" />
+                                {resource.description}
+                              </p>
+                            )}
+                            {resource.notes && (
+                              <div className="mt-2 text-sm bg-amber-50 text-amber-700 p-2 rounded flex items-start gap-2">
+                                <AlertCircle className="h-4 w-4 mt-0.5" />
+                                <span>{resource.notes}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </CardContent>
-  </Card>
-)}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

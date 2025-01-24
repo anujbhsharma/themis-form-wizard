@@ -80,14 +80,14 @@
             "label": "Total Income per month",
             "type": "number",
             "required": true,
-            "guidance": "Add numbers only such as 2000"
+            "guidance": "Please enter numbers without commas or dollar signs. For example: 2000"
           },
           {
             "name": "monthlyExpenses",
             "label": "Total Expenses per month",
             "type": "number",
             "required": true,
-            "guidance": "Add numbers only such as 2000"
+            "guidance": "Please enter numbers without commas or dollar signs. For example: 2000"
           }
         ]
       },
