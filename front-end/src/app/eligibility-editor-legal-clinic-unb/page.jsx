@@ -24,7 +24,23 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverlay
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 const ICONS = {
   User,
   Shield,
@@ -86,7 +102,40 @@ const initialState = {
     }]
   }
 };
+const SortableField = ({ field, stepIndex, fieldIndex, children }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ 
+    id: `${stepIndex}-${fieldIndex}`,
+    data: {
+      type: 'field',
+      stepIndex,
+      fieldIndex,
+      field
+    }
+  });
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <div className={`bg-gray-50 rounded-lg p-4 ${isDragging ? 'border-2 border-blue-500 shadow-lg' : 'border border-gray-200'}`}>
+        <div className="flex items-center justify-between cursor-move" {...listeners}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
 const FormPreview = ({ formData }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({});
@@ -849,269 +898,218 @@ const ResourcesEditor = ({ resources, onChange }) => {
 
 // Form Steps Editor Component
 const FormStepsEditor = ({ formConfig, onChange }) => {
-  const [expandedStep, setExpandedStep] = useState(null);
   const [expandedField, setExpandedField] = useState(null);
+  const [activeId, setActiveId] = useState(null);
+  const [draggedField, setDraggedField] = useState(null);
 
-  const addStep = () => {
-    const newSteps = [
-      ...formConfig.steps,
-      {
-        id: `step_${formConfig.steps.length + 1}`,
-        title: "New Step",
-        icon: "User",
-        fields: []
-      }
-    ];
-    onChange({ ...formConfig, steps: newSteps });
+  // Configure DnD sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragStart = (event) => {
+    const { active } = event;
+    setActiveId(active.id);
+    if (active.data?.current?.type === 'field') {
+      setDraggedField(active.data.current.field);
+    }
   };
 
-  const updateStep = (index, field, value) => {
-    const newSteps = formConfig.steps.map((step, i) => 
-      i === index ? { ...step, [field]: value } : step
-    );
-    onChange({ ...formConfig, steps: newSteps });
-  };
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    
+    if (!over || active.id === over.id) {
+      setActiveId(null);
+      setDraggedField(null);
+      return;
+    }
 
-  const removeStep = (index) => {
-    const newSteps = formConfig.steps.filter((_, i) => i !== index);
-    onChange({ ...formConfig, steps: newSteps });
+    // Get the step and field indices from the IDs
+    const [activeStepIndex, activeFieldIndex] = active.id.split('-').map(Number);
+    const [overStepIndex, overFieldIndex] = over.id.split('-').map(Number);
+
+    // Create a new formConfig with the updated field order
+    const newFormConfig = { ...formConfig };
+    const newSteps = [...formConfig.steps];
+
+    if (activeStepIndex === overStepIndex) {
+      // Reordering within the same step
+      const step = { ...newSteps[activeStepIndex] };
+      const fields = [...step.fields];
+      const [movedField] = fields.splice(activeFieldIndex, 1);
+      fields.splice(overFieldIndex, 0, movedField);
+      step.fields = fields;
+      newSteps[activeStepIndex] = step;
+    } else {
+      // Moving field between steps
+      const sourceStep = { ...newSteps[activeStepIndex] };
+      const targetStep = { ...newSteps[overStepIndex] };
+      const [movedField] = sourceStep.fields.splice(activeFieldIndex, 1);
+      targetStep.fields.splice(overFieldIndex, 0, movedField);
+      newSteps[activeStepIndex] = sourceStep;
+      newSteps[overStepIndex] = targetStep;
+    }
+
+    newFormConfig.steps = newSteps;
+    onChange(newFormConfig);
+    
+    setActiveId(null);
+    setDraggedField(null);
   };
 
   const addField = (stepIndex) => {
+    const newFormConfig = { ...formConfig };
     const newSteps = [...formConfig.steps];
-    newSteps[stepIndex].fields.push({
-      name: `field_${newSteps[stepIndex].fields.length + 1}`,
-      label: "New Field",
-      type: "text",
-      required: false,
-      validation: {
-        rules: ["required"]
+    const step = { ...newSteps[stepIndex] };
+    
+    step.fields = [
+      ...step.fields,
+      {
+        name: `field_${step.fields.length + 1}`,
+        label: 'New Field',
+        type: 'text',
+        required: false
       }
-    });
-    onChange({ ...formConfig, steps: newSteps });
-  };
-
-  const updateField = (stepIndex, fieldIndex, field, value) => {
-    const newSteps = [...formConfig.steps];
-    newSteps[stepIndex].fields = newSteps[stepIndex].fields.map((f, i) =>
-      i === fieldIndex ? { ...f, [field]: value } : f
-    );
-    onChange({ ...formConfig, steps: newSteps });
+    ];
+    
+    newSteps[stepIndex] = step;
+    newFormConfig.steps = newSteps;
+    onChange(newFormConfig);
   };
 
   const removeField = (stepIndex, fieldIndex) => {
+    const newFormConfig = { ...formConfig };
     const newSteps = [...formConfig.steps];
-    newSteps[stepIndex].fields = newSteps[stepIndex].fields.filter((_, i) => i !== fieldIndex);
-    onChange({ ...formConfig, steps: newSteps });
+    const step = { ...newSteps[stepIndex] };
+    
+    step.fields = step.fields.filter((_, index) => index !== fieldIndex);
+    newSteps[stepIndex] = step;
+    newFormConfig.steps = newSteps;
+    onChange(newFormConfig);
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle>Form Steps</CardTitle>
-          <button
-            onClick={addStep}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            <Plus size={16} /> Add Step
-          </button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          {formConfig.steps.map((step, stepIndex) => (
-            <div key={step.id} className="border rounded-lg p-4">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-4">
-                  {ICONS[step.icon] && React.createElement(ICONS[step.icon], { size: 20 })}
-                  <input
-                    type="text"
-                    value={step.title}
-                    onChange={(e) => updateStep(stepIndex, 'title', e.target.value)}
-                    className="font-medium p-2 border rounded"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <select
-                    value={step.icon}
-                    onChange={(e) => updateStep(stepIndex, 'icon', e.target.value)}
-                    className="p-2 border rounded"
-                  >
-                    {Object.keys(ICONS).map(icon => (
-                      <option key={icon} value={icon}>{icon}</option>
-                    ))}
-                  </select>
-                  <button
-                    onClick={() => removeStep(stepIndex)}
-                    className="p-2 text-red-500 hover:bg-red-50 rounded"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Fields Section */}
-              <div className="pl-6 border-l-2 border-gray-200">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-medium">Fields</h3>
-                  <button
-                    onClick={() => addField(stepIndex)}
-                    className="flex items-center gap-2 text-blue-500 hover:bg-blue-50 px-3 py-1 rounded"
-                  >
-                    <Plus size={16} /> Add Field
-                  </button>
-                </div>
-
+    <div className="space-y-6">
+      {formConfig.steps.map((step, stepIndex) => (
+        <Card key={step.id}>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>{step.title}</CardTitle>
+              <button
+                onClick={() => addField(stepIndex)}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                <Plus size={16} /> Add Field
+              </button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={step.fields.map((_, fieldIndex) => `${stepIndex}-${fieldIndex}`)}
+                strategy={verticalListSortingStrategy}
+              >
                 <div className="space-y-4">
                   {step.fields.map((field, fieldIndex) => (
-                    <div key={fieldIndex} className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                          <GripVertical className="text-gray-400" size={16} />
-                          <span className="font-medium">{field.label || 'Unnamed Field'}</span>
+                    <SortableField
+                      key={`${stepIndex}-${fieldIndex}`}
+                      field={field}
+                      stepIndex={stepIndex}
+                      fieldIndex={fieldIndex}
+                    >
+                      <div className="w-full">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <GripVertical className="text-gray-400" size={16} />
+                            <span className="font-medium">{field.label || 'Unnamed Field'}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => setExpandedField(expandedField === `${stepIndex}-${fieldIndex}` ? null : `${stepIndex}-${fieldIndex}`)}
+                              className="p-1 hover:bg-gray-200 rounded"
+                            >
+                              {expandedField === `${stepIndex}-${fieldIndex}` ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                            </button>
+                            <button
+                              onClick={() => removeField(stepIndex, fieldIndex)}
+                              className="p-1 text-red-500 hover:bg-red-50 rounded"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setExpandedField(expandedField === fieldIndex ? null : fieldIndex)}
-                            className="p-1 hover:bg-gray-200 rounded"
-                          >
-                            {expandedField === fieldIndex ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                          </button>
-                          <button
-                            onClick={() => removeField(stepIndex, fieldIndex)}
-                            className="p-1 text-red-500 hover:bg-red-50 rounded"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
+
+                        {expandedField === `${stepIndex}-${fieldIndex}` && (
+                          <div className="mt-4 space-y-4">
+                            {/* Field editing form here */}
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium mb-1">Label</label>
+                                <input
+                                  type="text"
+                                  value={field.label || ''}
+                                  onChange={(e) => {
+                                    const newConfig = { ...formConfig };
+                                    newConfig.steps[stepIndex].fields[fieldIndex].label = e.target.value;
+                                    onChange(newConfig);
+                                  }}
+                                  className="w-full p-2 border rounded"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium mb-1">Type</label>
+                                <select
+                                  value={field.type}
+                                  onChange={(e) => {
+                                    const newConfig = { ...formConfig };
+                                    newConfig.steps[stepIndex].fields[fieldIndex].type = e.target.value;
+                                    onChange(newConfig);
+                                  }}
+                                  className="w-full p-2 border rounded"
+                                >
+                                  <option value="text">Text</option>
+                                  <option value="number">Number</option>
+                                  <option value="email">Email</option>
+                                  <option value="tel">Telephone</option>
+                                  <option value="select">Select</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
-
-                      {expandedField === fieldIndex && (
-                        <div className="mt-4 space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm mb-1">Label</label>
-                              <input
-                                type="text"
-                                value={field.label || ''}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'label', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm mb-1">Name</label>
-                              <input
-                                type="text"
-                                value={field.name || ''}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'name', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm mb-1">Type</label>
-                              <select
-                                value={field.type}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'type', e.target.value)}
-                                className="w-full p-2 border rounded"
-                              >
-                                <option value="text">Text</option>
-                                <option value="textarea">Textarea</option>
-                                <option value="number">Number</option>
-                                <option value="email">Email</option>
-                                <option value="tel">Telephone</option>
-                                <option value="date">Date</option>
-                                <option value="checkbox">Checkbox</option>
-                                <option value="radio">Radio</option>
-                                <option value="select">Select</option>
-                              </select>
-                            </div>
-                            <div>
-                              <label className="block text-sm mb-1">Validation</label>
-                              <select
-                                value={field.validation?.rules[0] || "required"}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'validation', {
-                                  rules: [e.target.value]
-                                })}
-                                className="w-full p-2 border rounded"
-                              >
-                                <option value="required">Required Only</option>
-                                <option value="email">Email</option>
-                                <option value="phoneNumber">Phone Number</option>
-                                <option value="postalCode">Postal Code</option>
-                                <option value="dateOfBirth">Date of Birth</option>
-                                <option value="numeric">Numeric</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2">
-                              <input
-                                type="checkbox"
-                                checked={field.required || false}
-                                onChange={(e) => updateField(stepIndex, fieldIndex, 'required', e.target.checked)}
-                                className="w-4 h-4 rounded border-gray-300"
-                              />
-                              <span className="text-sm">Required</span>
-                            </label>
-                          </div>
-
-                          {(field.type === 'select' || field.type === 'radio') && (
-                            <div className="space-y-2">
-                              <label className="block text-sm mb-1">Options</label>
-                              {field.options?.map((option, optIndex) => (
-                                <div key={optIndex} className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    value={option.label || ''}
-                                    onChange={(e) => {
-                                      const newOptions = [...(field.options || [])];
-                                      newOptions[optIndex] = {
-                                        value: e.target.value.toLowerCase().replace(/\s+/g, '-'),
-                                        label: e.target.value
-                                      };
-                                      updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                    }}
-                                    className="flex-1 p-2 border rounded"
-                                    placeholder="Option label"
-                                  />
-                                  <button
-                                    onClick={() => {
-                                      const newOptions = field.options.filter((_, i) => i !== optIndex);
-                                      updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                    }}
-                                    className="p-2 text-red-500 hover:bg-red-50 rounded"
-                                  >
-                                    <Trash2 size={16} />
-                                  </button>
-                                </div>
-                              ))}
-                              <button
-                                onClick={() => {
-                                  const newOptions = [...(field.options || []), { value: '', label: '' }];
-                                  updateField(stepIndex, fieldIndex, 'options', newOptions);
-                                }}
-                                className="flex items-center gap-2 text-blue-500 hover:bg-blue-50 px-3 py-1 rounded"
-                              >
-                                <Plus size={14} /> Add Option
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                    </SortableField>
                   ))}
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+              </SortableContext>
+
+              <DragOverlay>
+                {activeId && draggedField && (
+                  <div className="bg-white rounded-lg p-4 border-2 border-blue-500 shadow-lg opacity-50">
+                    <div className="flex items-center gap-2">
+                      <GripVertical className="text-gray-400" size={16} />
+                      <span className="font-medium">{draggedField.label || 'Unnamed Field'}</span>
+                    </div>
+                  </div>
+                )}
+              </DragOverlay>
+            </DndContext>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 };
 

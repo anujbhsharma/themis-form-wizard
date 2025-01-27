@@ -14,15 +14,15 @@
       "icon": "DollarSign",
       "fields": [
         {
-          "name": "monthlyIncome",
-          "label": "Total Income per month",
+          "name": "monthlyExpenses",
+          "label": "Total Expenses per month",
           "type": "number",
           "required": true,
           "guidance": "Add numbers only such as 2000"
         },
         {
-          "name": "monthlyExpenses",
-          "label": "Total Expenses per month",
+          "name": "monthlyIncome",
+          "label": "Total Income per month",
           "type": "number",
           "required": true,
           "guidance": "Add numbers only such as 2000"
