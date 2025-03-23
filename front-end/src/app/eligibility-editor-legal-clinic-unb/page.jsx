@@ -1,6 +1,10 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { 
+  // ... your existing imports
+  Lock, Eye, EyeOff,Key // Add these to your imports
+} from 'lucide-react';
+import { 
   Trash2, 
   Plus, 
   GripVertical, 
@@ -21,6 +25,7 @@ import {
   RefreshCcw,
   CheckCircle
 } from 'lucide-react';
+import { saveFormData, getFormData } from './formHelper';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -251,7 +256,7 @@ const FormPreview = ({ formData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
-      console.log('Form submitted:', formValues);
+      // console.log('Form submitted:', formValues);
       // Add your form submission logic here
     }
   };
@@ -1115,13 +1120,80 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
 
 // Main Form Editor Component
 const FormEditor = () => {
+  
   const [formData, setFormData] = useState(initialState);
   const [activeTab, setActiveTab] = useState('editor');
   const [activeSection, setActiveSection] = useState('form');
   const [saveStatus, setSaveStatus] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Set to false initially
   const [loadError, setLoadError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [secretCode, setSecretCode] = useState('');
+  const [showCode, setShowCode] = useState(false);
+  const [error, setError] = useState('');
+  const [attempts, setAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockTimer, setLockTimer] = useState(0);
+  const CORRECT_SECRET_CODE = 'LegalAccess2025'; // Your secret code
+  const MAX_ATTEMPTS = 5;
+  const LOCK_TIME = 60; // Seconds
+  const STORAGE_KEY = 'formEditorAuthenticated';
+  const loadOriginalEligibilityJson = async () => {
+    try {
+      setIsLoading(true);
+      // Dynamic import of the original eligibility JSON
+      const eligibilityJson = await import('../lib/formConfig.json');
+      return eligibilityJson.default;
+    } catch (error) {
+      console.error('Error loading original eligibility JSON:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const resetEligibilitySimple = async () => {
+    if (window.confirm('Are you sure you want to reset...')) {
+      try {
+        setSaveStatus('Resetting...');
+        
+        // Load the original JSON file
+        const eligibilityJson = await import('../lib/formConfig.json');
+        
+        // Reset only the form data
+        setFormData(eligibilityJson.default);
+        
+        setSaveStatus('Reset complete!');
+        setTimeout(() => setSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to reset eligibility form:', error);
+        setSaveStatus('Reset failed');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }
+  };
+  // Check for authentication from session storage
+  useEffect(() => {
+    const storedAuth = sessionStorage.getItem(STORAGE_KEY);
+    if (storedAuth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
+  // Handle lock timer countdown
+  useEffect(() => {
+    let interval;
+    if (isLocked && lockTimer > 0) {
+      interval = setInterval(() => {
+        setLockTimer(prevTime => prevTime - 1);
+      }, 1000);
+    } else if (lockTimer === 0 && isLocked) {
+      setIsLocked(false);
+    }
+
+    return () => clearInterval(interval);
+  }, [isLocked, lockTimer]);
+
+  // Load data only when authenticated
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -1150,9 +1222,135 @@ const FormEditor = () => {
       }
     };
 
-    loadData();
-  }, []);
+    // Only load data if authenticated
+    if (isAuthenticated) {
+      loadData();
+    }
+  }, [isAuthenticated]);
 
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (isLocked) return;
+
+    if (secretCode === CORRECT_SECRET_CODE) {
+      setIsAuthenticated(true);
+      setError('');
+      // Store authentication state in session storage
+      sessionStorage.setItem(STORAGE_KEY, 'true');
+    } else {
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      setError('Invalid secret code. Please try again.');
+      
+      // Lock the form after MAX_ATTEMPTS
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setIsLocked(true);
+        setLockTimer(LOCK_TIME);
+        setError(`Too many failed attempts. Access locked for ${LOCK_TIME} seconds.`);
+      }
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem(STORAGE_KEY);
+  };
+
+  // Handle save
+  const handleSave = async () => {
+    setSaveStatus('Saving...');
+    try {
+      const { success } = await saveFormData(formData);
+      setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
+    } catch (error) {
+      setSaveStatus('Error saving');
+      console.error('Save error:', error);
+    }
+    setTimeout(() => setSaveStatus(''), 3000);
+  };
+
+  // If not authenticated, show login screen
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg">
+          <div className="text-center mb-8">
+            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <Shield className="h-8 w-8 text-blue-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">Form Editor Access</h2>
+            <p className="text-gray-600 mt-2">Please enter the secret code to access the form editor</p>
+          </div>
+          
+          {error && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="secretCode" className="block text-sm font-medium text-gray-700 mb-2">
+                Secret Code
+              </label>
+              <div className="relative">
+                <input
+                  id="secretCode"
+                  name="secretCode"
+                  type={showCode ? "text" : "password"}
+                  value={secretCode}
+                  onChange={(e) => setSecretCode(e.target.value)}
+                  disabled={isLocked}
+                  className="w-full pr-10 py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter secret code"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCode(!showCode)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500"
+                >
+                  {showCode ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <button
+                type="submit"
+                disabled={isLocked}
+                className={`w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                  isLocked ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                }`}
+              >
+                {isLocked ? (
+                  <>
+                    <RefreshCcw size={16} className="animate-spin" /> 
+                    Locked ({lockTimer}s)
+                  </>
+                ) : (
+                  <>
+                    <Key size={16} />
+                    Access Form Editor
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+          
+          <div className="mt-6 text-center text-xs text-gray-500">
+            <p>This page contains sensitive configuration controls.</p>
+            <p>Unauthorized access is prohibited.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show loading state if authenticated but still loading
   if (isLoading) {
     return (
       <div className="max-w-6xl mx-auto p-6 flex items-center justify-center min-h-[400px]">
@@ -1164,6 +1362,7 @@ const FormEditor = () => {
     );
   }
 
+  // Show error state if authenticated but error loading
   if (loadError) {
     return (
       <div className="max-w-6xl mx-auto p-6">
@@ -1177,13 +1376,7 @@ const FormEditor = () => {
     );
   }
 
-  const handleSave = async () => {
-    setSaveStatus('Saving...');
-    const { success } = await saveFormData(formData);
-    setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
-    setTimeout(() => setSaveStatus(''), 3000);
-  };
-
+  // Main authenticated view
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Header */}
@@ -1212,6 +1405,27 @@ const FormEditor = () => {
             </button>
           </div>
           <div className="flex items-center gap-4">
+          <button
+  onClick={resetEligibilitySimple}
+  disabled={isLoading}
+  className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors disabled:opacity-50"
+>
+  {isLoading ? (
+    <>
+      <RefreshCcw size={16} className="animate-spin" /> Loading...
+    </>
+  ) : (
+    <>
+      <RefreshCcw size={16} /> Reset to Original
+    </>
+  )}
+</button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
+            >
+              <Lock size={16} /> Logout
+            </button>
             <span className={`text-sm ${
               saveStatus.includes('Error') ? 'text-red-500' : 'text-green-500'
             }`}>

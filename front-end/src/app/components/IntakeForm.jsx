@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 import {
   AlertCircle, Shield, User, Phone, Home, DollarSign,
   Scale, ChevronRight, ChevronLeft, Info, Check, Send,
-  FileText,
-  CheckCircle,
-  RefreshCcw
+  FileText, CheckCircle, RefreshCcw
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { submitFormWithOutFiles } from '../lib/api';
 // Resource definitions
-import formConfig from '../lib/intake.json';
+import formConfig from '../intake-editor-legal-clinic-unb/api/dummy.json';
 
 const RESOURCES = {
   shelters: [
@@ -81,176 +80,6 @@ const RESOURCES = {
   ]
 };
 
-// Form steps and fields configuration
-// const formConfig = {
-//   metadata: {
-//     version: "1.0.0",
-//     clinic: {
-//       name: "Legal Clinic Intake Form",
-//       phone: "(506) 452-6313",
-//       email: "lawclinic@unb.ca"
-//     }
-//   },
-//   steps: [
-//     {
-//       id: "disclaimer",
-//       title: "Disclaimer",
-//       icon: "Shield",
-//       fields: [
-//         {
-//           name: "disclaimer",
-//           label: "Disclaimer",
-//           type: "radio",
-//           required: true,
-//           options: [
-//             { value: "understand", label: "I understand" },
-//             { value: "not-understand", label: "I do not understand" }
-//           ],
-//           guidance: "Please be advised that the legal clinic is operated by third-year law students under the supervision of the clinic director and supervising lawyer. Our ability to accept cases depends on the availability of our students and resources within the clinic, with a limited waiting list capacity across New Brunswick. While we offer comprehensive services in Fredericton, Saint John, and Woodstock, our services in other areas are restricted to providing free advice and information. Individuals in those regions must complete this intake form to receive a call back or email response. If your matter is urgent, please contact us by telephone; however, we make no promises or guarantees of assistance, as we can only take on as many cases as our student capacity allows. Thank you for your understanding."
-//         }
-//       ]
-//     },
-//     {
-//       id: "personal",
-//       title: "Personal Information",
-//       icon: "User",
-//       fields: [
-//         {
-//           name: "fullName",
-//           label: "Full Name",
-//           type: "text",
-//           required: true
-//         },
-//         {
-//           name: "dateOfBirth",
-//           label: "Date of Birth",
-//           type: "date",
-//           required: true
-//         },
-//         {
-//           name: "cityProvince",
-//           label: "City/Province",
-//           type: "text",
-//           required: true
-//         }
-//       ]
-//     },
-//     {
-//       id: "contact",
-//       title: "Contact Information",
-//       icon: "Phone",
-//       fields: [
-//         {
-//           name: "phone",
-//           label: "Cell Phone",
-//           type: "tel",
-//           required: true
-//         },
-//         {
-//           name: "email",
-//           label: "Email Address",
-//           type: "email",
-//           required: true,
-//           guidance: "Please provide an accessible email address, as this will be our primary means of communication"
-//         }
-//       ]
-//     },
-//     {
-//       id: "financial",
-//       title: "Financial Information",
-//       icon: "DollarSign",
-//       fields: [
-//         {
-//           name: "monthlyIncome",
-//           label: "Total Income per month",
-//           type: "number",
-//           required: true,
-//           guidance: "Add numbers only such as 2000"
-//         },
-//         {
-//           name: "monthlyExpenses",
-//           label: "Total Expenses per month",
-//           type: "number",
-//           required: true,
-//           guidance: "Add numbers only such as 2000"
-//         }
-//       ]
-//     },
-//     {
-//       id: "legal",
-//       title: "Legal Information",
-//       icon: "Scale",
-//       fields: [
-//         {
-//           name: "legalIssueType",
-//           label: "The legal matter is related to which one of the following categories",
-//           type: "select",
-//           required: true,
-//           options: [
-//             { value: "housing", label: "Housing and Tenancy" },
-//             { value: "benefits", label: "Provincial and Federal benefits" },
-//             { value: "employment", label: "Employment Law" },
-//             { value: "human-rights", label: "Human Rights" },
-//             { value: "small-claims", label: "Small Claims" },
-//             { value: "notary", label: "Notary Services" },
-//             { value: "divorce", label: "Uncontested Divorce" },
-//             { value: "offences", label: "Provincial Offences (Tickets)" },
-//             { value: "immigration", label: "Immigration and Refugee Assistance" },
-//             { value: "other", label: "Other" }
-//           ]
-//         },
-//         {
-//           name: "description",
-//           label: "Please describe your matter in as much detail as possible",
-//           type: "textarea",
-//           required: true
-//         },
-//         {
-//           name: "priorLegalAssistance",
-//           label: "Have you previously sought legal assistance for this issue?",
-//           type: "radio",
-//           required: true,
-//           options: [
-//             { value: "yes", label: "Yes" },
-//             { value: "no", label: "No" }
-//           ]
-//         },
-//         {
-//           name: "priorLegalDetails",
-//           label: "If yes, please provide details:",
-//           type: "textarea",
-//           required: false,
-//           showIf: "priorLegalAssistance === 'yes'"
-//         },
-//         {
-//           name: "opposingParty",
-//           label: "Opposing Party",
-//           type: "textarea",
-//           required: true,
-//           guidance: "Please write down the name(s) of all the opposing party(s) in this matter, if any. For example, If you're a tenant in a housing dispute- give the landlords' name. (Last name- First Name- Middle Name- Date of Birth)"
-//         }
-//       ]
-//     },
-//     {
-//       id: "consent",
-//       title: "Consent",
-//       icon: "Shield",
-//       fields: [
-//         {
-//           name: "finalConsent",
-//           label: "Consent",
-//           type: "radio",
-//           required: true,
-//           options: [
-//             { value: "understand", label: "I understand" }
-//           ],
-//           guidance: "I consent to the collection and use of my information for the purpose of legal assistance and understand that this form does not create an attorney-client relationship."
-//         }
-//       ]
-//     }
-//   ]
-// };
-
 export default function IntakeForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
@@ -274,6 +103,7 @@ export default function IntakeForm() {
     setActiveResources(null);
     setSubmitted(false);
   };
+  
   useEffect(() => {
     const newProgress = ((currentStep + 1) / formConfig.steps.length) * 100;
     setProgress(newProgress);
@@ -286,10 +116,6 @@ export default function IntakeForm() {
         message: `${field.label} is required`
       };
     }
-    // Helper function to filter and categorize resources
-
-
-    // Improved resource suggestion logic
 
     switch (field.name) {
       case 'dateOfBirth':
@@ -339,6 +165,7 @@ export default function IntakeForm() {
         return { isValid: true };
     }
   };
+  
   const filterResourcesByCategory = (resources, category, criteria = {}) => {
     return resources
       .filter(resource => resource.category === category)
@@ -356,6 +183,7 @@ export default function IntakeForm() {
             !resource.notes.toLowerCase().includes('first nations'));
       });
   };
+  
   const getRelevantResources = (issueType, userData) => {
     let relevantResources = [];
 
@@ -427,6 +255,7 @@ export default function IntakeForm() {
     return Array.from(new Set(relevantResources.map(r => JSON.stringify(r))))
       .map(str => JSON.parse(str));
   };
+  
   const handleFieldChange = (name, value) => {
     const newData = { ...formData, [name]: value };
     setFormData(newData);
@@ -570,7 +399,7 @@ export default function IntakeForm() {
 
   const handleSubmit = async () => {
     if (validateStep(currentStep)) {
-      console.log('Form submitted:', formData);
+      // console.log('Form submitted:', formData);
       setSubmitStatus({ loading: true, error: null });
       try {
         const response = await submitFormWithOutFiles(formData);
@@ -586,7 +415,7 @@ export default function IntakeForm() {
           error: 'Failed to submit form. Please try again.'
         });
         alert("contact admin")
-        console.log(error)
+        // console.log(error)
         setSubmitted(false)
       }
     }
@@ -616,22 +445,26 @@ export default function IntakeForm() {
                   key={option.value}
                   className={`
                     flex items-center p-4 rounded-lg border cursor-pointer
+                    transition-all duration-200 hover:shadow-md
                     ${formData[field.name] === option.value
-                      ? 'border-red-500 bg-red-50'
-                      : 'border-gray-200 hover:bg-gray-50'}
+                      ? 'border-blue-500 bg-blue-50 shadow-sm'
+                      : 'border-gray-200 hover:border-blue-200 hover:bg-gray-50'}
                   `}
                 >
-                  <RadioGroupItem value={option.value} id={`${field.name}-${option.value}`} />
-                  <Label htmlFor={`${field.name}-${option.value}`} style={{ marginLeft: '0.75rem' }}>
+                  <RadioGroupItem value={option.value} id={`${field.name}-${option.value}`} className="text-blue-600" />
+                  <Label 
+                    htmlFor={`${field.name}-${option.value}`} 
+                    className="ml-3 font-medium text-gray-800 text-sm sm:text-base"
+                  >
                     {option.label}
                   </Label>
                 </div>
               ))}
             </RadioGroup>
             {hasError && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-700">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{hasError}</AlertDescription>
+                <AlertDescription className="font-medium text-sm">{hasError}</AlertDescription>
               </Alert>
             )}
           </div>
@@ -639,27 +472,29 @@ export default function IntakeForm() {
 
       case 'select':
         return (
-          <Select
-            value={formData[field.name] || ''}
-            onValueChange={(value) => handleFieldChange(field.name, value)}
-          >
-            <SelectTrigger className={`w-full ${hasError ? 'border-red-500' : ''}`}>
-              <SelectValue placeholder="Select an option" />
-            </SelectTrigger>
-            <SelectContent>
-              {field.options.map(option => (
-                <SelectItem key={option.value} value={option.value}  >
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
+          <div>
+            <Select
+              value={formData[field.name] || ''}
+              onValueChange={(value) => handleFieldChange(field.name, value)}
+            >
+              <SelectTrigger className={`w-full ${hasError ? 'border-red-500 ring-1 ring-red-200' : 'focus:ring-blue-200 focus:border-blue-500'}`}>
+                <SelectValue placeholder="Select an option" className="text-gray-600" />
+              </SelectTrigger>
+              <SelectContent className="bg-white shadow-xl border-gray-200">
+                {field.options.map(option => (
+                  <SelectItem key={option.value} value={option.value} className="focus:bg-blue-50 focus:text-blue-800">
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {hasError && (
-              <Alert variant="destructive" className="mt-2">
+              <Alert variant="destructive" className="mt-2 bg-red-50 border-red-200 text-red-700">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{hasError}</AlertDescription>
+                <AlertDescription className="font-medium text-sm">{hasError}</AlertDescription>
               </Alert>
             )}
-          </Select>
+          </div>
         );
 
       case 'textarea':
@@ -668,12 +503,15 @@ export default function IntakeForm() {
             <Textarea
               value={formData[field.name] || ''}
               onChange={(e) => handleFieldChange(field.name, e.target.value)}
-              className={`min-h-[120px] ${hasError ? 'border-red-500' : ''}`}
+              className={`min-h-[120px] transition-all border-gray-300 focus:border-blue-500 focus:ring-blue-200 ${
+                hasError ? 'border-red-500 ring-1 ring-red-200' : ''
+              }`}
+              placeholder={field.placeholder || `Enter ${field.label.toLowerCase()} here...`}
             />
             {hasError && (
-              <Alert variant="destructive" className="mt-2">
+              <Alert variant="destructive" className="mt-2 bg-red-50 border-red-200 text-red-700">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{hasError}</AlertDescription>
+                <AlertDescription className="font-medium text-sm">{hasError}</AlertDescription>
               </Alert>
             )}
           </div>
@@ -686,12 +524,15 @@ export default function IntakeForm() {
               type={field.type}
               value={formData[field.name] || ''}
               onChange={(e) => handleFieldChange(field.name, e.target.value)}
-              className={hasError ? 'border-red-500' : ''}
+              className={`transition-all border-gray-300 focus:border-blue-500 focus:ring-blue-200 ${
+                hasError ? 'border-red-500 ring-1 ring-red-200' : ''
+              }`}
+              placeholder={field.placeholder || `Enter ${field.label.toLowerCase()} here...`}
             />
             {hasError && (
-              <Alert variant="destructive" className="mt-2">
+              <Alert variant="destructive" className="mt-2 bg-red-50 border-red-200 text-red-700">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{hasError}</AlertDescription>
+                <AlertDescription className="font-medium text-sm">{hasError}</AlertDescription>
               </Alert>
             )}
           </div>
@@ -701,27 +542,30 @@ export default function IntakeForm() {
 
   if (submitted) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4">
+        <div className="bg-white rounded-xl p-8 max-w-md w-full mx-auto shadow-2xl transition-all duration-300 animate-fadeIn">
           <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 ring-4 ring-green-50">
+              <CheckCircle className="w-10 h-10 text-green-600" />
             </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
               Application Submitted Successfully
             </h2>
-            <p className="mt-2 text-gray-600">
-              Your application has been received. Reference ID: {submissionId}
+            <p className="text-gray-600 mb-2 text-base">
+              Your application has been received.
             </p>
-            {/* Add any additional information or next steps here */}
+            <p className="bg-gray-100 py-2 px-4 rounded-lg inline-block text-gray-700 font-mono mb-6">
+              Reference ID: {submissionId}
+            </p>
+            
             <div className="mt-6 space-y-3">
               <button
                 onClick={() => {
                   // Add navigation logic here if needed
                   window.location.href = '/thank-you';
                 }}
-                className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 
-                  rounded-lg hover:bg-green-700"
+                className="w-full px-6 py-3 text-base font-medium text-white bg-blue-600 
+                  rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
               >
                 Continue to Thank You Page
               </button>
@@ -730,10 +574,10 @@ export default function IntakeForm() {
                   resetForm();
                   setShowSuccess(false);
                 }}
-                className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
-                  rounded-lg hover:bg-gray-200 flex items-center justify-center gap-2"
+                className="w-full px-6 py-3 text-base font-medium text-gray-700 bg-gray-100 
+                  rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
               >
-                <RefreshCcw className="w-4 h-4" />
+                <RefreshCcw className="w-5 h-5" />
                 Submit Another Application
               </button>
             </div>
@@ -746,92 +590,107 @@ export default function IntakeForm() {
   const currentStepConfig = formConfig.steps[currentStep];
 
   return (
-    <div className="min-h-screen bg-gray-50  md:p-2">
+    <div className="min-h-screen bg-gradient-to-b px-4 py-6 md:py-10">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center text-red-800">
+        <Card className="mb-8 overflow-hidden shadow-md border-0">
+        <div className="h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-red-500 w-full"></div>
+          <CardHeader className="pb-4 pt-6">
+            <CardTitle className="text-2xl md:text-3xl text-center font-bold text-blue-800">
               {formConfig.metadata.clinic.name}
             </CardTitle>
-            <CardDescription className="text-center">
-              Phone: {formConfig.metadata.clinic.phone} • Email: {formConfig.metadata.clinic.email} • {formConfig.metadata.clinic.address}
+            <CardDescription className="text-center text-sm md:text-base text-gray-600 mt-2 space-x-2">
+              <span className="inline-flex items-center"><Phone className="w-4 h-4 mr-1" /> {formConfig.metadata.clinic.phone}</span> • 
+              <span className="inline-flex items-center"><Info className="w-4 h-4 mr-1" /> {formConfig.metadata.clinic.email}</span> • 
+              <span className="inline-flex items-center"><Home className="w-4 h-4 mr-1" /> {formConfig.metadata.clinic.address}</span>
             </CardDescription>
           </CardHeader>
         </Card>
 
         {/* Progress bar */}
-        <div className="mb-4">
-          <div className="max-w-3xl mx-auto ">
-            <Progress value={progress} className="h-2 mb-4" />
-            <div className="flex justify-between">
+        <div className="mb-8">
+          <div className="max-w-3xl mx-auto">
+            <Progress value={progress} className="h-2 mb-6 bg-gray-200">
+              <div 
+                className="h-full bg-blue-600 transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              />
+            </Progress>
+            
+            <div className="hidden md:flex justify-between">
               {formConfig.steps.map((step, index) => (
                 <div
                   key={step.id}
                   onClick={() => handleStepClick(index)}
                   className={`
                     flex flex-col items-center cursor-pointer
-                    transition-all duration-200
-                    ${index <= currentStep ? 'text-red-600' : 'text-gray-400'}
+                    transition-all duration-200 w-24
+                    ${index <= currentStep ? 'text-blue-600' : 'text-gray-400'}
                   `}
                 >
                   <div className={`
-                    w-8 h-8 rounded-full flex items-center justify-center text-sm
-                    transition-all duration-300
+                    w-10 h-10 rounded-full flex items-center justify-center text-sm
+                    transition-all duration-300 border-2
                     ${currentStep === index
-                      ? 'bg-red-600 text-white ring-4 ring-red-100'
+                      ? 'bg-blue-600 text-white border-blue-600 ring-4 ring-blue-100'
                       : visitedSteps.has(index)
-                        ? 'bg-red-100 text-red-600'
-                        : 'bg-gray-100 text-gray-500'}
+                        ? 'bg-blue-100 text-blue-600 border-blue-200'
+                        : 'bg-gray-100 text-gray-500 border-gray-200'}
                   `}>
                     {visitedSteps.has(index) && index !== currentStep ? (
-                      <Check className="w-4 h-4" />
+                      <Check className="w-5 h-5" />
                     ) : (
                       index + 1
                     )}
                   </div>
-                  <span className="text-xs mt-2 font-medium hidden md:block">
+                  <span className="text-xs mt-2 font-medium text-center line-clamp-2">
                     {step.title}
                   </span>
                 </div>
               ))}
             </div>
+            
+            {/* Mobile step indicator */}
+            <div className="md:hidden flex items-center justify-between mt-2 px-2">
+              <div className="text-blue-600 font-medium">Step {currentStep + 1} of {formConfig.steps.length}</div>
+              <div className="text-blue-800 font-semibold">{currentStepConfig.title}</div>
+            </div>
           </div>
         </div>
 
         {/* Main content grid */}
-        <div className="grid md:grid-cols-[2fr,1fr] gap-8">
+        <div className="grid md:grid-cols-[2fr,1fr] gap-6 lg:gap-8">
           {/* Main form */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
+          <Card className="shadow-lg border-0 transition-all duration-300 hover:shadow-xl">
+            <CardHeader className="border-b border-gray-100 bg-white rounded-t-lg">
+              <div className="flex items-center gap-4">
                 {currentStepConfig.icon && (
-                  <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                    {getIcon(currentStepConfig.icon)}
+                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    {getIcon(currentStepConfig.icon, "text-blue-600")}
                   </div>
                 )}
                 <div>
-                  <CardTitle>{currentStepConfig.title}</CardTitle>
+                  <CardTitle className="text-xl md:text-2xl font-bold text-gray-800">{currentStepConfig.title}</CardTitle>
                   {currentStepConfig.description && (
-                    <CardDescription>{currentStepConfig.description}</CardDescription>
+                    <CardDescription className="text-gray-600 mt-1 text-sm md:text-base">{currentStepConfig.description}</CardDescription>
                   )}
                 </div>
               </div>
             </CardHeader>
 
-            <CardContent>
-              <div className="space-y-6">
+            <CardContent className="pt-6 pb-8 px-6 md:px-8">
+              <div className="space-y-8">
                 {currentStepConfig.fields.map((field, index) => (
                   <div key={`${field.name}-${index}`} className="space-y-2">
-                    <Label className="text-sm font-medium">
+                    <Label className="text-gray-800 text-base font-semibold block mb-2">
                       {field.label}
                       {field.required && <span className="text-red-500 ml-1">*</span>}
                     </Label>
 
                     {field.guidance && (
-                      <p className="text-sm text-gray-500 flex items-center gap-2 mb-2">
-                        <Info className="h-4 w-4" />
-                        {field.guidance}
+                      <p className="text-sm text-gray-500 flex items-start gap-2 mb-3 bg-blue-50 p-3 rounded-lg">
+                        <Info className="h-4 w-4 mt-0.5 text-blue-500" />
+                        <span>{field.guidance}</span>
                       </p>
                     )}
 
@@ -839,36 +698,41 @@ export default function IntakeForm() {
                   </div>
                 ))}
 
-                <div className="flex justify-between pt-6 border-t">
+                <div className="flex justify-between pt-8 border-t border-gray-100 mt-8">
                   {currentStep > 0 && (
                     <Button
                       variant="outline"
                       onClick={handlePrevious}
+                      className="border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     >
                       <ChevronLeft className="mr-2 h-4 w-4" />
                       Previous
                     </Button>
                   )}
 
-                  <Button
+<Button
                     onClick={handleNext}
-                    className={currentStep === 0 ? 'ml-auto' : ''}
+                    className={clsx(
+                      currentStep === 0 ? 'ml-auto' : '', // Ensure proper conditional logic
+                      'bg-red-600 hover:bg-red-700 text-white px-6 py-2 h-auto font-medium'
+                    )}
                   >
                     {currentStep === formConfig.steps.length - 1 ? (
                       <>
-                        {submitStatus ? (
-                          'Submitting...'
+                        {submitStatus.loading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin "></div>
+                            Submitting...
+                          </div>
                         ) : (
                           <>
-
-                            Submit
+                            Submit Application
                             <Send className="ml-2 h-4 w-4" />
                           </>
                         )}
                       </>
                     ) : (
                       <>
-
                         Next
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </>
@@ -879,17 +743,19 @@ export default function IntakeForm() {
             </CardContent>
           </Card>
 
-          {/* Side panel */}
-          {/* Resource Display Component */}
-          {activeResources && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Available Resources</CardTitle>
-                <CardDescription>
+          {/* Side panel with resources */}
+          {activeResources ? (
+            <Card className="shadow-lg border-0 h-fit transition-all duration-300 hover:shadow-xl bg-white">
+              <CardHeader className="bg-blue-50 border-b border-blue-100 pb-4">
+                <CardTitle className="text-lg md:text-xl text-blue-800 flex items-center gap-2">
+                  <Info className="h-5 w-5" />
+                  Available Resources
+                </CardTitle>
+                <CardDescription className="text-gray-600 font-medium">
                   Support services relevant to your situation
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 {/* Group resources by category */}
                 {Object.entries(
                   activeResources.reduce((acc, resource) => {
@@ -899,33 +765,28 @@ export default function IntakeForm() {
                     return acc;
                   }, {})
                 ).map(([category, resources]) => (
-                  <div key={category} className="mb-6 last:mb-0">
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                  <div key={category} className="mb-8 last:mb-0">
+                    <h4 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 flex items-center">
+                      {getCategoryIcon(category)}
+                      {formatCategoryName(category)}
                     </h4>
                     <div className="space-y-4">
                       {resources.map((resource, index) => (
                         <div
                           key={index}
-                          className={`rounded-lg p-4 border transition-colors ${resource.category === 'emergency'
-                              ? 'bg-red-50 border-red-100'
-                              : 'bg-gray-50 border-gray-200'
-                            }`}
+                          className={`rounded-lg p-4 border transition-all duration-200 hover:shadow-md ${getCategoryStyle(resource.category)}`}
                         >
-                          <h4 className="font-medium text-gray-900 flex items-center justify-between">
+                          <h4 className="font-semibold text-gray-900 text-base flex items-center justify-between mb-3">
                             {resource.name}
-                            <span className={`text-xs px-2 py-1 rounded-full ${resource.category === 'emergency'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-600'
-                              }`}>
-                              {resource.category}
+                            <span className={`text-xs px-2 py-1 rounded-full ${getCategoryBadgeStyle(resource.category)}`}>
+                              {formatCategoryName(resource.category)}
                             </span>
                           </h4>
-                          <div className="space-y-2 mt-2">
+                          <div className="space-y-3">
                             {resource.phoneNumber && (
                               <a
                                 href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
-                                className="text-sm text-red-600 hover:text-red-700 flex items-center gap-2"
+                                className={`text-sm flex items-center gap-2 hover:underline ${getCategoryLinkStyle(resource.category)}`}
                               >
                                 <Phone className="h-4 w-4" />
                                 {resource.phoneNumber}
@@ -938,13 +799,13 @@ export default function IntakeForm() {
                               </p>
                             )}
                             {resource.description && (
-                              <p className="text-sm text-gray-500 flex items-start gap-2">
+                              <p className="text-sm text-gray-600 flex items-start gap-2">
                                 <Info className="h-4 w-4 mt-0.5" />
                                 {resource.description}
                               </p>
                             )}
                             {resource.notes && (
-                              <div className="mt-2 text-sm bg-amber-50 text-amber-700 p-2 rounded flex items-start gap-2">
+                              <div className={`mt-2 text-sm p-3 rounded-lg flex items-start gap-2 ${getNotesStyle(resource.category)}`}>
                                 <AlertCircle className="h-4 w-4 mt-0.5" />
                                 <span>{resource.notes}</span>
                               </div>
@@ -957,6 +818,19 @@ export default function IntakeForm() {
                 ))}
               </CardContent>
             </Card>
+          ) : (
+            <Card className="shadow-lg border-0 h-fit bg-blue-50/50 hidden md:block">
+              <CardContent className="p-8 flex flex-col items-center justify-center text-center h-full min-h-[200px]">
+                <div className="text-blue-600 mb-4">
+                  <Info className="h-10 w-10 mx-auto opacity-50" />
+                </div>
+                <h3 className="text-lg font-medium text-blue-800 mb-2">Resource Information</h3>
+                <p className="text-gray-600">
+                  As you complete the form, we'll provide relevant resources 
+                  based on your situation.
+                </p>
+              </CardContent>
+            </Card>
           )}
         </div>
       </div>
@@ -964,13 +838,83 @@ export default function IntakeForm() {
   );
 }
 
-function getIcon(iconName) {
+// Helper functions for resources styling
+function getCategoryIcon(category) {
+  switch(category) {
+    case 'emergency':
+      return <AlertCircle className="h-4 w-4 mr-2 text-red-600" />;
+    case 'shelters':
+      return <Home className="h-4 w-4 mr-2 text-blue-600" />;
+    case 'legal':
+      return <Scale className="h-4 w-4 mr-2 text-green-600" />;
+    default:
+      return <Info className="h-4 w-4 mr-2 text-gray-600" />;
+  }
+}
+
+function formatCategoryName(category) {
+  return category.charAt(0).toUpperCase() + category.slice(1);
+}
+
+function getCategoryStyle(category) {
+  switch(category) {
+    case 'emergency':
+      return 'bg-red-50 border-red-100';
+    case 'shelters':
+      return 'bg-blue-50 border-blue-100';
+    case 'legal':
+      return 'bg-green-50 border-green-100';
+    default:
+      return 'bg-gray-50 border-gray-200';
+  }
+}
+
+function getCategoryBadgeStyle(category) {
+  switch(category) {
+    case 'emergency':
+      return 'bg-red-100 text-red-700';
+    case 'shelters':
+      return 'bg-blue-100 text-blue-700';
+    case 'legal':
+      return 'bg-green-100 text-green-700';
+    default:
+      return 'bg-gray-100 text-gray-600';
+  }
+}
+
+function getCategoryLinkStyle(category) {
+  switch(category) {
+    case 'emergency':
+      return 'text-red-600 hover:text-red-800';
+    case 'shelters':
+      return 'text-blue-600 hover:text-blue-800';
+    case 'legal':
+      return 'text-green-600 hover:text-green-800';
+    default:
+      return 'text-gray-600 hover:text-gray-800';
+  }
+}
+
+function getNotesStyle(category) {
+  switch(category) {
+    case 'emergency':
+      return 'bg-red-100 text-red-700';
+    case 'shelters':
+      return 'bg-blue-100 text-blue-700';
+    case 'legal':
+      return 'bg-green-100 text-green-700';
+    default:
+      return 'bg-amber-50 text-amber-700';
+  }
+}
+
+function getIcon(iconName, className = "") {
   const icons = {
-    Shield: <Shield className="h-5 w-5" />,
-    User: <User className="h-5 w-5" />,
-    Phone: <Phone className="h-5 w-5" />,
-    DollarSign: <DollarSign className="h-5 w-5" />,
-    Scale: <Scale className="h-5 w-5" />,
+    Shield: <Shield className={`h-6 w-6 ${className}`} />,
+    User: <User className={`h-6 w-6 ${className}`} />,
+    Phone: <Phone className={`h-6 w-6 ${className}`} />,
+    DollarSign: <DollarSign className={`h-6 w-6 ${className}`} />,
+    Scale: <Scale className={`h-6 w-6 ${className}`} />,
   };
   return icons[iconName] || null;
 }

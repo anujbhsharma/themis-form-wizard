@@ -8,7 +8,7 @@ const FILE_PATH = path.join(process.cwd(), 'src', 'app', 'intake-editor-legal-cl
 
 export async function GET() {
   try {
-    console.log('Reading from:', FILE_PATH);
+    // console.log('Reading from:', FILE_PATH);
     const data = await fs.readFile(FILE_PATH, 'utf8');
     return NextResponse.json(JSON.parse(data));
   } catch (error) {
@@ -23,8 +23,8 @@ export async function GET() {
 export async function POST(request) {
   try {
     const data = await request.json();
-    console.log('Saving to:', FILE_PATH);
-    console.log('Data to save:', data);
+    // console.log('Saving to:', FILE_PATH);
+    // console.log('Data to save:', data);
 
     await fs.writeFile(
       FILE_PATH, 

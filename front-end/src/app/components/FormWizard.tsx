@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { 
   AlertCircle,
   Shield,
@@ -20,7 +21,7 @@ import {
 } from 'lucide-react';
 
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import configData from '../lib/formConfig.json';
+import configData from '../eligibility-editor-legal-clinic-unb/api/dummy.json';
 import { validationRules, combineValidations } from '../lib/validationRules';
 
 import { submitFormWithFiles } from '../lib/api';
@@ -440,8 +441,8 @@ export default function LegalClinicForm() {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
         <div className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+            <CheckCircle className="w-8 h-8 text-blue-600" />
           </div>
           <h2 className="mt-4 text-2xl font-bold text-gray-900">
             Application Submitted Successfully
@@ -454,8 +455,8 @@ export default function LegalClinicForm() {
               onClick={() => {
                 window.location.href = '/thank-you';
               }}
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 
-                rounded-lg hover:bg-green-700"
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 
+                rounded-lg hover:bg-blue-700"
             >
               Continue to Thank You Page
             </button>
@@ -477,14 +478,15 @@ export default function LegalClinicForm() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 md:p-2">
+    <div className="min-h-screen  md:p-2">
       {showSuccess && <SuccessModal />}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center bg-white rounded-xl shadow-sm">
+        <div className="text-center bg-white rounded-xl shadow-md">
           <Card className="mb-4">
+          <div className="h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-red-500 w-full"></div>
             <CardHeader>
-              <CardTitle className="text-2xl text-center text-red-800">
+              <CardTitle className="text-2xl text-center text-blue-800">
                 {formConfig.metadata.clinic.name}
               </CardTitle>
               <CardDescription className="text-center">
@@ -499,7 +501,7 @@ export default function LegalClinicForm() {
           <div className="max-w-3xl mx-auto">
             <div className="h-1 mb-8 rounded-full bg-gray-100 overflow-hidden">
               <div 
-                className="h-full bg-red-500 transition-all duration-300 ease-out"
+                className="h-full bg-blue-500 transition-all duration-300 ease-out"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -511,16 +513,16 @@ export default function LegalClinicForm() {
                   className={`
                     flex flex-col items-center cursor-pointer
                     transition-all duration-200
-                    ${index <= currentStep ? 'text-red-600' : 'text-gray-400'}
+                    ${index <= currentStep ? 'text-blue-600' : 'text-gray-400'}
                   `}
                 >
                   <div className={`
                     w-8 h-8 rounded-full flex items-center justify-center text-sm
                     transition-all duration-300
                     ${currentStep === index 
-                      ? 'bg-red-600 text-white ring-4 ring-red-100' 
+                      ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
                       : visitedSteps.has(index)
-                      ? 'bg-red-100 text-red-600'
+                      ? 'bg-blue-100 text-blue-600'
                       : 'bg-gray-100 text-gray-500'}
                   `}>
                     {visitedSteps.has(index) && index !== currentStep ? (
@@ -654,7 +656,7 @@ export default function LegalClinicForm() {
                             <button
                               type="button"
                               onClick={() => fileInputRef.current?.click()}
-                              className="relative font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
+                              className="relative font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
                             >
                               Choose files
                             </button>
@@ -718,8 +720,8 @@ export default function LegalClinicForm() {
                     type="button"
                     onClick={handleSubmit}
                     disabled={submitStatus.loading}
-                    className="px-6 py-2 text-sm font-medium text-white bg-red-600 
-                      rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                    className="px-6 py-2 text-sm font-medium text-white bg-blue-600 
+                      rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
                   >
                     {submitStatus.loading ? (
                       <>
@@ -737,8 +739,8 @@ export default function LegalClinicForm() {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 
-                      rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 
+                      rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
                   >
                     Next
                     <ChevronRight className="w-4 h-4" />
@@ -763,7 +765,7 @@ export default function LegalClinicForm() {
                     className={`
                       flex items-center gap-2 p-2 rounded-lg text-sm
                       ${currentStep === index 
-                        ? 'bg-red-50 text-red-700' 
+                        ? 'bg-blue-50 text-blue-700' 
                         : visitedSteps.has(index) 
                         ? 'text-gray-900' 
                         : 'text-gray-400'}
@@ -772,7 +774,7 @@ export default function LegalClinicForm() {
                     <span className={`
                       w-5 h-5 rounded-full flex items-center justify-center text-xs
                       ${visitedSteps.has(index) 
-                        ? 'bg-green-100 text-green-700' 
+                        ? 'bg-blue-100 text-blue-700' 
                         : 'border border-current'}
                     `}>
                       {visitedSteps.has(index) ? '✓' : index + 1}
@@ -824,22 +826,22 @@ export default function LegalClinicForm() {
                       {resources.map((resource, index) => (
                         <div 
                           key={index} 
-                          className="bg-gray-50 rounded-lg p-4 border border-gray-100 hover:border-gray-200 transition-colors"
+                          className="bg-gray-50 rounded-lg p-4 border border-gray-100 hover:border-blue-200 transition-colors"
                         >
                           <h4 className="font-medium text-gray-900 flex items-center justify-between">
                             {resource.name}
                             {resource.category && (
-                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                              <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
                                 {resource.category.replace(/([A-Z])/g, ' $1').trim()}
                               </span>
                             )}
                           </h4>
                           {resource.phoneNumber && (
-                            <p className="text-sm text-red-600 mt-1 flex items-center gap-2">
+                            <p className="text-sm text-blue-600 mt-1 flex items-center gap-2">
                               <Phone className="w-4 h-4" />
                               <a 
                                 href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
-                                className="hover:text-red-700 transition-colors"
+                                className="hover:text-blue-700 transition-colors"
                               >
                                 {resource.phoneNumber}
                               </a>

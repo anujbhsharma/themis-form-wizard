@@ -393,7 +393,7 @@ const FormPreview = ({ formData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
-      console.log('Form submitted:', formValues);
+      // console.log('Form submitted:', formValues);
       // Add your form submission logic here
     }
   };
