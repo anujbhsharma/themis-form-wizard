@@ -1021,7 +1021,7 @@
           },
           {
             "name": "documentsSubmitted",
-            "label": "Required Documents Submission",
+            "label": "Any supporting documents related to this matter must be sent to lawclinic@unb.ca with the email subject formatted as Your First Name, Last Name - issue's Category. For example: John Doe - Housing and Tenancy.\nAdditionally, it is mandatory to send the following information:\nProof of identification\nSupporting documents for your financial eligibility, including monthly income, allowable deductions, and assets.\n\nPlease note that applications will not be reviewed without the required supporting documents or mandatory documents.",
             "type": "checkbox",
             "required": true,
             "validation": {

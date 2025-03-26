@@ -3,7 +3,8 @@
 import { useState, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
-
+import tclogo from './components/tclogo.png';
+import Image from 'next/image';
 import FormWizard from './components/FormWizard';
 import IntakeForm from './components/IntakeForm';
 import HomeHeader from './components/Home';
@@ -13,17 +14,11 @@ import resourceData from "./lib/additional.json";
 import formSchema from "./lib/intake.json";
 
 const tabItems = [
-  {
-    id: 0,
-    label: "Intake Form",
-    icon: "📝",
-    description: "Submit your initial consultation request",
-    component: () => <IntakeForm formSchema={formSchema} />
-  },
+  
   {
     id: 1,
-    label: "Eligibility Check",
-    icon: "✓",
+    label: "Intake Form",
+    icon: "📝",
     description: "Check if you qualify for our services",
     component: () => <FormWizard />
   },
@@ -117,15 +112,19 @@ export default function Home() {
         <footer className="text-center mt-8 text-blue-600 pb-8">
           <p className="text-sm">
             © {new Date().getFullYear()} UNB Legal Clinic 
-            <span className="mx-2">•</span>
-            <a 
-              href="https://themiscore.com" 
-              className="ml-1 text-red-600 hover:text-red-800 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Developed by Themiscore
-            </a>
+            
+            
+            <span className="flex items-center justify-center">
+              <span className="mr-2 text-gray-900">Developed by</span>
+              <Image 
+                src={tclogo}
+                alt="TC Logo" 
+                width={110}
+                height={110}
+                className="object-contain"
+                priority
+              />
+            </span>
             
             
           </p>

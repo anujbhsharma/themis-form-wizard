@@ -634,68 +634,7 @@ export default function LegalClinicForm() {
                   </div>
                 ))}
 
-                {/* File upload section on last step */}
-                {currentStep === formConfig.steps.length - 1 && (
-                  <div className="mt-8 border-t border-gray-200 pt-6">
-                    <h3 className="text-sm font-medium text-gray-900 mb-4">
-                      Supporting Documents
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={handleFileSelect}
-                          multiple
-                          className="hidden"
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        />
-                        <div className="text-center">
-                          <FileText className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
-                            <button
-                              type="button"
-                              onClick={() => fileInputRef.current?.click()}
-                              className="relative font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500"
-                            >
-                              Choose files
-                            </button>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs leading-5 text-gray-600">
-                            PDF, DOC, DOCX, JPG, JPEG, or PNG up to 10MB each
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* File list */}
-                      {selectedFiles.length > 0 && (
-                        <ul className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                          {selectedFiles.map((file, index) => (
-                            <li key={index} className="flex items-center justify-between py-4 px-4 text-sm">
-                              <div className="flex items-center gap-2">
-                                <FileText className="h-5 w-5 flex-none text-gray-400" />
-                                <div className="min-w-0 flex-auto">
-                                  <p className="text-sm font-medium text-gray-900">{file.name}</p>
-                                  <p className="text-xs text-gray-500">
-                                    {(file.size / 1024 / 1024).toFixed(2)} MB
-                                  </p>
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => removeFile(index)}
-                                className="ml-4 flex-none text-gray-400 hover:text-red-500"
-                              >
-                                <X className="h-5 w-5" />
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                )}
+                
               </div>
 
               {/* Navigation */}
