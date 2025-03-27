@@ -202,8 +202,8 @@
   },
   "formConfig": {
     "metadata": {
-      "version": "2.2.0",
-      "lastUpdated": "2024-12-06",
+      "version": "2.2.1",
+      "lastUpdated": "2025-03-27T01:29:29.892Z",
       "clinic": {
         "name": "Eligibility Screening Form",
         "phone": "(506) 452-6313",
@@ -1021,7 +1021,7 @@
           },
           {
             "name": "documentsSubmitted",
-            "label": "Any supporting documents related to this matter must be sent to lawclinic@unb.ca with the email subject formatted as Your First Name, Last Name - issue's Category. For example: John Doe - Housing and Tenancy.\nAdditionally, it is mandatory to send the following information:\nProof of identification\nSupporting documents for your financial eligibility, including monthly income, allowable deductions, and assets.\n\nPlease note that applications will not be reviewed without the required supporting documents or mandatory documents.",
+            "label": "Required Documents Submission",
             "type": "checkbox",
             "required": true,
             "validation": {
