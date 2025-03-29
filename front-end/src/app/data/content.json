@@ -1,0 +1,38 @@
+{
+  "clinicInfo": {
+    "name": "Legal Clinic Services",
+    "aboutText": "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services. We are committed to ensuring access to justice for all members of our community.",
+    "services": [
+      "Family law consultations",
+      "Landlord-tenant dispute resolution",
+      "Immigration assistance",
+      "Small claims court representation",
+      "Document review and preparation"
+    ],
+    "contactInfo": {
+      "address": "123 Legal Street, Suite 101",
+      "phone": "(555) 123-4567",
+      "email": "info@legalclinic.org",
+      "hours": "Mon-Fri, 9am-5pm"
+    },
+    "calendlyLink": "https://calendly.com/your-account/your-event",
+    "logoUrl": "/uploads/logo-58671fb3-7bf7-47c7-88d9-8b9bcb0cc034.jpg"
+  },
+  "announcements": [
+    {
+      "id": "1",
+      "title": "Holiday Hours",
+      "content": "Our clinic will be closed on April 15th for staff training.",
+      "type": "info",
+      "active": true
+    },
+    {
+      "id": "2",
+      "title": "New Service Available",
+      "content": "We now offer virtual consultations for all clients.",
+      "type": "success",
+      "active": true
+    }
+  ],
+  "lastUpdated": "2025-03-29T16:19:39.989Z"
+}
