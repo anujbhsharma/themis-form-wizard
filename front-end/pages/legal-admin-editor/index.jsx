@@ -30,7 +30,14 @@ export default function AdminEditor() {
     // Fetch the content when authenticated
     const fetchContent = async () => {
       try {
-        const response = await fetch('/api/content');
+        const response = await fetch('/api/content', {
+          cache: 'no-store', // Tell fetch not to use cached response
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        });
         if (!response.ok) {
           throw new Error(`Failed to fetch content: ${response.status}`);
         }
@@ -132,63 +139,82 @@ export default function AdminEditor() {
   };
 
   // Updated toggle function with immediate server update
-  // Replace your existing handleToggleAnnouncementActive function with this:
-const handleToggleAnnouncementActive = async (id) => {
-  // First, find the current announcement
-  const announcement = content.announcements.find(a => a.id === id);
-  if (!announcement) return;
+  const handleToggleAnnouncementActive = async (id) => {
+    // First, find the current announcement
+    const announcement = content.announcements.find(a => a.id === id);
+    if (!announcement) return;
 
-  // Toggle the status in the UI
-  setContent({
-    ...content,
-    announcements: content.announcements.map(a => 
-      a.id === id ? {...a, active: !a.active} : a
-    )
-  });
-
-  // Save changes immediately
-  setSaving(true);
-  setMessage('Saving changes...');
-  
-  try {
-    const response = await fetch('/api/content', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: {
-          ...content,
-          announcements: content.announcements.map(a => 
-            a.id === id ? {...a, active: !a.active} : a
-          )
-        },
-        secretCode
-      }),
-    });
+    // Get the new status (opposite of current)
+    const newActiveStatus = !announcement.active;
     
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Error saving content');
-    }
-    
-    setMessage(`Announcement ${!announcement.active ? 'activated' : 'deactivated'} successfully!`);
-  } catch (error) {
-    // Revert UI change on error
+    // Toggle the status in the UI (optimistic update)
     setContent({
       ...content,
       announcements: content.announcements.map(a => 
-        a.id === id ? {...a, active: announcement.active} : a
+        a.id === id ? {...a, active: newActiveStatus} : a
       )
     });
-    setMessage('Error saving changes: ' + error.message);
-    console.error('Error saving content:', error);
-  } finally {
-    setSaving(false);
-  }
-};
 
-  // Updated logo upload with better error handling
+    // Save changes immediately
+    setSaving(true);
+    setMessage('Saving changes...');
+    
+    try {
+      // First, save the updated content
+      const response = await fetch('/api/content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: {
+            ...content,
+            announcements: content.announcements.map(a => 
+              a.id === id ? {...a, active: newActiveStatus} : a
+            )
+          },
+          secretCode
+        }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error saving content');
+      }
+      
+      // Then refresh the content from the server to ensure UI is in sync
+      const refreshResponse = await fetch('/api/content', {
+        cache: 'no-store', // Tell fetch not to use cached response
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      if (!refreshResponse.ok) {
+        throw new Error('Error refreshing content');
+      }
+      
+      const refreshedContent = await refreshResponse.json();
+      setContent(refreshedContent);
+      
+      setMessage(`Announcement ${newActiveStatus ? 'activated' : 'deactivated'} successfully!`);
+    } catch (error) {
+      // Revert UI change on error
+      setContent({
+        ...content,
+        announcements: content.announcements.map(a => 
+          a.id === id ? {...a, active: announcement.active} : a
+        )
+      });
+      setMessage('Error saving changes: ' + error.message);
+      console.error('Error saving content:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Updated logo upload with better error handling and cache busting
   const handleLogoUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -200,6 +226,7 @@ const handleToggleAnnouncementActive = async (id) => {
     }
     
     // Show loading state
+    setSaving(true);
     setMessage('Uploading logo...');
     
     // Create a FormData object
@@ -219,21 +246,39 @@ const handleToggleAnnouncementActive = async (id) => {
       }
       
       const data = await response.json();
+      console.log('Logo upload successful:', data);
       
-      // After successful upload, refresh the entire content
-      // This ensures we have the latest data from the server
-      const contentResponse = await fetch('/api/content');
+      // After successful upload, force a complete refresh of the content
+      // with cache-control headers to prevent caching
+      const contentResponse = await fetch('/api/content', {
+        cache: 'no-store', // Tell fetch not to use cached response
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
       if (!contentResponse.ok) {
         throw new Error('Error refreshing content after logo upload');
       }
       
-      const refreshedContent = await contentResponse.json();
-      setContent(refreshedContent);
+      const freshContent = await contentResponse.json();
       
+      // Force update the logoUrl with a timestamp to bypass cache
+      if (freshContent.clinicInfo && freshContent.clinicInfo.logoUrl) {
+        // Add timestamp to URL to force refresh
+        const timestamp = Date.now();
+        freshContent.clinicInfo.logoUrl = freshContent.clinicInfo.logoUrl.split('?')[0] + '?t=' + timestamp;
+      }
+      
+      setContent(freshContent);
       setMessage('Logo uploaded successfully!');
     } catch (error) {
       setMessage('Error uploading logo: ' + error.message);
       console.error('Error uploading logo:', error);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -662,7 +707,7 @@ const handleToggleAnnouncementActive = async (id) => {
               <div className="mb-4 border p-4 rounded-md bg-gray-50">
                 {content.clinicInfo?.logoUrl ? (
                   <img 
-                    src={content.clinicInfo.logoUrl} 
+                    src={`${content.clinicInfo.logoUrl}?t=${Date.now()}`} 
                     alt="Current Logo" 
                     className="max-w-xs max-h-40 object-contain"
                   />
