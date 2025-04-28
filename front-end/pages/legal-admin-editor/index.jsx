@@ -140,51 +140,51 @@ export default function AdminEditor() {
 
   // Updated toggle function with immediate server update
   // Replace your existing handleToggleAnnouncementActive function with this:
+// Replace your handleToggleAnnouncementActive function with this:
 const handleToggleAnnouncementActive = async (id) => {
-  // First, find the current announcement
+  // Find the current announcement
   const announcement = content.announcements.find(a => a.id === id);
   if (!announcement) return;
 
   // Get the new status (opposite of current)
   const newActiveStatus = !announcement.active;
   
-  // Create an updated content object
-  const updatedContent = {
+  // Update UI optimistically 
+  setContent({
     ...content,
     announcements: content.announcements.map(a => 
       a.id === id ? {...a, active: newActiveStatus} : a
     )
-  };
+  });
   
-  // Toggle the status in the UI (optimistic update)
-  setContent(updatedContent);
-
-  // Save changes immediately
+  // Show saving indicator
   setSaving(true);
-  setMessage('Saving changes...');
+  setMessage(`${newActiveStatus ? 'Activating' : 'Deactivating'} announcement...`);
   
   try {
-    // Save the updated content
-    const response = await fetch('/api/content', {
+    // Call the dedicated toggle API instead of the general content API
+    const response = await fetch('/api/toggle-announcement', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content: updatedContent,
+        announcementId: id,
+        active: newActiveStatus,
         secretCode
       }),
     });
     
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Error saving content');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Error updating announcement');
     }
     
-    // Don't refresh from server - trust our local state
-    // This avoids the issue with getting cached/old data
+    const result = await response.json();
+    setMessage(result.message || `Announcement ${newActiveStatus ? 'activated' : 'deactivated'} successfully!`);
     
-    setMessage(`Announcement ${newActiveStatus ? 'activated' : 'deactivated'} successfully!`);
+    // We don't need to refresh the entire content since our dedicated API
+    // only updated the announcement status
   } catch (error) {
     // Revert UI change on error
     setContent({
@@ -193,8 +193,8 @@ const handleToggleAnnouncementActive = async (id) => {
         a.id === id ? {...a, active: announcement.active} : a
       )
     });
-    setMessage('Error saving changes: ' + error.message);
-    console.error('Error saving content:', error);
+    setMessage(`Error: ${error.message}`);
+    console.error('Error toggling announcement:', error);
   } finally {
     setSaving(false);
   }
