@@ -139,148 +139,142 @@ export default function AdminEditor() {
   };
 
   // Updated toggle function with immediate server update
-  const handleToggleAnnouncementActive = async (id) => {
-    // First, find the current announcement
-    const announcement = content.announcements.find(a => a.id === id);
-    if (!announcement) return;
+  // Replace your existing handleToggleAnnouncementActive function with this:
+const handleToggleAnnouncementActive = async (id) => {
+  // First, find the current announcement
+  const announcement = content.announcements.find(a => a.id === id);
+  if (!announcement) return;
 
-    // Get the new status (opposite of current)
-    const newActiveStatus = !announcement.active;
+  // Get the new status (opposite of current)
+  const newActiveStatus = !announcement.active;
+  
+  // Create an updated content object
+  const updatedContent = {
+    ...content,
+    announcements: content.announcements.map(a => 
+      a.id === id ? {...a, active: newActiveStatus} : a
+    )
+  };
+  
+  // Toggle the status in the UI (optimistic update)
+  setContent(updatedContent);
+
+  // Save changes immediately
+  setSaving(true);
+  setMessage('Saving changes...');
+  
+  try {
+    // Save the updated content
+    const response = await fetch('/api/content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: updatedContent,
+        secretCode
+      }),
+    });
     
-    // Toggle the status in the UI (optimistic update)
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Error saving content');
+    }
+    
+    // Don't refresh from server - trust our local state
+    // This avoids the issue with getting cached/old data
+    
+    setMessage(`Announcement ${newActiveStatus ? 'activated' : 'deactivated'} successfully!`);
+  } catch (error) {
+    // Revert UI change on error
     setContent({
       ...content,
       announcements: content.announcements.map(a => 
-        a.id === id ? {...a, active: newActiveStatus} : a
+        a.id === id ? {...a, active: announcement.active} : a
       )
     });
-
-    // Save changes immediately
-    setSaving(true);
-    setMessage('Saving changes...');
-    
-    try {
-      // First, save the updated content
-      const response = await fetch('/api/content', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          content: {
-            ...content,
-            announcements: content.announcements.map(a => 
-              a.id === id ? {...a, active: newActiveStatus} : a
-            )
-          },
-          secretCode
-        }),
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Error saving content');
-      }
-      
-      // Then refresh the content from the server to ensure UI is in sync
-      const refreshResponse = await fetch('/api/content', {
-        cache: 'no-store', // Tell fetch not to use cached response
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      });
-      if (!refreshResponse.ok) {
-        throw new Error('Error refreshing content');
-      }
-      
-      const refreshedContent = await refreshResponse.json();
-      setContent(refreshedContent);
-      
-      setMessage(`Announcement ${newActiveStatus ? 'activated' : 'deactivated'} successfully!`);
-    } catch (error) {
-      // Revert UI change on error
-      setContent({
-        ...content,
-        announcements: content.announcements.map(a => 
-          a.id === id ? {...a, active: announcement.active} : a
-        )
-      });
-      setMessage('Error saving changes: ' + error.message);
-      console.error('Error saving content:', error);
-    } finally {
-      setSaving(false);
-    }
-  };
-
+    setMessage('Error saving changes: ' + error.message);
+    console.error('Error saving content:', error);
+  } finally {
+    setSaving(false);
+  }
+};
   // Updated logo upload with better error handling and cache busting
-  const handleLogoUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // Replace your existing handleLogoUpload function with this:
+const handleLogoUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  // Check if it's an image
+  if (!file.type.startsWith('image/')) {
+    setMessage('Please upload an image file');
+    return;
+  }
+  
+  // Show loading state
+  setSaving(true);
+  setMessage('Uploading logo...');
+  
+  // Create a FormData object
+  const formData = new FormData();
+  formData.append('logo', file);
+  formData.append('secretCode', secretCode);
+  
+  try {
+    const response = await fetch('/api/upload-logo', {
+      method: 'POST',
+      body: formData,
+    });
     
-    // Check if it's an image
-    if (!file.type.startsWith('image/')) {
-      setMessage('Please upload an image file');
-      return;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Error uploading logo');
     }
     
-    // Show loading state
-    setSaving(true);
-    setMessage('Uploading logo...');
+    const data = await response.json();
+    console.log('Logo upload successful:', data);
     
-    // Create a FormData object
-    const formData = new FormData();
-    formData.append('logo', file);
-    formData.append('secretCode', secretCode);
+    // CRITICAL FIX: Get the file extension
+    const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
     
-    try {
-      const response = await fetch('/api/upload-logo', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Error uploading logo');
+    // CRITICAL FIX: Use the fixed URL directly instead of what's returned
+    const fixedLogoUrl = `https://hrslupcbk4ltavbb.public.blob.vercel-storage.com/logo${fileExtension}`;
+    
+    // Update the content with the new logo URL
+    const updatedContent = {
+      ...content,
+      clinicInfo: {
+        ...content.clinicInfo,
+        logoUrl: fixedLogoUrl
       }
-      
-      const data = await response.json();
-      console.log('Logo upload successful:', data);
-      
-      // After successful upload, force a complete refresh of the content
-      // with cache-control headers to prevent caching
-      const contentResponse = await fetch('/api/content', {
-        cache: 'no-store', // Tell fetch not to use cached response
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      });
-      
-      if (!contentResponse.ok) {
-        throw new Error('Error refreshing content after logo upload');
-      }
-      
-      const freshContent = await contentResponse.json();
-      
-      // Force update the logoUrl with a timestamp to bypass cache
-      if (freshContent.clinicInfo && freshContent.clinicInfo.logoUrl) {
-        // Add timestamp to URL to force refresh
-        const timestamp = Date.now();
-        freshContent.clinicInfo.logoUrl = freshContent.clinicInfo.logoUrl.split('?')[0] + '?t=' + timestamp;
-      }
-      
-      setContent(freshContent);
-      setMessage('Logo uploaded successfully!');
-    } catch (error) {
-      setMessage('Error uploading logo: ' + error.message);
-      console.error('Error uploading logo:', error);
-    } finally {
-      setSaving(false);
+    };
+    
+    // Save the updated content
+    const saveResponse = await fetch('/api/content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: updatedContent,
+        secretCode
+      }),
+    });
+    
+    if (!saveResponse.ok) {
+      throw new Error('Error saving content with new logo URL');
     }
-  };
+    
+    // Update the local state
+    setContent(updatedContent);
+    setMessage('Logo uploaded and content updated successfully!');
+  } catch (error) {
+    setMessage('Error handling logo: ' + error.message);
+    console.error('Error handling logo:', error);
+  } finally {
+    setSaving(false);
+  }
+};
 
   // Render login form if not authenticated
   if (!authenticated) {
