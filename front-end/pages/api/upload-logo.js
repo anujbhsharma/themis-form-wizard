@@ -1,6 +1,5 @@
 // pages/api/upload-logo.js
 import { IncomingForm } from 'formidable';
-import { v4 as uuidv4 } from 'uuid';
 import { list, put } from '@vercel/blob';
 
 // Content key for Vercel Blob
@@ -49,19 +48,15 @@ export default async function handler(req, res) {
       try {
         const file = Array.isArray(files.logo) ? files.logo[0] : files.logo;
         
-        if (!file) {
-          res.status(400).json({ message: 'No logo file provided' });
-          return resolve();
-        }
-        
         // Check if it's an image
         if (!file.mimetype.startsWith('image/')) {
           res.status(400).json({ message: 'File must be an image' });
           return resolve();
         }
         
-        // Generate a unique filename for Vercel Blob
-        const fileName = `logo-${uuidv4()}${file.originalFilename.substring(file.originalFilename.lastIndexOf('.'))}`;
+        // Always use the same filename: logo.png (or keep extension from original)
+        const extension = file.originalFilename.substring(file.originalFilename.lastIndexOf('.'));
+        const fileName = `logo${extension}`;
         
         // Read the file content
         const fileBuffer = await require('fs').promises.readFile(file.filepath);
@@ -70,9 +65,10 @@ export default async function handler(req, res) {
         const { url: uploadedUrl } = await put(fileName, fileBuffer, {
           contentType: file.mimetype,
           access: 'public',
+          allowOverwrite: true // Allow overwriting the existing logo
         });
         
-        // Get current content first, with better error handling
+        // Update the logo URL in the content stored in Vercel Blob
         let content;
         
         try {
@@ -89,17 +85,21 @@ export default async function handler(req, res) {
             
             content = await response.json();
           } else {
-            // If content doesn't exist, create a basic structure
-            // but don't add any default values that would overwrite existing data
+            // Create default content
             content = {
-              clinicInfo: {},
+              clinicInfo: {
+                name: "Legal Clinic Services",
+                aboutText: "Our legal clinic provides quality legal assistance.",
+                services: [],
+                contactInfo: {},
+                calendlyLink: ""
+              },
               announcements: [],
               lastUpdated: new Date().toISOString()
             };
           }
         } catch (error) {
           console.error('Error fetching content:', error);
-          // Instead of creating new content, return error to avoid data loss
           res.status(500).json({ message: 'Error fetching existing content: ' + error.message });
           return resolve();
         }

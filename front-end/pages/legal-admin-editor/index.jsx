@@ -132,56 +132,61 @@ export default function AdminEditor() {
   };
 
   // Updated toggle function with immediate server update
-  const handleToggleAnnouncementActive = async (id) => {
-    // First, find the current announcement
-    const announcement = content.announcements.find(a => a.id === id);
-    if (!announcement) return;
+  // Replace your existing handleToggleAnnouncementActive function with this:
+const handleToggleAnnouncementActive = async (id) => {
+  // First, find the current announcement
+  const announcement = content.announcements.find(a => a.id === id);
+  if (!announcement) return;
 
-    // Optimistic UI update (show change immediately)
+  // Toggle the status in the UI
+  setContent({
+    ...content,
+    announcements: content.announcements.map(a => 
+      a.id === id ? {...a, active: !a.active} : a
+    )
+  });
+
+  // Save changes immediately
+  setSaving(true);
+  setMessage('Saving changes...');
+  
+  try {
+    const response = await fetch('/api/content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: {
+          ...content,
+          announcements: content.announcements.map(a => 
+            a.id === id ? {...a, active: !a.active} : a
+          )
+        },
+        secretCode
+      }),
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Error saving content');
+    }
+    
+    setMessage(`Announcement ${!announcement.active ? 'activated' : 'deactivated'} successfully!`);
+  } catch (error) {
+    // Revert UI change on error
     setContent({
       ...content,
       announcements: content.announcements.map(a => 
-        a.id === id ? {...a, active: !a.active} : a
+        a.id === id ? {...a, active: announcement.active} : a
       )
     });
-
-    // Set temporary saving message
-    setMessage('Updating announcement status...');
-    
-    try {
-      // Call the new PATCH endpoint
-      const response = await fetch('/api/content', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'toggleAnnouncement',
-          announcementId: id,
-          active: !announcement.active,
-          secretCode
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Error updating announcement');
-      }
-
-      // Success message
-      setMessage('Announcement updated successfully!');
-    } catch (error) {
-      // Revert the UI change if there was an error
-      setContent({
-        ...content,
-        announcements: content.announcements.map(a => 
-          a.id === id ? {...a, active: announcement.active} : a
-        )
-      });
-      setMessage('Error updating announcement: ' + error.message);
-      console.error('Error toggling announcement:', error);
-    }
-  };
+    setMessage('Error saving changes: ' + error.message);
+    console.error('Error saving content:', error);
+  } finally {
+    setSaving(false);
+  }
+};
 
   // Updated logo upload with better error handling
   const handleLogoUpload = async (e) => {
