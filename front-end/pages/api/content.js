@@ -128,15 +128,14 @@
 //   // Return 405 for any other HTTP method
 //   return res.status(405).json({ message: 'Method not allowed' });
 // }
-
 // pages/api/content.js
-import { list, get, put } from '@vercel/blob';
+import { list, del, put } from '@vercel/blob';
 
-// Secret code for admin access
+// The secret code for admin access
 const secretCode = 'your-secret-code-here';
-const contentBlobName = 'content.json';
+const contentKey = 'content.json';
 
-// Default content
+// Default content structure
 const defaultContent = {
   clinicInfo: {
     name: "Legal Clinic Services",
@@ -170,33 +169,25 @@ const defaultContent = {
 };
 
 export default async function handler(req, res) {
-  // Handle GET request
+  // Handle GET request - return the content
   if (req.method === 'GET') {
     try {
-      // List blobs to check if content.json exists
+      // Check if content file exists by listing blobs
       const { blobs } = await list();
-      const contentBlob = blobs.find(blob => blob.pathname === contentBlobName);
+      const contentBlob = blobs.find(blob => blob.pathname === contentKey);
       
       if (contentBlob) {
-        // Content blob exists, fetch it
-        const blob = await get(contentBlobName);
-        
-        if (!blob) {
-          // Blob not found, create default content
-          await put(contentBlobName, JSON.stringify(defaultContent, null, 2), {
-            contentType: 'application/json',
-            access: 'public',
-          });
-          
-          return res.status(200).json(defaultContent);
+        // Content exists, fetch it directly from the URL
+        const response = await fetch(contentBlob.url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch blob: ${response.status}`);
         }
         
-        // Convert blob to text and parse it
-        const content = JSON.parse(await blob.text());
+        const content = await response.json();
         return res.status(200).json(content);
       } else {
-        // Content blob doesn't exist, create it
-        await put(contentBlobName, JSON.stringify(defaultContent, null, 2), {
+        // Create default content
+        const { url } = await put(contentKey, JSON.stringify(defaultContent), {
           contentType: 'application/json',
           access: 'public',
         });
@@ -204,39 +195,52 @@ export default async function handler(req, res) {
         return res.status(200).json(defaultContent);
       }
     } catch (error) {
-      console.error('Error fetching content:', error);
-      return res.status(500).json({ message: 'Error fetching content', error: error.message });
+      console.error('Error reading content:', error);
+      return res.status(500).json({ message: 'Error reading content', error: error.message });
     }
   }
   
-  // Handle POST request
+  // Handle POST request - update the content
   if (req.method === 'POST') {
     try {
       const { content, secretCode: providedCode } = req.body;
       
-      // Verify secret code
+      // Verify the secret code
       if (providedCode !== secretCode) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
       
-      // Validate content structure
+      // Validate the content structure
       if (!content) {
         return res.status(400).json({ message: 'Invalid content format' });
       }
       
-      // Update lastUpdated field
+      // Update the lastUpdated field
       content.lastUpdated = new Date().toISOString();
       
-      // Save to Vercel Blob
-      await put(contentBlobName, JSON.stringify(content, null, 2), {
+      // Store content in Blob storage
+      // First, delete existing blob if it exists (to avoid duplicates)
+      try {
+        const { blobs } = await list();
+        const contentBlob = blobs.find(blob => blob.pathname === contentKey);
+        if (contentBlob) {
+          await del(contentBlob.url);
+        }
+      } catch (deleteError) {
+        console.error('Error deleting old content:', deleteError);
+        // Continue with upload even if delete fails
+      }
+      
+      // Upload new content
+      const { url } = await put(contentKey, JSON.stringify(content), {
         contentType: 'application/json',
         access: 'public',
       });
       
-      return res.status(200).json(content);
+      return res.status(200).json({ message: 'Content saved successfully!', content });
     } catch (error) {
-      console.error('Error updating content:', error);
-      return res.status(500).json({ message: 'Error updating content', error: error.message });
+      console.error('Error saving content:', error);
+      return res.status(500).json({ message: 'Error saving content', error: error.message });
     }
   }
   
