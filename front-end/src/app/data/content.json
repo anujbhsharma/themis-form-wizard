@@ -20,19 +20,26 @@
   },
   "announcements": [
     {
-      "id": "1",
-      "title": "Holiday Hours",
-      "content": "Our clinic will be closed on April 15th for staff training.",
-      "type": "info",
-      "active": true
-    },
-    {
       "id": "2",
       "title": "New Service Available",
       "content": "We now offer virtual consultations for all clients.",
       "type": "success",
       "active": true
+    },
+    {
+      "title": "Anuj",
+      "content": "Test",
+      "type": "info",
+      "active": true,
+      "id": "1745790171316"
+    },
+    {
+      "title": "rest",
+      "content": "all",
+      "type": "info",
+      "active": true,
+      "id": "1745790180682"
     }
   ],
-  "lastUpdated": "2025-03-29T16:19:39.989Z"
+  "lastUpdated": "2025-04-27T21:44:54.591Z"
 }
