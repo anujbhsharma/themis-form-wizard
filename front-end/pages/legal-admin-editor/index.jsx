@@ -201,80 +201,67 @@ const handleToggleAnnouncementActive = async (id) => {
 };
   // Updated logo upload with better error handling and cache busting
   // Replace your existing handleLogoUpload function with this:
-const handleLogoUpload = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  
-  // Check if it's an image
-  if (!file.type.startsWith('image/')) {
-    setMessage('Please upload an image file');
-    return;
-  }
-  
-  // Show loading state
-  setSaving(true);
-  setMessage('Uploading logo...');
-  
-  // Create a FormData object
-  const formData = new FormData();
-  formData.append('logo', file);
-  formData.append('secretCode', secretCode);
-  
-  try {
-    const response = await fetch('/api/upload-logo', {
-      method: 'POST',
-      body: formData,
-    });
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
     
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Error uploading logo');
+    // Check if it's an image
+    if (!file.type.startsWith('image/')) {
+      setMessage('Please upload an image file');
+      return;
     }
     
-    const data = await response.json();
-    console.log('Logo upload successful:', data);
+    // Show loading state
+    setSaving(true);
+    setMessage('Uploading logo...');
     
-    // CRITICAL FIX: Get the file extension
-    const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append('logo', file);
+    formData.append('secretCode', secretCode);
     
-    // CRITICAL FIX: Use the fixed URL directly instead of what's returned
-    const fixedLogoUrl = `https://hrslupcbk4ltavbb.public.blob.vercel-storage.com/logo${fileExtension}`;
-    
-    // Update the content with the new logo URL
-    const updatedContent = {
-      ...content,
-      clinicInfo: {
-        ...content.clinicInfo,
-        logoUrl: fixedLogoUrl
+    try {
+      const response = await fetch('/api/upload-logo', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error uploading logo');
       }
-    };
-    
-    // Save the updated content
-    const saveResponse = await fetch('/api/content', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: updatedContent,
-        secretCode
-      }),
-    });
-    
-    if (!saveResponse.ok) {
-      throw new Error('Error saving content with new logo URL');
+      
+      const data = await response.json();
+      
+      // Use the URL directly from the API response - it already has the timestamp
+      const logoUrl = data.logoUrl;
+      
+      // Fetch the latest content to ensure we're working with the most current data
+      const contentResponse = await fetch('/api/content', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
+      if (!contentResponse.ok) {
+        throw new Error('Error fetching updated content');
+      }
+      
+      // Update the local state with the freshly fetched content
+      const updatedContent = await contentResponse.json();
+      setContent(updatedContent);
+      
+      setMessage('Logo uploaded successfully!');
+    } catch (error) {
+      setMessage('Error handling logo: ' + error.message);
+      console.error('Error handling logo:', error);
+    } finally {
+      setSaving(false);
     }
-    
-    // Update the local state
-    setContent(updatedContent);
-    setMessage('Logo uploaded and content updated successfully!');
-  } catch (error) {
-    setMessage('Error handling logo: ' + error.message);
-    console.error('Error handling logo:', error);
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
   // Render login form if not authenticated
   if (!authenticated) {
@@ -699,17 +686,23 @@ const handleLogoUpload = async (e) => {
             
             <div className="flex flex-col items-center mb-6">
               <div className="mb-4 border p-4 rounded-md bg-gray-50">
-                {content.clinicInfo?.logoUrl ? (
-                  <img 
-                    src={`${content.clinicInfo.logoUrl}?t=${Date.now()}`} 
-                    alt="Current Logo" 
-                    className="max-w-xs max-h-40 object-contain"
-                  />
-                ) : (
-                  <div className="w-40 h-40 bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500">No logo set</span>
-                  </div>
-                )}
+              {content.clinicInfo?.logoUrl ? (
+  <img 
+    src={`${content.clinicInfo.logoUrl}?t=${Date.now()}`} 
+    alt="Current Logo" 
+    className="max-w-xs max-h-40 object-contain"
+    onError={(e) => {
+      console.error('Error loading image:', e);
+      // Retry with a different cache-busting approach if first fails
+      e.target.src = `${content.clinicInfo.logoUrl}?reload=${Math.random()}`;
+    }}
+  />
+) : (
+  <div className="w-40 h-40 bg-gray-200 flex items-center justify-center">
+    <span className="text-gray-500">No logo set</span>
+  </div>
+)}
+           
               </div>
               
               <div className="w-full max-w-md">

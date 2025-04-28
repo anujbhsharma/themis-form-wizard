@@ -1,4 +1,3 @@
-// pages/api/upload-logo.js
 import { IncomingForm } from 'formidable';
 import { list, put } from '@vercel/blob';
 
@@ -58,14 +57,16 @@ export default async function handler(req, res) {
         const extension = file.originalFilename.substring(file.originalFilename.lastIndexOf('.'));
         const fileName = `logo${extension}`;
         
+        // Add a timestamp to the filename to prevent caching
+        const timestampedFileName = `logo_${Date.now()}${extension}`;
+        
         // Read the file content
         const fileBuffer = await require('fs').promises.readFile(file.filepath);
         
-        // Upload directly to Vercel Blob instead of local filesystem
-        const { url: uploadedUrl } = await put(fileName, fileBuffer, {
+        // Upload directly to Vercel Blob with the timestamped name to avoid caching issues
+        const { url: uploadedUrl } = await put(timestampedFileName, fileBuffer, {
           contentType: file.mimetype,
           access: 'public',
-          allowOverwrite: true // Allow overwriting the existing logo
         });
         
         // Update the logo URL in the content stored in Vercel Blob
@@ -109,13 +110,13 @@ export default async function handler(req, res) {
           content.clinicInfo = {};
         }
         
-        // Update the logo URL to use the Vercel Blob URL directly
+        // Update the logo URL to use the new timestamped URL
         content.clinicInfo.logoUrl = uploadedUrl;
         
         // Update lastUpdated timestamp
         content.lastUpdated = new Date().toISOString();
         
-        // Save the updated content to Vercel Blob with allowOverwrite option
+        // Save the updated content to Vercel Blob
         await put(contentKey, JSON.stringify(content), {
           contentType: 'application/json',
           access: 'public',
