@@ -1,6 +1,4 @@
 // pages/api/upload-logo.js
-import fs from 'fs/promises';
-import path from 'path';
 import { IncomingForm } from 'formidable';
 import { v4 as uuidv4 } from 'uuid';
 import { list, put } from '@vercel/blob';
@@ -15,19 +13,6 @@ export const config = {
   },
 };
 
-// Define base paths relative to project root
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
-const UPLOADS_DIR = path.join(PUBLIC_DIR, 'uploads');
-
-// Helper to ensure a directory exists
-async function ensureDirectoryExists(directory) {
-  try {
-    await fs.access(directory);
-  } catch (error) {
-    await fs.mkdir(directory, { recursive: true });
-  }
-}
-
 export default async function handler(req, res) {
   // The secret code - in a real app, use an environment variable
   const secretCode = 'your-secret-code-here';
@@ -36,19 +21,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
   
-  // Ensure the uploads directory exists before creating the form
-  try {
-    await ensureDirectoryExists(UPLOADS_DIR);
-  } catch (error) {
-    console.error('Error creating uploads directory:', error);
-    return res.status(500).json({ message: 'Error creating uploads directory' });
-  }
-  
-  // Parse the form data
+  // Parse the form data (in memory, not on filesystem)
   const form = new IncomingForm({
-    uploadDir: UPLOADS_DIR,
     keepExtensions: true,
     maxFileSize: 5 * 1024 * 1024, // 5MB
+    multiples: false,
   });
   
   return new Promise((resolve, reject) => {
@@ -78,12 +55,17 @@ export default async function handler(req, res) {
           return resolve();
         }
         
-        // Generate a unique filename
-        const fileName = `logo-${uuidv4()}${path.extname(file.originalFilename)}`;
-        const uploadPath = path.join(UPLOADS_DIR, fileName);
+        // Generate a unique filename for Vercel Blob
+        const fileName = `logo-${uuidv4()}${file.originalFilename.substring(file.originalFilename.lastIndexOf('.'))}`;
         
-        // Move the file from temp location to final location
-        await fs.rename(file.filepath, uploadPath);
+        // Read the file content
+        const fileBuffer = await require('fs').promises.readFile(file.filepath);
+        
+        // Upload directly to Vercel Blob instead of local filesystem
+        const { url: uploadedUrl } = await put(fileName, fileBuffer, {
+          contentType: file.mimetype,
+          access: 'public',
+        });
         
         // Update the logo URL in the content stored in Vercel Blob
         let content;
@@ -136,8 +118,8 @@ export default async function handler(req, res) {
           content.clinicInfo = {};
         }
         
-        // Update the logo URL
-        content.clinicInfo.logoUrl = `/uploads/${fileName}`;
+        // Update the logo URL to use the Vercel Blob URL directly
+        content.clinicInfo.logoUrl = uploadedUrl;
         
         // Update lastUpdated timestamp
         content.lastUpdated = new Date().toISOString();
@@ -146,11 +128,11 @@ export default async function handler(req, res) {
         await put(contentKey, JSON.stringify(content), {
           contentType: 'application/json',
           access: 'public',
-          allowOverwrite: true // Added allowOverwrite option
+          allowOverwrite: true
         });
         
         // Return the logo URL
-        res.status(200).json({ logoUrl: `/uploads/${fileName}` });
+        res.status(200).json({ logoUrl: uploadedUrl });
         return resolve();
       } catch (error) {
         console.error('Error handling logo upload:', error);
