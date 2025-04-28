@@ -129,91 +129,117 @@
 //   return res.status(405).json({ message: 'Method not allowed' });
 // }
 
-// pages/api/upload-logo.js
-import { IncomingForm } from 'formidable';
-import { put } from '@vercel/blob';
-import { kv } from '@vercel/kv';
+// pages/api/content.js
+import { list, get, put } from '@vercel/blob';
 
-// The secret code - in a real app, use an environment variable
+// Secret code for admin access
 const secretCode = 'your-secret-code-here';
+const contentBlobName = 'content.json';
 
-// Disable the default body parser
-export const config = {
-  api: {
-    bodyParser: false,
+// Default content
+const defaultContent = {
+  clinicInfo: {
+    name: "Legal Clinic Services",
+    aboutText: "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services.",
+    services: [
+      "Family law consultations",
+      "Landlord-tenant dispute resolution",
+      "Immigration assistance",
+      "Small claims court representation",
+      "Document review and preparation"
+    ],
+    contactInfo: {
+      address: "123 Legal Street, Suite 101",
+      phone: "(555) 123-4567",
+      email: "info@legalclinic.org",
+      hours: "Mon-Fri, 9am-5pm"
+    },
+    calendlyLink: "https://calendly.com/your-account/your-event",
+    logoUrl: "/logo.png"
   },
+  announcements: [
+    {
+      id: "1",
+      title: "Holiday Hours",
+      content: "Our clinic will be closed on April 15th for staff training.",
+      type: "info",
+      active: true
+    }
+  ],
+  lastUpdated: new Date().toISOString()
 };
-
-// Helper to parse the form
-const parseForm = (req) => {
-  return new Promise((resolve, reject) => {
-    const form = new IncomingForm();
-    form.parse(req, (err, fields, files) => {
-      if (err) return reject(err);
-      resolve({ fields, files });
-    });
-  });
-};
-
-// The content key in KV store
-const CONTENT_KEY = 'clinic_content';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+  // Handle GET request
+  if (req.method === 'GET') {
+    try {
+      // List blobs to check if content.json exists
+      const { blobs } = await list();
+      const contentBlob = blobs.find(blob => blob.pathname === contentBlobName);
+      
+      if (contentBlob) {
+        // Content blob exists, fetch it
+        const blob = await get(contentBlobName);
+        
+        if (!blob) {
+          // Blob not found, create default content
+          await put(contentBlobName, JSON.stringify(defaultContent, null, 2), {
+            contentType: 'application/json',
+            access: 'public',
+          });
+          
+          return res.status(200).json(defaultContent);
+        }
+        
+        // Convert blob to text and parse it
+        const content = JSON.parse(await blob.text());
+        return res.status(200).json(content);
+      } else {
+        // Content blob doesn't exist, create it
+        await put(contentBlobName, JSON.stringify(defaultContent, null, 2), {
+          contentType: 'application/json',
+          access: 'public',
+        });
+        
+        return res.status(200).json(defaultContent);
+      }
+    } catch (error) {
+      console.error('Error fetching content:', error);
+      return res.status(500).json({ message: 'Error fetching content', error: error.message });
+    }
   }
-
-  try {
-    // Parse the incoming form data
-    const { fields, files } = await parseForm(req);
-    
-    // Verify the secret code
-    if (fields.secretCode !== secretCode) {
-      return res.status(401).json({ message: 'Unauthorized' });
+  
+  // Handle POST request
+  if (req.method === 'POST') {
+    try {
+      const { content, secretCode: providedCode } = req.body;
+      
+      // Verify secret code
+      if (providedCode !== secretCode) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      // Validate content structure
+      if (!content) {
+        return res.status(400).json({ message: 'Invalid content format' });
+      }
+      
+      // Update lastUpdated field
+      content.lastUpdated = new Date().toISOString();
+      
+      // Save to Vercel Blob
+      await put(contentBlobName, JSON.stringify(content, null, 2), {
+        contentType: 'application/json',
+        access: 'public',
+      });
+      
+      return res.status(200).json(content);
+    } catch (error) {
+      console.error('Error updating content:', error);
+      return res.status(500).json({ message: 'Error updating content', error: error.message });
     }
-    
-    // Get the logo file
-    const logoFile = files.logo;
-    if (!logoFile) {
-      return res.status(400).json({ message: 'No logo file provided' });
-    }
-    
-    // Generate a unique filename
-    const timestamp = Date.now();
-    const filename = `logo-${timestamp}${path.extname(logoFile.originalFilename)}`;
-    
-    // Upload to Vercel Blob
-    const blob = await put(filename, logoFile.filepath, {
-      access: 'public',
-      contentType: logoFile.mimetype
-    });
-    
-    // Get the URL of the uploaded file
-    const logoUrl = blob.url;
-    
-    // Update content in KV store
-    const content = await kv.get(CONTENT_KEY) || {};
-    
-    // Initialize clinicInfo if it doesn't exist
-    if (!content.clinicInfo) {
-      content.clinicInfo = {};
-    }
-    
-    // Update the logo URL
-    content.clinicInfo.logoUrl = logoUrl;
-    
-    // Save back to KV
-    await kv.set(CONTENT_KEY, content);
-    
-    return res.status(200).json({ 
-      message: 'Logo uploaded successfully',
-      logoUrl 
-    });
-  } catch (error) {
-    console.error('Error uploading logo:', error);
-    return res.status(500).json({ 
-      message: 'Error uploading logo', 
-      error: error.message 
-    });
   }
+  
+  // Return 405 for any other HTTP method
+  return res.status(405).json({ message: 'Method not allowed' });
 }
