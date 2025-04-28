@@ -1,130 +1,219 @@
-// pages/api/content.js
-import fs from 'fs/promises';
-import path from 'path';
+// // pages/api/content.js
+// import fs from 'fs/promises';
+// import path from 'path';
 
-// Define the correct path to the content file - using src/app structure
-const DATA_DIR = path.join(process.cwd(), 'src', 'app', 'data');
-const CONTENT_FILE = path.join(DATA_DIR, 'content.json');
+// // Define the correct path to the content file - using src/app structure
+// const DATA_DIR = path.join(process.cwd(), 'src', 'app', 'data');
+// const CONTENT_FILE = path.join(DATA_DIR, 'content.json');
 
-// Helper to ensure the data directory exists
-async function ensureDataDirectoryExists() {
-  try {
-    await fs.access(DATA_DIR);
-  } catch (error) {
-    // Directory doesn't exist, create it
-    await fs.mkdir(DATA_DIR, { recursive: true });
-  }
-}
+// // Helper to ensure the data directory exists
+// async function ensureDataDirectoryExists() {
+//   try {
+//     await fs.access(DATA_DIR);
+//   } catch (error) {
+//     // Directory doesn't exist, create it
+//     await fs.mkdir(DATA_DIR, { recursive: true });
+//   }
+// }
 
-// Helper to read content
-async function readContent() {
-  try {
-    // Make sure the directory exists
-    await ensureDataDirectoryExists();
+// // Helper to read content
+// async function readContent() {
+//   try {
+//     // Make sure the directory exists
+//     await ensureDataDirectoryExists();
     
-    // Try to read the content file
-    const contentData = await fs.readFile(CONTENT_FILE, 'utf8');
-    return JSON.parse(contentData);
-  } catch (error) {
-    console.error('Error reading content:', error);
+//     // Try to read the content file
+//     const contentData = await fs.readFile(CONTENT_FILE, 'utf8');
+//     return JSON.parse(contentData);
+//   } catch (error) {
+//     console.error('Error reading content:', error);
     
-    // If file doesn't exist or is invalid, return default content
-    return {
-      clinicInfo: {
-        name: "Legal Clinic Services",
-        aboutText: "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services.",
-        services: [
-          "Family law consultations",
-          "Landlord-tenant dispute resolution",
-          "Immigration assistance",
-          "Small claims court representation",
-          "Document review and preparation"
-        ],
-        contactInfo: {
-          address: "123 Legal Street, Suite 101",
-          phone: "(555) 123-4567",
-          email: "info@legalclinic.org",
-          hours: "Mon-Fri, 9am-5pm"
-        },
-        calendlyLink: "https://calendly.com/your-account/your-event",
-        logoUrl: "/logo.png"
-      },
-      announcements: [
-        {
-          id: "1",
-          title: "Holiday Hours",
-          content: "Our clinic will be closed on April 15th for staff training.",
-          type: "info",
-          active: true
-        }
-      ],
-      lastUpdated: new Date().toISOString()
-    };
-  }
-}
+//     // If file doesn't exist or is invalid, return default content
+//     return {
+//       clinicInfo: {
+//         name: "Legal Clinic Services",
+//         aboutText: "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services.",
+//         services: [
+//           "Family law consultations",
+//           "Landlord-tenant dispute resolution",
+//           "Immigration assistance",
+//           "Small claims court representation",
+//           "Document review and preparation"
+//         ],
+//         contactInfo: {
+//           address: "123 Legal Street, Suite 101",
+//           phone: "(555) 123-4567",
+//           email: "info@legalclinic.org",
+//           hours: "Mon-Fri, 9am-5pm"
+//         },
+//         calendlyLink: "https://calendly.com/your-account/your-event",
+//         logoUrl: "/logo.png"
+//       },
+//       announcements: [
+//         {
+//           id: "1",
+//           title: "Holiday Hours",
+//           content: "Our clinic will be closed on April 15th for staff training.",
+//           type: "info",
+//           active: true
+//         }
+//       ],
+//       lastUpdated: new Date().toISOString()
+//     };
+//   }
+// }
 
-// Helper to write content
-async function writeContent(content) {
-  // Make sure the directory exists
-  await ensureDataDirectoryExists();
+// // Helper to write content
+// async function writeContent(content) {
+//   // Make sure the directory exists
+//   await ensureDataDirectoryExists();
   
-  // Update the lastUpdated field
-  content.lastUpdated = new Date().toISOString();
+//   // Update the lastUpdated field
+//   content.lastUpdated = new Date().toISOString();
   
-  // Ensure the content has all the required properties
-  if (!content.clinicInfo) {
-    content.clinicInfo = {};
-  }
+//   // Ensure the content has all the required properties
+//   if (!content.clinicInfo) {
+//     content.clinicInfo = {};
+//   }
   
-  if (!content.announcements) {
-    content.announcements = [];
-  }
+//   if (!content.announcements) {
+//     content.announcements = [];
+//   }
   
-  // Write the content to the file
-  await fs.writeFile(CONTENT_FILE, JSON.stringify(content, null, 2), 'utf8');
-  return content;
-}
+//   // Write the content to the file
+//   await fs.writeFile(CONTENT_FILE, JSON.stringify(content, null, 2), 'utf8');
+//   return content;
+// }
+
+// export default async function handler(req, res) {
+//   // The secret code - in a real app, use an environment variable
+//   const secretCode = 'your-secret-code-here';
+  
+//   // Handle GET request - return the content
+//   if (req.method === 'GET') {
+//     try {
+//       const content = await readContent();
+//       console.log('Content read successfully');
+//       return res.status(200).json(content);
+//     } catch (error) {
+//       console.error('Error reading content:', error);
+//       return res.status(500).json({ message: 'Error reading content' });
+//     }
+//   }
+  
+//   // Handle POST request - update the content
+//   if (req.method === 'POST') {
+//     try {
+//       const { content, secretCode: providedCode } = req.body;
+      
+//       // Verify the secret code
+//       if (providedCode !== secretCode) {
+//         return res.status(401).json({ message: 'Unauthorized' });
+//       }
+      
+//       // Validate the content structure
+//       if (!content) {
+//         return res.status(400).json({ message: 'Invalid content format' });
+//       }
+      
+//       // Write the updated content
+//       const updatedContent = await writeContent(content);
+//       return res.status(200).json(updatedContent);
+//     } catch (error) {
+//       console.error('Error updating content:', error);
+//       return res.status(500).json({ message: 'Error updating content' });
+//     }
+//   }
+  
+//   // Return 405 for any other HTTP method
+//   return res.status(405).json({ message: 'Method not allowed' });
+// }
+
+// pages/api/upload-logo.js
+import { IncomingForm } from 'formidable';
+import { put } from '@vercel/blob';
+import { kv } from '@vercel/kv';
+
+// The secret code - in a real app, use an environment variable
+const secretCode = 'your-secret-code-here';
+
+// Disable the default body parser
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// Helper to parse the form
+const parseForm = (req) => {
+  return new Promise((resolve, reject) => {
+    const form = new IncomingForm();
+    form.parse(req, (err, fields, files) => {
+      if (err) return reject(err);
+      resolve({ fields, files });
+    });
+  });
+};
+
+// The content key in KV store
+const CONTENT_KEY = 'clinic_content';
 
 export default async function handler(req, res) {
-  // The secret code - in a real app, use an environment variable
-  const secretCode = 'your-secret-code-here';
-  
-  // Handle GET request - return the content
-  if (req.method === 'GET') {
-    try {
-      const content = await readContent();
-      console.log('Content read successfully');
-      return res.status(200).json(content);
-    } catch (error) {
-      console.error('Error reading content:', error);
-      return res.status(500).json({ message: 'Error reading content' });
-    }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
   }
-  
-  // Handle POST request - update the content
-  if (req.method === 'POST') {
-    try {
-      const { content, secretCode: providedCode } = req.body;
-      
-      // Verify the secret code
-      if (providedCode !== secretCode) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-      
-      // Validate the content structure
-      if (!content) {
-        return res.status(400).json({ message: 'Invalid content format' });
-      }
-      
-      // Write the updated content
-      const updatedContent = await writeContent(content);
-      return res.status(200).json(updatedContent);
-    } catch (error) {
-      console.error('Error updating content:', error);
-      return res.status(500).json({ message: 'Error updating content' });
+
+  try {
+    // Parse the incoming form data
+    const { fields, files } = await parseForm(req);
+    
+    // Verify the secret code
+    if (fields.secretCode !== secretCode) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
+    
+    // Get the logo file
+    const logoFile = files.logo;
+    if (!logoFile) {
+      return res.status(400).json({ message: 'No logo file provided' });
+    }
+    
+    // Generate a unique filename
+    const timestamp = Date.now();
+    const filename = `logo-${timestamp}${path.extname(logoFile.originalFilename)}`;
+    
+    // Upload to Vercel Blob
+    const blob = await put(filename, logoFile.filepath, {
+      access: 'public',
+      contentType: logoFile.mimetype
+    });
+    
+    // Get the URL of the uploaded file
+    const logoUrl = blob.url;
+    
+    // Update content in KV store
+    const content = await kv.get(CONTENT_KEY) || {};
+    
+    // Initialize clinicInfo if it doesn't exist
+    if (!content.clinicInfo) {
+      content.clinicInfo = {};
+    }
+    
+    // Update the logo URL
+    content.clinicInfo.logoUrl = logoUrl;
+    
+    // Save back to KV
+    await kv.set(CONTENT_KEY, content);
+    
+    return res.status(200).json({ 
+      message: 'Logo uploaded successfully',
+      logoUrl 
+    });
+  } catch (error) {
+    console.error('Error uploading logo:', error);
+    return res.status(500).json({ 
+      message: 'Error uploading logo', 
+      error: error.message 
+    });
   }
-  
-  // Return 405 for any other HTTP method
-  return res.status(405).json({ message: 'Method not allowed' });
 }
