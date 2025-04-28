@@ -131,15 +131,59 @@ export default function AdminEditor() {
     }
   };
 
-  const handleToggleAnnouncementActive = (id) => {
+  // Updated toggle function with immediate server update
+  const handleToggleAnnouncementActive = async (id) => {
+    // First, find the current announcement
+    const announcement = content.announcements.find(a => a.id === id);
+    if (!announcement) return;
+
+    // Optimistic UI update (show change immediately)
     setContent({
       ...content,
       announcements: content.announcements.map(a => 
         a.id === id ? {...a, active: !a.active} : a
       )
     });
+
+    // Set temporary saving message
+    setMessage('Updating announcement status...');
+    
+    try {
+      // Call the new PATCH endpoint
+      const response = await fetch('/api/content', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'toggleAnnouncement',
+          announcementId: id,
+          active: !announcement.active,
+          secretCode
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error updating announcement');
+      }
+
+      // Success message
+      setMessage('Announcement updated successfully!');
+    } catch (error) {
+      // Revert the UI change if there was an error
+      setContent({
+        ...content,
+        announcements: content.announcements.map(a => 
+          a.id === id ? {...a, active: announcement.active} : a
+        )
+      });
+      setMessage('Error updating announcement: ' + error.message);
+      console.error('Error toggling announcement:', error);
+    }
   };
 
+  // Updated logo upload with better error handling
   const handleLogoUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -149,6 +193,9 @@ export default function AdminEditor() {
       setMessage('Please upload an image file');
       return;
     }
+    
+    // Show loading state
+    setMessage('Uploading logo...');
     
     // Create a FormData object
     const formData = new FormData();
@@ -168,18 +215,15 @@ export default function AdminEditor() {
       
       const data = await response.json();
       
-      // Make sure clinicInfo exists
-      if (!content.clinicInfo) {
-        content.clinicInfo = {};
+      // After successful upload, refresh the entire content
+      // This ensures we have the latest data from the server
+      const contentResponse = await fetch('/api/content');
+      if (!contentResponse.ok) {
+        throw new Error('Error refreshing content after logo upload');
       }
       
-      setContent({
-        ...content,
-        clinicInfo: {
-          ...content.clinicInfo,
-          logoUrl: data.logoUrl
-        }
-      });
+      const refreshedContent = await contentResponse.json();
+      setContent(refreshedContent);
       
       setMessage('Logo uploaded successfully!');
     } catch (error) {
