@@ -24,7 +24,7 @@ const defaultContent = {
       hours: "Mon-Fri, 9am-5pm"
     },
     calendlyLink: "https://calendly.com/your-account/your-event",
-    logoUrl: "/uploads/logo-09c10f70-f30f-4bcb-8853-dd02197e0173.jpg"
+    logoUrl: "/uploads/logo-09c10f70-f30f-4bcb-8853-dd02197e0173.jpg" // Updated to your actual logo path
   },
   announcements: [
     {
@@ -38,38 +38,9 @@ const defaultContent = {
   lastUpdated: new Date().toISOString()
 };
 
-// Helper function to fetch current content
-async function getCurrentContent() {
-  try {
-    const { blobs } = await list();
-    const contentBlob = blobs.find(blob => blob.pathname === contentKey);
-    
-    if (contentBlob) {
-      const response = await fetch(contentBlob.url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch content: ${response.status}`);
-      }
-      
-      return await response.json();
-    } else {
-      // If no content exists, use default and create it
-      await put(contentKey, JSON.stringify(defaultContent), {
-        contentType: 'application/json',
-        access: 'public',
-        allowOverwrite: true
-      });
-      
-      return defaultContent;
-    }
-  } catch (error) {
-    console.error('Error fetching content:', error);
-    throw error;
-  }
-}
-
 export default async function handler(req, res) {
   // Ensure we respond to all methods, even if just to reject them
-  const allowedMethods = ['GET', 'POST', 'PATCH'];
+  const allowedMethods = ['GET', 'POST'];
   
   if (!allowedMethods.includes(req.method)) {
     return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
@@ -78,71 +49,36 @@ export default async function handler(req, res) {
   // Handle GET request - return the content
   if (req.method === 'GET') {
     try {
-      const content = await getCurrentContent();
-      return res.status(200).json(content);
+      // List blobs to check if content exists
+      const { blobs } = await list();
+      const contentBlob = blobs.find(blob => blob.pathname === contentKey);
+      
+      if (contentBlob) {
+        // Content exists, fetch it
+        const response = await fetch(contentBlob.url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch content: ${response.status}`);
+        }
+        
+        const content = await response.json();
+        return res.status(200).json(content);
+      } else {
+        // Create default content
+        const { url } = await put(contentKey, JSON.stringify(defaultContent), {
+          contentType: 'application/json',
+          access: 'public',
+          allowOverwrite: true // Added allowOverwrite option
+        });
+        
+        return res.status(200).json(defaultContent);
+      }
     } catch (error) {
       console.error('Error fetching content:', error);
       return res.status(500).json({ message: 'Error fetching content', error: error.message });
     }
   }
   
-  // Handle PATCH request for specific updates (like toggling announcement status)
-  if (req.method === 'PATCH') {
-    try {
-      const { action, secretCode: providedCode } = req.body;
-      
-      // Verify secret code
-      if (providedCode !== secretCode) {
-        return res.status(401).json({ message: 'Unauthorized' });
-      }
-      
-      // Fetch current content
-      const content = await getCurrentContent();
-      
-      // Handle toggle announcement action
-      if (action === 'toggleAnnouncement') {
-        const { announcementId, active } = req.body;
-        
-        if (!announcementId) {
-          return res.status(400).json({ message: 'Announcement ID is required' });
-        }
-        
-        // Find the announcement to update
-        const announcementIndex = content.announcements.findIndex(a => a.id === announcementId);
-        
-        if (announcementIndex === -1) {
-          return res.status(404).json({ message: 'Announcement not found' });
-        }
-        
-        // Update the active status
-        content.announcements[announcementIndex].active = active;
-        
-        // Update lastUpdated timestamp
-        content.lastUpdated = new Date().toISOString();
-        
-        // Save the updated content
-        await put(contentKey, JSON.stringify(content), {
-          contentType: 'application/json',
-          access: 'public',
-          allowOverwrite: true
-        });
-        
-        return res.status(200).json({ 
-          message: 'Announcement updated successfully', 
-          announcement: content.announcements[announcementIndex]
-        });
-      }
-      
-      // Handle other PATCH actions here if needed
-      
-      return res.status(400).json({ message: 'Invalid action' });
-    } catch (error) {
-      console.error('Error updating content:', error);
-      return res.status(500).json({ message: 'Error updating content', error: error.message });
-    }
-  }
-  
-  // Handle POST request - update the entire content
+  // Handle POST request - update the content
   if (req.method === 'POST') {
     try {
       const { content, secretCode: providedCode } = req.body;
@@ -164,7 +100,7 @@ export default async function handler(req, res) {
       const { url } = await put(contentKey, JSON.stringify(content), {
         contentType: 'application/json',
         access: 'public',
-        allowOverwrite: true
+        allowOverwrite: true // Added allowOverwrite option
       });
       
       return res.status(200).json({ message: 'Content updated successfully', content });
