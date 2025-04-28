@@ -13,55 +13,6 @@ export const config = {
   },
 };
 
-// Default content structure (matches the one in content.js)
-const defaultContent = {
-  clinicInfo: {
-    name: "Legal Clinic Services",
-    aboutText: "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services.",
-    services: [
-      "Family law consultations",
-      "Landlord-tenant dispute resolution",
-      "Immigration assistance",
-      "Small claims court representation",
-      "Document review and preparation"
-    ],
-    contactInfo: {
-      address: "123 Legal Street, Suite 101",
-      phone: "(555) 123-4567",
-      email: "info@legalclinic.org",
-      hours: "Mon-Fri, 9am-5pm"
-    },
-    calendlyLink: "https://calendly.com/your-account/your-event"
-  },
-  announcements: [],
-  lastUpdated: new Date().toISOString()
-};
-
-// Helper function to get current content
-async function getCurrentContent() {
-  try {
-    // List blobs to check if content exists
-    const { blobs } = await list();
-    const contentBlob = blobs.find(blob => blob.pathname === contentKey);
-    
-    if (contentBlob) {
-      // Content exists, fetch it
-      const response = await fetch(contentBlob.url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch content: ${response.status}`);
-      }
-      
-      return await response.json();
-    } else {
-      // No content exists yet, return the default
-      return { ...defaultContent };
-    }
-  } catch (error) {
-    console.error('Error retrieving content:', error);
-    throw error;
-  }
-}
-
 export default async function handler(req, res) {
   // The secret code - in a real app, use an environment variable
   const secretCode = 'your-secret-code-here';
@@ -96,7 +47,6 @@ export default async function handler(req, res) {
       }
       
       try {
-        // Check if logo file exists
         const file = Array.isArray(files.logo) ? files.logo[0] : files.logo;
         
         if (!file) {
@@ -116,57 +66,65 @@ export default async function handler(req, res) {
         // Read the file content
         const fileBuffer = await require('fs').promises.readFile(file.filepath);
         
-        // Upload the logo to Vercel Blob
-        let uploadedUrl;
-        try {
-          const result = await put(fileName, fileBuffer, {
-            contentType: file.mimetype,
-            access: 'public',
-          });
-          uploadedUrl = result.url;
-        } catch (uploadError) {
-          console.error('Error uploading to Vercel Blob:', uploadError);
-          res.status(500).json({ message: 'Error uploading logo: ' + uploadError.message });
-          return resolve();
-        }
+        // Upload directly to Vercel Blob instead of local filesystem
+        const { url: uploadedUrl } = await put(fileName, fileBuffer, {
+          contentType: file.mimetype,
+          access: 'public',
+        });
         
-        // Get the current content (or default if it doesn't exist)
+        // Get current content first, with better error handling
         let content;
+        
         try {
-          content = await getCurrentContent();
-        } catch (contentError) {
-          console.error('Error retrieving content for logo update:', contentError);
-          res.status(500).json({ message: 'Error retrieving content for logo update: ' + contentError.message });
+          // Get content from Vercel Blob
+          const { blobs } = await list();
+          const contentBlob = blobs.find(blob => blob.pathname === contentKey);
+          
+          if (contentBlob) {
+            // Content exists, fetch it
+            const response = await fetch(contentBlob.url);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch content: ${response.status}`);
+            }
+            
+            content = await response.json();
+          } else {
+            // If content doesn't exist, create a basic structure
+            // but don't add any default values that would overwrite existing data
+            content = {
+              clinicInfo: {},
+              announcements: [],
+              lastUpdated: new Date().toISOString()
+            };
+          }
+        } catch (error) {
+          console.error('Error fetching content:', error);
+          // Instead of creating new content, return error to avoid data loss
+          res.status(500).json({ message: 'Error fetching existing content: ' + error.message });
           return resolve();
         }
         
         // Make sure clinicInfo exists
         if (!content.clinicInfo) {
-          content.clinicInfo = { ...defaultContent.clinicInfo };
+          content.clinicInfo = {};
         }
         
-        // Update the logo URL
+        // Update the logo URL to use the Vercel Blob URL directly
         content.clinicInfo.logoUrl = uploadedUrl;
         
         // Update lastUpdated timestamp
         content.lastUpdated = new Date().toISOString();
         
-        try {
-          // Save the updated content to Vercel Blob
-          await put(contentKey, JSON.stringify(content), {
-            contentType: 'application/json',
-            access: 'public',
-            allowOverwrite: true
-          });
-          
-          // Return the logo URL
-          res.status(200).json({ logoUrl: uploadedUrl });
-          return resolve();
-        } catch (saveError) {
-          console.error('Error saving updated content with logo:', saveError);
-          res.status(500).json({ message: 'Error saving updated content: ' + saveError.message });
-          return resolve();
-        }
+        // Save the updated content to Vercel Blob with allowOverwrite option
+        await put(contentKey, JSON.stringify(content), {
+          contentType: 'application/json',
+          access: 'public',
+          allowOverwrite: true
+        });
+        
+        // Return the logo URL
+        res.status(200).json({ logoUrl: uploadedUrl });
+        return resolve();
       } catch (error) {
         console.error('Error handling logo upload:', error);
         res.status(500).json({ message: 'Error processing upload: ' + error.message });
