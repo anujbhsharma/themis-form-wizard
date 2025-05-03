@@ -1,7 +1,7 @@
 {
   "clinicInfo": {
     "name": "Legal Clinic Services",
-    "aboutText": "Our legal clinic provides quality legal assistance to those who might otherwise be unable to afford legal services. We are committed to ensuring access to justice for all members of our community.",
+    "aboutText": "The UNB Legal Clinic, located at 750 Brunswick Street, Fredericton, NB, provides free legal services to individuals who cannot afford representation and do not qualify for legal aid. Services include assistance with housing and tenancy issues, employment law, human rights, small claims, immigration, uncontested divorce, and more. The clinic operates Monday to Friday, 8:30 a.m. to 4:30 p.m., and offers in-person, phone, and virtual appointments. Financial eligibility is assessed using a means test, focusing on those with low or no income. Clients should bring identification, proof of income, and relevant legal documents to appointments. Contact: 506-452-6313 or lawclinic@unb.ca.",
     "services": [
       "Family law consultations",
       "Landlord-tenant dispute resolution",
