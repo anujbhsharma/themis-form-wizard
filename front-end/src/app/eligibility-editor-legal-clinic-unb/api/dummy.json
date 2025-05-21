@@ -7,7 +7,7 @@
     },
     "AGE": {
       "MIN": 18,
-      "MAX": 85
+      "MAX": 120
     },
     "HOUSEHOLD": {
       "MAX_DEPENDENTS": 10,
@@ -447,7 +447,7 @@
                 "dateOfBirth"
               ]
             },
-            "guidance": "Must be between 18 and 85 years old"
+            "guidance": "Must be between 18 and 120 years old"
           },
           {
             "name": "gender",
