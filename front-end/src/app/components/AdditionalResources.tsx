@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Layers, Phone, Mail, Tag, MapPin, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
+import { Search, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
 
 const AdditionalResources = ({ resources }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -256,6 +256,20 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
             </div>
             <a 
               href={`mailto:${resource.email}`} 
+              className="text-gray-600 hover:text-blue-600 transition-colors truncate"
+            >
+              {resource.email}
+            </a>
+          </div>
+        )}
+
+      {resource.website && (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+              <Globe className="w-4 h-4 text-blue-600" />
+            </div>
+            <a 
+              href={`${resource.website}`} 
               className="text-gray-600 hover:text-blue-600 transition-colors truncate"
             >
               {resource.email}

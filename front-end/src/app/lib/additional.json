@@ -16,6 +16,8 @@
             "name": "Outflow Men's Shelter",
             "location": "Saint John",
             "phoneNumber": "(506) 658-8050",
+            "website": "https://outflowsj.com/",
+            "notes": "Faith-based ",
             "category":"Shelters"
         },
         {
@@ -56,7 +58,8 @@
             "name": "Impact Youth",
             "location": "Moncton",
             "phoneNumber": "(506) 869-6333",
-            "notes": "Youth & Young Adult",
+            "website": "https://youthimpact.org/",
+            "notes": "Youth & Young Adult, Bilingual Services",
              "category":"Rehabilitation"
         },
         {
@@ -68,14 +71,16 @@
         {
             "name": "Naomi & Ruth",
             "phoneNumber": "(506) 875-5371",
-            "notes": "Female",
+            "website": "https://naomiandruth.ca/",
+            "notes": "Women Only, Faith-based",
              "category":"Rehabilitation"
         },
         {
             "name": "Village of Hope",
             "phoneNumber": "Mike Brewer (Intake) (506) 368-2600",
             "email": "info@villageofhopenb.ca",
-            "notes": "Male",
+            "website": "https://villageofhope.ca/",
+            "notes": "Faith-based ",
              "category":"Rehabilitation"
         },
         {
@@ -129,7 +134,6 @@
         {
             "name": "Fredericton Legal Advice Clinic",
             "description": "Run by volunteer lawyers providing advice in person or through online contact form",
-            "phoneNumber": "N/A",
             "email": "Online Form",
             "matters": "General",
              "category":"LegalAndReferralServices"
@@ -162,7 +166,6 @@
             "name": "New Brunswick Legal Aid Services Commission (NBLASC)",
             "description": "Provides legal representation for child support and child custody for qualifying individuals",
             "phoneNumber": "506-444-2777",
-            "email": "N/A",
             "matters": "Family Law",
             "category":"LegalAndReferralServices"
         },
@@ -170,7 +173,6 @@
             "name": "Family Law Advice Lawyer",
             "description": "Offers up to two hours of assistance for family law paperwork and basic advice",
             "phoneNumber": "855-266-0266",
-            "email": "N/A",
             "matters": "Family Law",
             "category":"LegalAndReferralServices"
         },
@@ -178,7 +180,6 @@
             "name": "Public Legal Education Information Services NB (PLEIS)",
             "description": "Provides family law information line and legal information line",
             "phoneNumber": "Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369",
-            "email": "N/A",
             "matters": "Family Law, Estate Advice",
             "category":"LegalAndReferralServices"
         },

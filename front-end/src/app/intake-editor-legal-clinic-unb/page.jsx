@@ -1777,6 +1777,11 @@ const FormPreview = ({ formData }) => {
                         Location: {resource.location}
                       </p>
                     )}
+                    {resource.website && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          Phone: {resource.website}
+                        </p>
+                      )}
                     {resource.notes && (
                       <p className="text-sm text-gray-600 mt-1 italic">
                         Note: {resource.notes}
