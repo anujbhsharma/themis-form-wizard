@@ -344,7 +344,7 @@ export default function Home() {
         >
           <div className="p-6">
             {/* Tab Navigation */}
-            <div className="flex flex-col items-center mb-6">
+            <div className="flex flex-col items-center mb-4">
               <div className="inline-flex rounded-xl bg-blue-50 p-1.5 gap-1 mb-4 shadow-sm">
                 {tabItems.map((tab) => (
                   <TabButton
@@ -355,9 +355,9 @@ export default function Home() {
                   />
                 ))}
               </div>
-              <p className="text-gray-600 text-sm">
+              {/* <p className="text-gray-600 text-sm">
                 {tabItems[activeTab].description}
-              </p>
+              </p> */}
             </div>
 
             {/* Content Area */}

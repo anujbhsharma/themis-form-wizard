@@ -18,10 +18,10 @@ const defaultContent = {
       "Document review and preparation"
     ],
     contactInfo: {
-      address: "123 Legal Street, Suite 101",
-      phone: "(555) 123-4567",
-      email: "info@legalclinic.org",
-      hours: "Mon-Fri, 9am-5pm"
+      address: "750 Brunswick Street, Fredericton",
+      phone: "(506)-452-6313",
+      email: "lawclinic@unb.ca",
+      hours: "Mon-Fri, 8:30am-4:30pm"
     },
     calendlyLink: "https://calendly.com/your-account/your-event",
     logoUrl: "/uploads/logo-09c10f70-f30f-4bcb-8853-dd02197e0173.jpg" // Updated to your actual logo path

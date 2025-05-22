@@ -298,10 +298,19 @@ export default function LegalClinicForm() {
     // Handle indigenous status
     if (name === 'indigenous' && value === 'first-nations') {
       // Add First Nations specific resources
-      const FirstNationsResources = RESOURCES.shelters.filter(
+      const firstNationsResources = RESOURCES.shelters.filter(
         resource => resource.notes?.toLowerCase().includes('first nations')
       );
-      updatedResources.push(...FirstNationsResources);
+      updatedResources.push(...firstNationsResources);
+    }
+
+    // Handle disability status
+    if (name === 'disabilty' && value === 'yes') {
+      // Add First Nations specific resources
+      const disabilityResources = RESOURCES.shelters.filter(
+        resource => resource.notes?.toLowerCase().includes('disability')
+      );
+      updatedResources.push(...disabilityResources);
     }
     
     // Handle gender-specific resources
@@ -591,8 +600,8 @@ export default function LegalClinicForm() {
         <h4 className="font-medium text-gray-900 mb-2">Supporting Documents Submission</h4>
         <p className="text-sm text-gray-500 text-center mb-4">
           Any supporting documents related to this matter must be sent to 
-          <a href="mailto:lawclinic@unb.ca" className="text-blue-600 hover:underline"> lawclinic@unb.ca</a> 
-          with the email subject formatted as Your First Name, Last Name - issue's Category. 
+          <a href="mailto:lawclinic@unb.ca" className="text-blue-600 hover:underline"> lawclinic@unb.ca </a> 
+          with the email subject formatted as your First Name, Last Name - Issue's Category. 
           For example: John Doe - Housing and Tenancy.
         </p>
         <p className="text-sm text-gray-500 text-center mb-4">
@@ -654,12 +663,12 @@ export default function LegalClinicForm() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b  md:py-8 px-4 md:px-8">
+    <div className="min-h-screen bg-gradient-to-b  md:py-6 px-4 md:px-8">
       {showSuccess && <SuccessModal />}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <Card className="mb-6 shadow-lg overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-full"></div>
+          <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-fulll"></div>
           <CardHeader className="pb-6 pt-6">
             <CardTitle className="text-2xl md:text-3xl text-center text-blue-800 font-bold">
               {formConfig.metadata.clinic.name}
@@ -739,7 +748,7 @@ export default function LegalClinicForm() {
                       index + 1
                     )}
                   </div>
-                  <span className="text-xs font-medium text-center max-w-20 truncate">
+                  <span className="text-xs font-medium text-center max-w-22 truncate">
                     {step.title}
                   </span>
                 </div>
@@ -876,7 +885,7 @@ export default function LegalClinicForm() {
               </div>
               <div>
                 <h3 className="font-medium text-blue-800 mb-2">Financial Eligibility Guidelines</h3>
-                <p className="text-sm text-blue-700 mb-3">The following income and asset thresholds determine eligibility for our services:</p>
+                <p className="text-sm text-blue-700 mb-3">The following income and asset upper thresholds determine eligibility for our services:</p>
                 
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -951,6 +960,8 @@ export default function LegalClinicForm() {
         )}
       </div>
 
+        {/* Main content grid */}
+        <div className="grid gap-6">
           {/* Main form */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
             {/* Step header */}
@@ -1008,7 +1019,7 @@ export default function LegalClinicForm() {
                     {field.name === 'intakeDisclaimer' && (
                       <div className="mb-4">
                         <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
-                          <p className="text-sm text-gray-600">
+                          <p className="text-base text-gray-600">
                             This form is for initial eligibility screening purposes only. Submitting this form does not create an 
                             attorney-client relationship. The legal clinic will review your information and contact you regarding 
                             your eligibility for services. Please note that our services are limited and not all applicants can be accepted.
@@ -1022,7 +1033,7 @@ export default function LegalClinicForm() {
                     {field.name === 'emailCommunicationConsent' && (
                       <div className="mb-4">
                         <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
-                          <p className="text-sm text-gray-600">
+                          <p className="text-base text-gray-600">
                             Email is not a completely secure or confidential method of communication. By accepting, you acknowledge 
                             the risks of email communication and authorize the legal clinic to communicate with you via email regarding 
                             your case, including sending documents and information related to your matter.
@@ -1122,8 +1133,168 @@ export default function LegalClinicForm() {
               </div>
             )}
 
-
+            {/* Resources - Always Visible */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden hidden top-4">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-4 border-b border-blue-100 text-white flex justify-between items-center">
+                <div>
+                  <h3 className="font-medium text-white flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-white" />
+                    Community Resources
+                  </h3>
+                  <p className="text-xs text-blue-50 mt-1">
+                    {activeResources 
+                      ? "Based on your responses, these resources may help" 
+                      : "Support services available in your community"}
+                  </p>
+                </div>
+                
+              </div>
+              
+              <div className="p-4 max-h-[calc(200vh-300px)] overflow-y-auto">
+                {!activeResources && (
+                  <div className="py-6 px-4 text-center">
+                    <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                      <HelpCircle className="w-8 h-8 text-blue-500" />
+                    </div>
+                    <h4 className="text-gray-700 font-medium mb-2">Resources Will Appear Here</h4>
+                    <p className="text-sm text-gray-500">
+                      As you complete the form, we'll suggest relevant resources based on your needs.
+                    </p>
+                    
+                    {/* Quick Links to Common Resources */}
+                    <div className="mt-6 border-t pt-4 border-gray-100">
+                      <p className="text-xs text-gray-500 mb-3 font-medium">COMMON RESOURCES</p>
+                      <div className="space-y-2">
+                        {RESOURCES && RESOURCES.emergency && RESOURCES.emergency.map((resource, index) => (
+                          <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
+                            <Phone className="w-4 h-4 text-blue-500" />
+                            <a 
+                              href={`tel:${resource.phoneNumber?.replace(/[^0-9]/g, '') || ''}`}
+                              className="text-sm text-blue-600 hover:underline"
+                            >
+                              {resource.name}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {activeResources && Object.entries(
+                  activeResources.reduce((acc, resource) => {
+                    const category = resource.category || 'other';
+                    acc[category] = acc[category] || [];
+                    acc[category].push(resource);
+                    return acc;
+                  }, {})
+                ).map(([category, resources]) => (
+                  <div key={category} className="mb-6 last:mb-0">
+                    <div className="flex items-center gap-2 mb-3 pb-1 border-b border-gray-100">
+                      <div className="w-1 h-4 bg-blue-500 rounded-full"></div>
+                      <h4 className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        {category.replace(/([A-Z])/g, ' $1').trim()}
+                      </h4>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {resources.map((resource, index) => (
+                        <div 
+                          key={index} 
+                          className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 
+                          hover:shadow-md transition-all duration-200"
+                        >
+                          <div className="flex items-start">
+                            <div className="flex-grow">
+                              <h4 className="font-medium text-gray-900">
+                                {resource.name}
+                              </h4>
+                              
+                              <div className="mt-2 space-y-2">
+                                {resource.phoneNumber && (
+                                  <p className="text-sm flex items-center gap-2">
+                                    <Phone className="w-4 h-4 text-blue-500" />
+                                    <a 
+                                      href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
+                                      className="text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                                    >
+                                      {resource.phoneNumber}
+                                    </a>
+                                  </p>
+                                )}
+                                
+                                {resource.location && (
+                                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                                    <Home className="w-4 h-4 text-gray-500" />
+                                    {resource.location}
+                                  </p>
+                                )}
+                                
+                                {resource.email && (
+                                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                                    <Mail className="w-4 h-4 text-gray-500" />
+                                    <a href={`mailto:${resource.email}`} className="text-blue-600 hover:underline">
+                                      {resource.email}
+                                    </a>
+                                  </p>
+                                )}
+                                
+                                {resource.matters && (
+                                  <p className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded inline-block mt-1">
+                                    {resource.matters}
+                                  </p>
+                                )}
+                              </div>
+                              
+                              {resource.description && (
+                                <p className="text-sm text-gray-600 mt-3 border-t border-gray-100 pt-2">
+                                  {resource.description}
+                                </p>
+                              )}
+                            </div>
+                            
+                            {resource.category && (
+                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full ml-2 whitespace-nowrap">
+                                {category === 'legal' 
+                                  ? 'Legal Support'
+                                  : category.replace(/([A-Z])/g, ' $1').trim()}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {resource.notes && (
+                            <div className="mt-3 text-xs bg-yellow-50 text-yellow-800 p-3 rounded-md flex items-start gap-2 border border-yellow-100">
+                              <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-yellow-600" />
+                              <span>{resource.notes}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Resource Cards Interaction Guide */}
+                {activeResources && activeResources.length > 0 && (
+                  <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-700">
+                    <div className="flex items-start gap-2">
+                      <Info className="w-4 h-4 text-blue-500 mt-0.5" />
+                      {/* <div>
+                        <p className="font-medium mb-1">How to use these resources:</p>
+                        <ul className="list-disc pl-4 space-y-1">
+                          <li>Click phone numbers to call directly</li>
+                          <li>Click email addresses to send a message</li>
+                          <li>Resources are filtered based on your form responses</li>
+                          <li>You can always return to this list later</li>
+                        </ul>
+                      </div> */}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
   );

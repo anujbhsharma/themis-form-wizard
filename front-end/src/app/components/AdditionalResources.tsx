@@ -37,11 +37,10 @@ const AdditionalResources = ({ resources }) => {
 
   // Available categories for filtering
   const categories = [
-    { name: 'All', label: 'All Resources', icon: <Layers className="w-4 h-4" /> },
-    { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> },
-    { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> }
+    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> },
+    { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
+    { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> }
   ];
 
   // Get category icon by name
@@ -58,15 +57,15 @@ const AdditionalResources = ({ resources }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-      <div className="h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-red-500 w-full"></div>
+      <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-full"></div>
   <div className="px-6 py-8 text-center">
-    <h1 className="text-3xl font-semibold text-gray-900 mb-3">
+    <h1 className="text-3xl font-semibold text-blue-800 mb-3">
       Support Resources
     </h1>
-    <p className="text-gray-600 max-w-2xl mx-auto">
+    <p className="text-gray-600 max-w-2.5xl mx-auto">
       Find support services available in New Brunswick. Use the search and filters to locate specific resources.
     </p>
   </div>
@@ -229,7 +228,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm line-clamp-3 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm line-clamp-4 flex-grow">
           {resource.description}
         </p>
       )}
@@ -248,6 +247,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
             </a>
           </div>
         )}
+        
         
         {resource.email && (
           <div className="flex items-center gap-3">
@@ -272,7 +272,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
               href={`${resource.website}`} 
               className="text-gray-600 hover:text-blue-600 transition-colors truncate"
             >
-              {resource.email}
+              {resource.website}
             </a>
           </div>
         )}
@@ -297,8 +297,8 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </div>
 
       {resource.notes && (
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <div className="text-xs bg-gray-50 text-gray-700 p-3 rounded-md flex items-start gap-2">
+        <div className="mt-4 pt-4 border-t border-blue-200">
+          <div className="text-xs bg-gray-50 text-gray-700 p-2 rounded-md flex items-start gap-2">
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-500" />
             <span>{resource.notes}</span>
           </div>
@@ -410,7 +410,7 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
           
           {resource.notes && (
             <div className="mt-4">
-              <div className="text-xs bg-gray-50 text-gray-700 p-3 rounded-md flex items-start gap-2">
+              <div className="text-xs bg-gray-50 text-gray-700 p-2 rounded-md flex items-start gap-2">
                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-500" />
                 <span>{resource.notes}</span>
               </div>
