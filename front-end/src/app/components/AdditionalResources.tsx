@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
+import { Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
 
 const AdditionalResources = ({ resources }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,7 +38,7 @@ const AdditionalResources = ({ resources }) => {
   // Available categories for filtering
   const categories = [
     { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> },
+    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
     { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> }
   ];

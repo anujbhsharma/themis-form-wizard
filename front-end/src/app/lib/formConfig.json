@@ -301,6 +301,19 @@
             "requird": false
           },
           {
+            "name": "housing",
+            "label": "Do you currently have housing?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": ["required"]
+            },
+            "options": [
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
+            ]
+          },
+          {
             "name": "address",
             "label": "Address",
             "type": "text",
@@ -446,7 +459,7 @@
               { "value": "4-6", "label": "4-6 years" },
               { "value": "7-10", "label": "7-10 years" },
               { "value": "more-than-10", "label": "More than 10 years" },
-              { "value": "not-in-canada", "label": "I do not live in Canada" }
+              { "value": "not-in-canada", "label": "I do not live in New Brunswick" }
             ]
           },
           {
@@ -614,7 +627,7 @@
             "validation": {
               "rules": ["numeric", "totalMonthlyIncome"]
             },
-            "guidance": "Add the number Zero if you have no income"
+            "guidance": "Put 0 if you have currently have no income"
           },
           {
             "name": "childcareExpenses",
@@ -651,7 +664,7 @@
             "validation": {
               "rules": ["numeric"]
             },
-            "guidance": "Add the number Zero if you have no deductions"
+            "guidance": "Put 0 if you have no deductions"
           },
           {
             "name": "cashAndBank",
@@ -688,7 +701,7 @@
             "validation": {
               "rules": ["numeric", "totalAssets"]
             },
-            "guidance": "Add the number Zero if you have no Assets"
+            "guidance": "put 0 if you currently have no assets"
           }
         ]
       },

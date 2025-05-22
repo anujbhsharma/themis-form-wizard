@@ -54,11 +54,10 @@
     ],
     "Rehabilitation": [
         {
-            "name": "Portage",
-            "location": "Cassidy Lake",
-            "phoneNumber": "(506)-839-1200",
-            "website": "https://portage.ca/en/atlantic/",
-            "notes": "Youth & Young Adult, Bilingual Services",
+            "name": "Harvest House - Community Centre & Shelter",
+            "location": "Moncton",
+            "phoneNumber": "(506) 855-0626 | Atlantic Office",
+            "phoneNumberAlt": "(506) 388-4357 | Community Centre & Shelter",
             "category":"Rehabilitation"
         },
         {
@@ -70,14 +69,6 @@
              "category":"Rehabilitation"
         },
         {
-            "name": "Teen Challenge",
-            "location": "Memramcook",
-            "phoneNumber": "(506) 758-2377",
-            "website": "https://www.teenchallenge.ca/",
-            "notes": "Youth",
-            "category":"Rehabilitation"
-        },
-        {
             "name": "Naomi & Ruth",
             "location": "Shediac",
             "phoneNumber": "(506) 875-5371",
@@ -86,10 +77,11 @@
              "category":"Rehabilitation"
         },
         {
-            "name": "Harvest House - Community Centre & Shelter",
-            "location": "Moncton",
-            "phoneNumber": "(506) 855-0626 | Atlantic Office",
-            "phoneNumberAlt": "(506) 388-4357 | Community Centre & Shelter",
+            "name": "Portage",
+            "location": "Cassidy Lake",
+            "phoneNumber": "(506)-839-1200",
+            "website": "https://portage.ca/en/atlantic/",
+            "notes": "Youth & Young Adult, Bilingual Services",
             "category":"Rehabilitation"
         },
         {
@@ -97,6 +89,14 @@
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
              "category":"Rehabilitation"
+        },
+        {
+            "name": "Teen Challenge",
+            "location": "Memramcook",
+            "phoneNumber": "(506) 758-2377",
+            "website": "https://www.teenchallenge.ca/",
+            "notes": "Youth",
+            "category":"Rehabilitation"
         },
         {
             "name": "Village of Hope",

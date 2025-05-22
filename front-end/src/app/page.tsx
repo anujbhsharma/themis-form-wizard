@@ -237,27 +237,6 @@ export default function Home() {
             <h2 className="text-xl font-bold text-blue-800 mb-3">About Us</h2>
             <p className="text-gray-700">{content?.clinicInfo?.aboutText || "Information not available."}</p>
           </div>
-
-           {/* Display active announcements */}
-      {content?.announcements && content.announcements.length > 0 && (
-        <div className="bg-gray-50 py-2">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="space-y-2">
-              {content.announcements
-                .filter(announcement => announcement.active)
-                .map(announcement => (
-                  <Announcement 
-                    key={announcement.id} 
-                    title={announcement.title}
-                    content={announcement.content}
-                    type={announcement.type}
-                  />
-                ))
-              }
-            </div>
-          </div>
-        </div>
-      )}
           
           {/* Services section */}
           <div>
@@ -310,6 +289,28 @@ export default function Home() {
               >
                 Schedule an Appointment
               </a>
+            </div>
+          )}
+
+          {/* Display active announcements */}
+          {content?.announcements && content.announcements.length > 0 && (
+            <div className="bg-gray-50 py-2">
+               <h2 className="text-xl font-bold text-blue-800 mb-3">Latest Updates</h2>
+              <div className="container mx-auto px-4 max-w-5xl">
+                <div className="space-y-2">
+                  {content.announcements
+                    .filter(announcement => announcement.active)
+                    .map(announcement => (
+                      <Announcement 
+                        key={announcement.id} 
+                        title={announcement.title}
+                        content={announcement.content}
+                        type={announcement.type}
+                      />
+                    ))
+                  }
+                </div>
+              </div>
             </div>
           )}
         </div>
