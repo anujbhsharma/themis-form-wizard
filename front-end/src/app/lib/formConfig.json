@@ -74,7 +74,7 @@
         "name": "Fredericton Legal Advice Clinic",
         "description": "Run by volunteer lawyers providing advice in person or through online contact form",
         "phoneNumber": "N/A",
-        "email": "flac.nb@gmail.com",
+        "email": "Online Form",
         "matters": "General",
          "category":"legal"
     },
@@ -131,7 +131,6 @@
         "description": "Provincial association of REALTORS® working to promote professional standards and protect public interest",
         "phoneNumber": "506-459-8055 / 1-800-762-1677",
         "email": "info@nbrea.ca",
-        "website": "www.nbrea.ca/",
         "matters": "Real Estate Complaints",
         "category":"legal"
     },
@@ -155,7 +154,7 @@
         "name": "NB Refugee Clinic",
         "description": "Assists with Basis of Claim forms, immigration hearings, and related refugee issues",
         "phoneNumber": "506-204-5781",
-        "email": "info@nbrc-crnb.ca",
+        "email": "Online Form",
         "matters": "Refugee or Immigration Issues",
         "category":"legal"
     },
@@ -295,12 +294,6 @@
             }
           },
           {
-            "name": "preferredName",
-            "label": "Preferred Name (if distinct from legal name)",
-            "type": "text",
-            "requird": false
-          },
-          {
             "name": "address",
             "label": "Address",
             "type": "text",
@@ -401,20 +394,6 @@
               { "value": "first-nations", "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)" },
               { "value": "metis", "label": "Yes, Métis" },
               { "value": "inuit", "label": "Yes, Inuit" },
-              { "value": "no", "label": "No" },
-              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
-            ]
-          },
-          {
-            "name": "disability",
-            "label": "Do you identify as a person with a disability?",
-            "type": "radio",
-            "required": true,
-            "validation": {
-              "rules": ["required"]
-            },
-            "options": [
-              { "value": "yes", "label": "Yes" },
               { "value": "no", "label": "No" },
               { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
             ]
@@ -753,7 +732,7 @@
           {
             "name": "deadlineDetails",
             "label": "Court/Hearing Date",
-            "type": "date",
+            "type": "text",
             "required": false,
             "guidance": "Court Name- YYYY-MM-DD",
             "showIf": "hasDeadline === 'yes'"

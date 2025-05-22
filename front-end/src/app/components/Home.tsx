@@ -214,6 +214,17 @@ const HomeHeader = () => {
           </div>
 
           {/* Powered by section - unchanged */}
+          <div className="flex items-center space-x-3 px-4 py-2">
+            <span className="text-gray-500 text-sm font-medium">Developed by</span>
+            <Image 
+              src={tclogo}
+              alt="TC Logo" 
+              width={110}
+              height={110}
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
       </div>
     </header>

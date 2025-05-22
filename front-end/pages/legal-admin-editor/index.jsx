@@ -684,7 +684,7 @@ const handleToggleAnnouncementActive = async (id) => {
           <div className="bg-white shadow rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Logo Management</h2>
             
-            <div className="flex flex-col items-center mb-4">
+            <div className="flex flex-col items-center mb-6">
               <div className="mb-4 border p-4 rounded-md bg-gray-50">
               {content.clinicInfo?.logoUrl ? (
   <img 
