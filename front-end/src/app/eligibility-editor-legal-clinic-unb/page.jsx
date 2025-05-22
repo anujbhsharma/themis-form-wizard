@@ -67,7 +67,7 @@
 //     },
 //     AGE: {
 //       MIN: 18,
-//       MAX: 120
+//       MAX: 85
 //     },
 //     HOUSEHOLD: {
 //       MAX_DEPENDENTS: 10,
@@ -1550,7 +1550,7 @@ const initialState = {
     },
     AGE: {
       MIN: 18,
-      MAX: 120
+      MAX: 85
     },
     HOUSEHOLD: {
       MAX_DEPENDENTS: 10,

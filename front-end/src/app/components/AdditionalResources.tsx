@@ -10,10 +10,10 @@ const AdditionalResources = ({ resources }) => {
 
   // Combine all resources
   const allResources = [
-    ...resources.Shelters, 
-    ...resources.Rehabilitation, 
-    ...resources.FirstNationsResources,
-    ...resources.LegalAndReferralServices
+    ...resources.shelters, 
+    ...resources.rehabilitation, 
+    ...resources.firstNationsResources,
+    ...resources.legalAndReferralServices
   ];
 
   // Filter resources based on search and category
@@ -37,11 +37,11 @@ const AdditionalResources = ({ resources }) => {
 
   // Available categories for filtering
   const categories = [
-    { name: 'All', label: 'All Resources', icon: <Layers className="w-4 h-4" /> },
-    { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> },
-    { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
-    { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> }
+    { name: 'all', label: 'All Resources', icon: <Layers className="w-4 h-4" /> },
+    { name: 'shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> },
+    { name: 'rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
+    { name: 'firstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
+    { name: 'legalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> }
   ];
 
   // Get category icon by name

@@ -1,142 +1,161 @@
 {
-    "Shelters": [
+    "shelters": [
         {
             "name": "Oak Centre",
             "location": "Fredericton",
             "phoneNumber": "(506) 206-0667",
-            "category":"Shelters"
+            "category":"shelters"
         },
         {
             "name": "Saint John House",
             "location": "Fredericton", 
             "phoneNumber": "(506) 450-1102",
-            "category":"Shelters"
+            "category":"shelters"
         },
         {
             "name": "Outflow Men's Shelter",
             "location": "Saint John",
             "phoneNumber": "(506) 658-8050",
+<<<<<<< HEAD
             "website": "https://outflowsj.com/",
             "notes": "Faith-based ",
             "category":"Shelters"
+=======
+            "category":"shelters"
+>>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Women in Transition",
             "location": "Fredericton",
             "phoneNumber": "(506) 459-2300",
             "notes": "Women Only",
-            "category":"Shelters"
+            "category":"shelters"
         },
         {
             "name": "Grace House for Women",
             "phoneNumber": "(506) 450-3001",
             "notes": "Women Only",
-            "category":"Shelters"
+            "category":"shelters"
         },
         {
             "name": "Gignoo Aboriginal Transition House",
             "phoneNumber": "(800) 565-6878 - (506) 458-1224",
             "notes": "Women Only, First Nations",
-            "category":"Shelters"
+            "category":"shelters"
         },
         {
             "name": "Sanctuary House",
             "location": "Woodstock",
             "phoneNumber": "(506) 325-9452",
-            "category":"Shelters"
+            "category":"shelters"
         }
     ],
-    "Rehabilitation": [
+    "rehabilitation": [
         {
             "name": "Portage",
             "location": "Cassidy Lake Centre",
             "phoneNumber": "(506) 839-1200",
             "notes": "Youth & Young Adult",
-            "category":"Rehabilitation"
+            "category":"rehabilitation"
         },
         {
             "name": "Impact Youth",
             "location": "Moncton",
             "phoneNumber": "(506) 869-6333",
+<<<<<<< HEAD
             "website": "https://youthimpact.org/",
             "notes": "Youth & Young Adult, Bilingual Services",
              "category":"Rehabilitation"
+=======
+            "notes": "Youth & Young Adult",
+             "category":"rehabilitation"
+>>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Teen Challenge",
             "phoneNumber": "(506) 758-7377",
             "notes": "Youth",
-             "category":"Rehabilitation"
+             "category":"rehabilitation"
         },
         {
             "name": "Naomi & Ruth",
             "phoneNumber": "(506) 875-5371",
+<<<<<<< HEAD
             "website": "https://naomiandruth.ca/",
             "notes": "Women Only, Faith-based",
              "category":"Rehabilitation"
+=======
+            "notes": "Female",
+             "category":"rehabilitation"
+>>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Village of Hope",
             "phoneNumber": "Mike Brewer (Intake) (506) 368-2600",
             "email": "info@villageofhopenb.ca",
+<<<<<<< HEAD
             "website": "https://villageofhope.ca/",
             "notes": "Faith-based ",
              "category":"Rehabilitation"
+=======
+            "notes": "Male",
+             "category":"rehabilitation"
+>>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Harvest House - Community Centre & Shelter",
             "phoneNumber": "(506) 855-0626 - (506) 388-4357",
-             "category":"Rehabilitation"
+             "category":"rehabilitation"
         },
         {
             "name": "Riverstone Recovery Outpatient",
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
-             "category":"Rehabilitation"
+             "category":"rehabilitation"
         }
     ],
-    "FirstNationsResources": [
+    "firstNationsResources": [
         {
             "name": "Addictions/Mental-Wellness St Mary's",
             "contact": "Chris Brooks",
             "phoneNumber": "(506) 452-2750",
             "email": "chrisbrooks@smfn.ca",
-             "category":"FirstNationsResources"
+             "category":"firstNationsResources"
         },
         {
             "name": "Apatawsuwikuwam",
             "location": "St. Mary's First Nation",
             "phoneNumber": "(506) 206-1005",
             "email": "admin@apatawsuwikuwam.com",
-              "category":"FirstNationsResources"
+              "category":"firstNationsResources"
         },
         {
             "name": "Rising Sun Treatment Centre",
             "location": "Eel Ground",
             "phoneNumber": "(833) 444-4626",
             "email": "info@risingsuntreatment.ca",
-             "category":"FirstNationsResources"
+             "category":"firstNationsResources"
         },
         {
             "name": "Elsipogtog Heath & Wellness Centre",
             "location": "Elsipogtog",
             "phoneNumber": "(506) 523-8227",
-             "category":"FirstNationsResources"
+             "category":"firstNationsResources"
         },
         {
             "name": "Wolastoqewiyik Healing Lodge - Outpatient",
             "location": "Tobique",
             "phoneNumber": "(506) 273-5403",
-             "category":"FirstNationsResources"
+             "category":"firstNationsResources"
         }
     ],
-    "LegalAndReferralServices": [
+    "legalAndReferralServices": [
         {
             "name": "Fredericton Legal Advice Clinic",
             "description": "Run by volunteer lawyers providing advice in person or through online contact form",
             "email": "Online Form",
             "matters": "General",
-             "category":"LegalAndReferralServices"
+             "category":"legalAndReferralServices"
         },
         {
             "name": "Investigations of Complaints - Employment Standards",
@@ -144,7 +163,7 @@
             "phoneNumber": "1-888-452-2687",
             "email": "petl.epft@gnb.ca",
             "matters": "Employment",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Landlord and Tenant Relations Office",
@@ -152,7 +171,7 @@
             "phoneNumber": "1-888-762-8600",
             "email": "renting@gnb.ca",
             "matters": "Tenancies and Landlords",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "New Brunswick Human Rights Commission",
@@ -160,28 +179,28 @@
             "phoneNumber": "Toll Free: 1-888-471-2233, (506) 453-2301",
             "email": "hrc.cdp@gnb.ca",
             "matters": "Human Rights",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "New Brunswick Legal Aid Services Commission (NBLASC)",
             "description": "Provides legal representation for child support and child custody for qualifying individuals",
             "phoneNumber": "506-444-2777",
             "matters": "Family Law",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Family Law Advice Lawyer",
             "description": "Offers up to two hours of assistance for family law paperwork and basic advice",
             "phoneNumber": "855-266-0266",
             "matters": "Family Law",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Public Legal Education Information Services NB (PLEIS)",
             "description": "Provides family law information line and legal information line",
             "phoneNumber": "Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369",
             "matters": "Family Law, Estate Advice",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "New Brunswick Real Estate Association (NBREA)",
@@ -189,7 +208,7 @@
             "phoneNumber": "506-459-8055 / 1-800-762-1677",
             "email": "info@nbrea.ca",
             "matters": "Real Estate Complaints",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Steward McKelvey - Will Project",
@@ -197,7 +216,7 @@
             "phoneNumber": "506-458-7037",
             "email": "willsproject@unb.ca",
             "matters": "Will or Power of Attorney",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Public Trustee",
@@ -205,7 +224,7 @@
             "phoneNumber": "(506) 444-3688",
             "email": "Public.trustee@gnb.ca",
             "matters": "Other",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "NB Refugee Clinic",
@@ -213,7 +232,7 @@
             "phoneNumber": "506-204-5781",
             "email": "Online Form",
             "matters": "Refugee or Immigration Issues",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         },
         {
             "name": "Fine Option Program",
@@ -221,7 +240,7 @@
             "phoneNumber": "300 Saint Mary's Street",
             "email": "DPS-MSP.Information@gnb.ca",
             "matters": "Other",
-            "category":"LegalAndReferralServices"
+            "category":"legalAndReferralServices"
         }
     ]
 }

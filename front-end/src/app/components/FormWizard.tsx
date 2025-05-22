@@ -298,10 +298,10 @@ export default function LegalClinicForm() {
     // Handle indigenous status
     if (name === 'indigenous' && value === 'first-nations') {
       // Add First Nations specific resources
-      const FirstNationsResources = RESOURCES.shelters.filter(
+      const firstNationsResources = RESOURCES.shelters.filter(
         resource => resource.notes?.toLowerCase().includes('first nations')
       );
-      updatedResources.push(...FirstNationsResources);
+      updatedResources.push(...firstNationsResources);
     }
     
     // Handle gender-specific resources
@@ -659,7 +659,7 @@ export default function LegalClinicForm() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <Card className="mb-6 shadow-lg overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-full"></div>
+          <div className="h-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 w-full"></div>
           <CardHeader className="pb-6 pt-6">
             <CardTitle className="text-2xl md:text-3xl text-center text-blue-800 font-bold">
               {formConfig.metadata.clinic.name}
@@ -951,6 +951,8 @@ export default function LegalClinicForm() {
         )}
       </div>
 
+        {/* Main content grid */}
+        <div className="grid md:grid-cols-[2fr,1fr] gap-6">
           {/* Main form */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
             {/* Step header */}
@@ -982,7 +984,7 @@ export default function LegalClinicForm() {
 
         {/* Form fields */}
             <div className="p-6">
-              <div ref={formRef} className="max-h-[200vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
+              <div ref={formRef} className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
                 {currentStepConfig.fields.map(field => (
                   <div key={field.name} className="mb-8 last:mb-0 animate-fadeIn">
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -1122,8 +1124,168 @@ export default function LegalClinicForm() {
               </div>
             )}
 
-
+            {/* Resources - Always Visible */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden sticky top-4">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-4 border-b border-blue-100 text-white flex justify-between items-center">
+                <div>
+                  <h3 className="font-medium text-white flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-white" />
+                    Community Resources
+                  </h3>
+                  <p className="text-xs text-blue-50 mt-1">
+                    {activeResources 
+                      ? "Based on your responses, these resources may help" 
+                      : "Support services available in your community"}
+                  </p>
+                </div>
+                
+              </div>
+              
+              <div className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
+                {!activeResources && (
+                  <div className="py-6 px-4 text-center">
+                    <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                      <HelpCircle className="w-8 h-8 text-blue-500" />
+                    </div>
+                    <h4 className="text-gray-700 font-medium mb-2">Resources Will Appear Here</h4>
+                    <p className="text-sm text-gray-500">
+                      As you complete the form, we'll suggest relevant resources based on your needs.
+                    </p>
+                    
+                    {/* Quick Links to Common Resources */}
+                    <div className="mt-6 border-t pt-4 border-gray-100">
+                      <p className="text-xs text-gray-500 mb-3 font-medium">COMMON RESOURCES</p>
+                      <div className="space-y-2">
+                        {RESOURCES && RESOURCES.emergency && RESOURCES.emergency.map((resource, index) => (
+                          <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
+                            <Phone className="w-4 h-4 text-blue-500" />
+                            <a 
+                              href={`tel:${resource.phoneNumber?.replace(/[^0-9]/g, '') || ''}`}
+                              className="text-sm text-blue-600 hover:underline"
+                            >
+                              {resource.name}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {activeResources && Object.entries(
+                  activeResources.reduce((acc, resource) => {
+                    const category = resource.category || 'other';
+                    acc[category] = acc[category] || [];
+                    acc[category].push(resource);
+                    return acc;
+                  }, {})
+                ).map(([category, resources]) => (
+                  <div key={category} className="mb-6 last:mb-0">
+                    <div className="flex items-center gap-2 mb-3 pb-1 border-b border-gray-100">
+                      <div className="w-1 h-4 bg-blue-500 rounded-full"></div>
+                      <h4 className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        {category.replace(/([A-Z])/g, ' $1').trim()}
+                      </h4>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {resources.map((resource, index) => (
+                        <div 
+                          key={index} 
+                          className="bg-white rounded-lg p-4 border border-gray-200 hover:border-blue-300 
+                          hover:shadow-md transition-all duration-200"
+                        >
+                          <div className="flex items-start">
+                            <div className="flex-grow">
+                              <h4 className="font-medium text-gray-900">
+                                {resource.name}
+                              </h4>
+                              
+                              <div className="mt-2 space-y-2">
+                                {resource.phoneNumber && (
+                                  <p className="text-sm flex items-center gap-2">
+                                    <Phone className="w-4 h-4 text-blue-500" />
+                                    <a 
+                                      href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`}
+                                      className="text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                                    >
+                                      {resource.phoneNumber}
+                                    </a>
+                                  </p>
+                                )}
+                                
+                                {resource.location && (
+                                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                                    <Home className="w-4 h-4 text-gray-500" />
+                                    {resource.location}
+                                  </p>
+                                )}
+                                
+                                {resource.email && (
+                                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                                    <Mail className="w-4 h-4 text-gray-500" />
+                                    <a href={`mailto:${resource.email}`} className="text-blue-600 hover:underline">
+                                      {resource.email}
+                                    </a>
+                                  </p>
+                                )}
+                                
+                                {resource.matters && (
+                                  <p className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded inline-block mt-1">
+                                    {resource.matters}
+                                  </p>
+                                )}
+                              </div>
+                              
+                              {resource.description && (
+                                <p className="text-sm text-gray-600 mt-3 border-t border-gray-100 pt-2">
+                                  {resource.description}
+                                </p>
+                              )}
+                            </div>
+                            
+                            {resource.category && (
+                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full ml-2 whitespace-nowrap">
+                                {category === 'legal' 
+                                  ? 'Legal Support'
+                                  : category.replace(/([A-Z])/g, ' $1').trim()}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {resource.notes && (
+                            <div className="mt-3 text-xs bg-yellow-50 text-yellow-800 p-3 rounded-md flex items-start gap-2 border border-yellow-100">
+                              <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-yellow-600" />
+                              <span>{resource.notes}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Resource Cards Interaction Guide */}
+                {activeResources && activeResources.length > 0 && (
+                  <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-700">
+                    <div className="flex items-start gap-2">
+                      <Info className="w-4 h-4 text-blue-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium mb-1">How to use these resources:</p>
+                        <ul className="list-disc pl-4 space-y-1">
+                          <li>Click phone numbers to call directly</li>
+                          <li>Click email addresses to send a message</li>
+                          <li>Resources are filtered based on your form responses</li>
+                          <li>You can always return to this list later</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
   );
