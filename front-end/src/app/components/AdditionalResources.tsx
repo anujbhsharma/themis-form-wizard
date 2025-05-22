@@ -383,6 +383,23 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
           )}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {resource.website && (
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                  <Globe className="w-4 h-4 text-blue-600" />
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500">Website</div>
+                  <a 
+                  href={`${resource.website}`} 
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                  >
+                    <div className="text-sm text-gray-700 truncate">{resource.website}</div>
+                  </a>
+                </div>
+              </div>
+            )}
+
             {resource.matters && (
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
