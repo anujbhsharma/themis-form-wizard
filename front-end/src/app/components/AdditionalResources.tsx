@@ -57,7 +57,7 @@ const AdditionalResources = ({ resources }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-2">
       {/* Header */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
       <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-full"></div>
@@ -341,6 +341,18 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
         </div>
         
         <div className="flex items-center gap-4">
+        {resource.website && (
+            <a 
+              href={`${resource.website}`} 
+              className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="hidden md:inline text-sm truncate max-w-[150px]">
+                {resource.website}
+              </span>
+            </a>
+          )}
+
           {resource.phoneNumber && (
             <a 
               href={`tel:${resource.phoneNumber.replace(/\s+/g, '')}`} 
@@ -383,7 +395,7 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
           )}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {resource.website && (
+          {/* {resource.website && (
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
                   <Globe className="w-4 h-4 text-blue-600" />
@@ -394,11 +406,11 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
                   href={`${resource.website}`} 
                   className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
                   >
-                    <div className="text-sm text-gray-700 truncate">{resource.website}</div>
+                    <div className="text-sm text-gray-700 truncate flex-shrink-0">{resource.website}</div>
                   </a>
                 </div>
               </div>
-            )}
+            )} */}
 
             {resource.matters && (
               <div className="flex items-center gap-3">
