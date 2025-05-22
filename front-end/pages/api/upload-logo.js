@@ -89,7 +89,7 @@ export default async function handler(req, res) {
             // Create default content
             content = {
               clinicInfo: {
-                name: "UNB Legal Clinic Services",
+                name: "Legal Clinic Services",
                 aboutText: "Our legal clinic provides quality legal assistance.",
                 services: [],
                 contactInfo: {},
