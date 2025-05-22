@@ -208,7 +208,7 @@ const AdditionalResources = ({ resources }) => {
 // Resource Card Component
 const ResourceCard = ({ resource, getCategoryIcon }) => {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300 flex flex-col h-full">
+    <div className="overflow-hidden bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300 flex flex-col h-full">
       {/* Category Badge */}
       <div className="flex justify-between items-start mb-3">
         <div className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs flex items-center gap-1">
@@ -264,7 +264,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
         )}
 
       {resource.website && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 truncate overflow-hidden">
             <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
               <Globe className="w-4 h-4 text-blue-600" />
             </div>
