@@ -1,25 +1,15 @@
 {
     "Shelters": [
         {
-            "name": "Gignoo Aboriginal Transition House",
-            "location": "Fredericton",
-            "phoneNumber": "(800)-565-6878 | 24/7 Helpline",
-            "phoneNumberAlt": "(506)-458-1224 | Local Crisis Line",
-            "notes": "Women Only, First Nations",
-            "category":"Shelters"
-        },
-        {
-            "name": "Grace House for Women",
-            "location": "Fredericton",
-            "phoneNumber": "(506)-450-3001",
-            "website": "https://www.theshelters.ca/our-spaces/grace-house/",
-            "notes": "Women Only",
-            "category":"Shelters"
-        },
-        {
             "name": "Oak Centre",
             "location": "Fredericton",
             "phoneNumber": "(506)-206-0667",
+            "category":"Shelters"
+        },
+        {
+            "name": "Saint John House",
+            "location": "Fredericton", 
+            "phoneNumber": "(506)-450-1102",
             "category":"Shelters"
         },
         {
@@ -31,24 +21,32 @@
             "category":"Shelters"
         },
         {
-            "name": "Saint John House",
-            "location": "Fredericton", 
-            "phoneNumber": "(506)-450-1102",
-            "category":"Shelters"
-        },
-        {
-            "name": "Sanctuary House",
-            "location": "Woodstock",
-            "phoneNumber": "(506) 325-9452",
-            "category":"Shelters"
-        },
-        {
             "name": "Women in Transition",
             "location": "Fredericton",
             "email": "transhouse1@nb.aibn.com",
             "phoneNumber": "(506)-459-2300",
             "website": "https://www.womenintransitionhouse.ca/",
             "notes": "Women Only",
+            "category":"Shelters"
+        },
+        {
+            "name": "Grace House for Women",
+            "phoneNumber": "(506)-450-3001",
+            "website": "https://www.theshelters.ca/our-spaces/grace-house/",
+            "notes": "Women Only",
+            "category":"Shelters"
+        },
+        {
+            "name": "Gignoo Aboriginal Transition House",
+            "phoneNumber": "(800)-565-6878 | 24/7 Helpline",
+            "phoneNumberAlt": "(506)-458-1224 | Local Crisis Line",
+            "notes": "Women Only, First Nations",
+            "category":"Shelters"
+        },
+        {
+            "name": "Sanctuary House",
+            "location": "Woodstock",
+            "phoneNumber": "(506) 325-9452",
             "category":"Shelters"
         }
     ],
@@ -86,8 +84,15 @@
              "category":"Rehabilitation"
         },
         {
+            "name": "Village of Hope",
+            "phoneNumber": "(506)-368-2600",
+            "email": "info@villageofhopenb.ca",
+            "website": "https://villageofhope.ca/",
+            "notes": "Faith-based ",
+             "category":"Rehabilitation"
+        },
+        {
             "name": "Harvest House - Community Centre & Shelter",
-            "location": "Moncton",
             "phoneNumber": "(506) 855-0626 | Atlantic Office",
             "phoneNumberAlt": "(506) 388-4357 | Community Centre & Shelter",
             "category":"Rehabilitation"
@@ -97,21 +102,11 @@
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
              "category":"Rehabilitation"
-        },
-        {
-            "name": "Village of Hope",
-            "location": "Upper Tracy",
-            "phoneNumber": "(506)-368-2600",
-            "email": "info@villageofhopenb.ca",
-            "website": "https://villageofhope.ca/",
-            "notes": "Faith-based ",
-             "category":"Rehabilitation"
         }
     ],
     "FirstNationsResources": [
         {
             "name": "Addictions/Mental-Wellness St Mary's",
-            "location": "St. Mary's First Nation",
             "contact": "Chris Brooks",
             "phoneNumber": "(506) 452-2750",
             "email": "chrisbrooks@smfn.ca",
@@ -125,19 +120,19 @@
               "category":"FirstNationsResources"
         },
         {
-            "name": "Elsipogtog Health & Wellness Centre",
-            "location": "Elsipogtog",
-            "phoneNumber": "(506)-523-8227",
-            "website": "https://ehwc.ca/",
-            "category":"FirstNationsResources"
-        },
-        {
             "name": "Rising Sun Treatment Centre",
             "location": "Eel Ground",
             "phoneNumber": "(833)-444-4626",
             "email": "info@risingsuntreatment.ca",
             "website": "https://www.risingsuntreatment.ca/",
              "category":"FirstNationsResources"
+        },
+        {
+            "name": "Elsipogtog Health & Wellness Centre",
+            "location": "Elsipogtog",
+            "phoneNumber": "(506) 523-8227",
+            "website": "https://ehwc.ca/",
+            "category":"FirstNationsResources"
         },
         {
             "name": "Wolastoqewiyik Healing Lodge - Outpatient",
