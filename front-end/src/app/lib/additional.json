@@ -20,6 +20,7 @@
             "name": "Oak Centre",
             "location": "Fredericton",
             "phoneNumber": "(506)-206-0667",
+            "website": "https://johnhowardfredericton.ca/housing-programs/",
             "category":"Shelters"
         },
         {
@@ -186,6 +187,7 @@
             "name": "New Brunswick Legal Aid Services Commission (NBLASC)",
             "description": "Provides legal representation for child support and child custody for qualifying individuals",
             "phoneNumber": "506-444-2777",
+            "website": "https://www.legalaid-aidejuridique-nb.ca/home/",
             "matters": "Family Law",
             "category":"LegalAndReferralServices"
         },
