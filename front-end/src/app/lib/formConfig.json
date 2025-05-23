@@ -364,7 +364,7 @@
             "validation": {
               "rules": ["dateOfBirth"]
             },
-            "guidance": "Must be between 18 and 120 years old"
+            "guidance": "Must be between 18 and 85 years old"
           },
           {
             "name": "gender",
