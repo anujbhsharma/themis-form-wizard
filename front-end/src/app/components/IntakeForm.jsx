@@ -19,37 +19,37 @@ import { submitFormWithOutFiles } from '../lib/api';
 import formConfig from '../intake-editor-legal-clinic-unb/api/dummy.json';
 
 const RESOURCES = {
-  Shelters: [
+  shelters: [
     {
       name: "Oak Centre",
       location: "Fredericton",
       phoneNumber: "(506) 206-0667",
-      category: "Shelters"
+      category: "shelters"
     },
     {
       name: "Saint John House",
       location: "Fredericton",
       phoneNumber: "(506) 450-1102",
-      category: "Shelters"
+      category: "shelters"
     },
     {
       name: "Women in Transition",
       location: "Fredericton",
       phoneNumber: "(506) 459-2300",
       notes: "Women Only",
-      category: "Shelters"
+      category: "shelters"
     },
     {
       name: "Grace House for Women",
       phoneNumber: "(506) 450-3001",
       notes: "Women Only",
-      category: "Shelters"
+      category: "shelters"
     },
     {
       name: "Gignoo Transition House",
       phoneNumber: "(800) 565-6878",
       notes: "First Nations Women",
-      category: "Shelters"
+      category: "shelters"
     }
   ],
   legal: [
@@ -196,8 +196,8 @@ export default function IntakeForm() {
     switch (issueType) {
       case 'housing':
         const shelterResources = filterResourcesByCategory(
-          RESOURCES.Shelters,
-          'Shelters',
+          RESOURCES.shelters,
+          'shelters',
           {
             gender: userData.gender,
             isFirstNations: userData.isFirstNations
@@ -221,7 +221,7 @@ export default function IntakeForm() {
         const immigrationResources = [
           ...relevantResources,
           RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line"),
-          ...filterResourcesByCategory(RESOURCES.Shelters, 'Shelters', {
+          ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
             isFirstNations: userData.isFirstNations
           })
         ].filter(Boolean);
@@ -232,7 +232,7 @@ export default function IntakeForm() {
         // Domestic cases might need shelter and crisis support
         relevantResources = [
           ...relevantResources,
-          ...filterResourcesByCategory(RESOURCES.Shelters, 'Shelters', {
+          ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
             gender: userData.gender
           }),
           RESOURCES.emergency.find(r => r.name === "Mental Health Crisis Line")
@@ -282,7 +282,7 @@ export default function IntakeForm() {
     if (name === 'safetyRisk' && value === 'yes') {
       updatedResources = [
         ...RESOURCES.emergency,
-        ...filterResourcesByCategory(RESOURCES.Shelters, 'Shelters', {
+        ...filterResourcesByCategory(RESOURCES.shelters, 'shelters', {
           gender: formData.gender,
           isFirstNations: formData.isFirstNations
         })
@@ -292,8 +292,8 @@ export default function IntakeForm() {
     // Handle housing needs
     if (name === 'needsHousing' && value === 'yes') {
       const shelterResources = filterResourcesByCategory(
-        RESOURCES.Shelters,
-        'Shelters',
+        RESOURCES.shelters,
+        'shelters',
         {
           gender: formData.gender,
           isFirstNations: formData.isFirstNations
@@ -329,7 +329,7 @@ export default function IntakeForm() {
       const sortedResources = uniqueResources.sort((a, b) => {
         const categoryOrder = {
           emergency: 1,
-          Shelters: 2,
+          shelters: 2,
           legal: 3
         };
         return (categoryOrder[a.category] || 99) - (categoryOrder[b.category] || 99);
@@ -361,18 +361,13 @@ export default function IntakeForm() {
         if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
           continue;
         }
-        const validation = validateField(field, formData[field.name]);
-        if (!validation.isValid) {
-          newErrors[field.name] = validation.message;
-          isValid = false;
-        }
       }
 
-      // const validation = validateField(field, formData[field.name]);
-      // if (!validation.isValid) {
-      //   newErrors[field.name] = validation.message;
-      //   isValid = false;
-      // }
+      const validation = validateField(field, formData[field.name]);
+      if (!validation.isValid) {
+        newErrors[field.name] = validation.message;
+        isValid = false;
+      }
     }
 
     setErrors(newErrors);
@@ -648,7 +643,7 @@ export default function IntakeForm() {
                       index + 1
                     )}
                   </div>
-                  <span className="text-xs mt-2 font-medium text-center line-clamp-3">
+                  <span className="text-xs mt-2 font-medium text-center line-clamp-2">
                     {step.title}
                   </span>
                 </div>
@@ -848,7 +843,7 @@ function getCategoryIcon(category) {
   switch(category) {
     case 'emergency':
       return <AlertCircle className="h-4 w-4 mr-2 text-red-600" />;
-    case 'Shelters':
+    case 'shelters':
       return <Home className="h-4 w-4 mr-2 text-blue-600" />;
     case 'legal':
       return <Scale className="h-4 w-4 mr-2 text-green-600" />;
@@ -865,7 +860,7 @@ function getCategoryStyle(category) {
   switch(category) {
     case 'emergency':
       return 'bg-red-50 border-red-100';
-    case 'Shelters':
+    case 'shelters':
       return 'bg-blue-50 border-blue-100';
     case 'legal':
       return 'bg-green-50 border-green-100';
@@ -878,7 +873,7 @@ function getCategoryBadgeStyle(category) {
   switch(category) {
     case 'emergency':
       return 'bg-red-100 text-red-700';
-    case 'Shelters':
+    case 'shelters':
       return 'bg-blue-100 text-blue-700';
     case 'legal':
       return 'bg-green-100 text-green-700';
@@ -891,7 +886,7 @@ function getCategoryLinkStyle(category) {
   switch(category) {
     case 'emergency':
       return 'text-red-600 hover:text-red-800';
-    case 'Shelters':
+    case 'shelters':
       return 'text-blue-600 hover:text-blue-800';
     case 'legal':
       return 'text-green-600 hover:text-green-800';
@@ -904,7 +899,7 @@ function getNotesStyle(category) {
   switch(category) {
     case 'emergency':
       return 'bg-red-100 text-red-700';
-    case 'Shelters':
+    case 'shelters':
       return 'bg-blue-100 text-blue-700';
     case 'legal':
       return 'bg-green-100 text-green-700';
