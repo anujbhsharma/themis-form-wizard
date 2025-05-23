@@ -364,7 +364,7 @@
             "validation": {
               "rules": ["dateOfBirth"]
             },
-            "guidance": "Must be between 18 and 85 years old"
+            "guidance": "Must be between 18 and 120 years old"
           },
           {
             "name": "gender",
@@ -394,6 +394,20 @@
               { "value": "first-nations", "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)" },
               { "value": "metis", "label": "Yes, Métis" },
               { "value": "inuit", "label": "Yes, Inuit" },
+              { "value": "no", "label": "No" },
+              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
+            ]
+          },
+           {
+            "name": "indigenous",
+            "label": "Do you identify as a person with a disability?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": ["required"]
+            },
+            "options": [
+              { "value": "yes", "label": "Yes" },
               { "value": "no", "label": "No" },
               { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
             ]
