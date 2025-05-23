@@ -26,8 +26,8 @@ export async function GET() {
 export async function POST(request) {
   try {
     const data = await request.json();
-    // console.log('Saving to:', FILE_PATH);
-    // console.log('Data to save:', data);
+    console.log('Saving to:', FILE_PATH);
+    console.log('Data to save:', data);
 
     await fs.writeFile(
       FILE_PATH, 
@@ -37,7 +37,7 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, message: 'Form data saved successfully' });
   } catch (error) {
-    console.error('Error saving form data:', error);
+    console.error('Error saving form data (MEOW):', error);
     return NextResponse.json(
       // { error: 'Failed to save form data' },
       // { status: 500 }

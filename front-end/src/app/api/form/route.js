@@ -34,7 +34,7 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, message: 'Form data saved successfully' });
   } catch (error) {
-    console.error('Error saving form data:', error);
+    console.error('Error saving form data (BARK):', error);
     return NextResponse.json(
       // { error: 'Failed to save form data' },
       // { status: 500 }

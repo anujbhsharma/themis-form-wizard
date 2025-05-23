@@ -56,7 +56,7 @@ const initialState = {
     },
     AGE: {
       MIN: 18,
-      MAX: 85
+      MAX: 120
     },
     HOUSEHOLD: {
       MAX_DEPENDENTS: 10,
