@@ -64,6 +64,14 @@ export const validationRules = {
     };
   },
 
+  currencyValue: (value) => {
+    const moneyRegex = /^(\d{1, 3}(\, \d{3})*|(\d+))(\.\d{2})?$/;
+    return {
+      isValid: moneyRegex.test(value),
+      message: "Please enter a valid value"
+    };
+  },
+  
   phoneNumber: (value) => {
     const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     return {

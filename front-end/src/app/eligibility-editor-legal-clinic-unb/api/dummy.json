@@ -202,8 +202,8 @@
   },
   "formConfig": {
     "metadata": {
-      "version": "2.2.1",
-      "lastUpdated": "2025-03-27T01:29:29.892Z",
+      "version": "2.2.2",
+      "lastUpdated": "2024-12-06",
       "clinic": {
         "name": "Eligibility Screening Form",
         "phone": "(506) 452-6313",
@@ -226,19 +226,11 @@
             "required": true,
             "critical": true,
             "validation": {
-              "rules": [
-                "immediateRisk"
-              ]
+              "rules": ["immediateRisk"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes, I need immediate help"
-              },
-              {
-                "value": "no",
-                "label": "No, I am safe"
-              }
+              { "value": "yes", "label": "Yes, I need immediate help" },
+              { "value": "no", "label": "No, I am safe" }
             ]
           },
           {
@@ -247,19 +239,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "shelterNeeded"
-              ]
+              "rules": ["shelterNeeded"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
             ]
           }
         ]
@@ -276,19 +260,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "intakeDisclaimer"
-              ]
+              "rules": ["intakeDisclaimer"]
             },
             "options": [
-              {
-                "value": "agree",
-                "label": "I agree"
-              },
-              {
-                "value": "disagree",
-                "label": "I do not agree"
-              }
+              { "value": "agree", "label": "I agree" },
+              { "value": "disagree", "label": "I do not agree" }
             ]
           },
           {
@@ -297,19 +273,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "emailCommunicationConsent"
-              ]
+              "rules": ["emailCommunicationConsent"]
             },
             "options": [
-              {
-                "value": "accept",
-                "label": "I accept"
-              },
-              {
-                "value": "decline",
-                "label": "I decline"
-              }
+              { "value": "accept", "label": "I accept" },
+              { "value": "decline", "label": "I decline" }
             ]
           }
         ]
@@ -325,9 +293,7 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             }
           },
           {
@@ -342,10 +308,27 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             }
+          },
+          {
+            "name": "preferredName",
+            "label": "Preferred Name (if distinct from legal name)",
+            "type": "text",
+            "required": false
+          },
+          {
+            "name": "housing",
+            "label": "Do you currently have housing?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": ["required"]
+            },
+            "options": [
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
+            ]
           },
           {
             "name": "address",
@@ -353,10 +336,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
-            }
+              "rules": ["required"]
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "cityProvince",
@@ -364,9 +346,7 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             }
           },
           {
@@ -375,10 +355,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "postalCode"
-              ]
-            }
+              "rules": ["postalCode"]
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "phoneNumber",
@@ -386,9 +365,7 @@
             "type": "tel",
             "required": true,
             "validation": {
-              "rules": [
-                "phoneNumber"
-              ]
+              "rules": ["phoneNumber"]
             }
           },
           {
@@ -397,23 +374,12 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "home",
-                "label": "Home phone number"
-              },
-              {
-                "value": "work",
-                "label": "Work phone number"
-              },
-              {
-                "value": "cell",
-                "label": "Cell phone number"
-              }
+              { "value": "home", "label": "Home phone number" },
+              { "value": "work", "label": "Work phone number" },
+              { "value": "cell", "label": "Cell phone number" }
             ]
           },
           {
@@ -422,19 +388,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
             ]
           },
           {
@@ -443,9 +401,7 @@
             "type": "date",
             "required": true,
             "validation": {
-              "rules": [
-                "dateOfBirth"
-              ]
+              "rules": ["dateOfBirth"]
             },
             "guidance": "Must be between 18 and 85 years old"
           },
@@ -455,31 +411,14 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "female",
-                "label": "Female"
-              },
-              {
-                "value": "male",
-                "label": "Male"
-              },
-              {
-                "value": "nonbinary",
-                "label": "Non-binary"
-              },
-              {
-                "value": "prefer-not-to-say",
-                "label": "Prefer not to say"
-              },
-              {
-                "value": "other",
-                "label": "Other"
-              }
+              { "value": "female", "label": "Female" },
+              { "value": "male", "label": "Male" },
+              { "value": "nonbinary", "label": "Non-binary" },
+              { "value": "prefer-not-to-say", "label": "Prefer not to say" },
+              { "value": "other", "label": "Other" }
             ]
           },
           {
@@ -488,31 +427,28 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "first-nations",
-                "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)"
-              },
-              {
-                "value": "metis",
-                "label": "Yes, Métis"
-              },
-              {
-                "value": "inuit",
-                "label": "Yes, Inuit"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              },
-              {
-                "value": "prefer-not-to-answer",
-                "label": "Prefer not to answer"
-              }
+              { "value": "first-nations", "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)" },
+              { "value": "metis", "label": "Yes, Métis" },
+              { "value": "inuit", "label": "Yes, Inuit" },
+              { "value": "no", "label": "No" },
+              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
+            ]
+          },
+          {
+            "name": "disability",
+            "label": "Do you identify as a person with a disability?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": ["required"]
+            },
+            "options": [
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" },
+              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
             ]
           },
           {
@@ -521,19 +457,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
             ]
           },
           {
@@ -542,35 +470,15 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "less-than-1",
-                "label": "Less than 1 year"
-              },
-              {
-                "value": "1-3",
-                "label": "1-3 years"
-              },
-              {
-                "value": "4-6",
-                "label": "4-6 years"
-              },
-              {
-                "value": "7-10",
-                "label": "7-10 years"
-              },
-              {
-                "value": "more-than-10",
-                "label": "More than 10 years"
-              },
-              {
-                "value": "not-in-canada",
-                "label": "I do not live in Canada"
-              }
+              { "value": "less-than-1", "label": "Less than 1 year" },
+              { "value": "1-3", "label": "1-3 years" },
+              { "value": "4-6", "label": "4-6 years" },
+              { "value": "7-10", "label": "7-10 years" },
+              { "value": "more-than-10", "label": "More than 10 years" },
+              { "value": "not-in-canada", "label": "I do not live in New Brunswick" }
             ]
           },
           {
@@ -579,35 +487,15 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "single",
-                "label": "Single"
-              },
-              {
-                "value": "common-law",
-                "label": "Common-Law"
-              },
-              {
-                "value": "married",
-                "label": "Married"
-              },
-              {
-                "value": "divorced",
-                "label": "Divorced"
-              },
-              {
-                "value": "separated",
-                "label": "Separated"
-              },
-              {
-                "value": "widowed",
-                "label": "Widowed"
-              }
+              { "value": "single", "label": "Single" },
+              { "value": "common-law", "label": "Common-Law" },
+              { "value": "married", "label": "Married" },
+              { "value": "divorced", "label": "Divorced" },
+              { "value": "separated", "label": "Separated" },
+              { "value": "widowed", "label": "Widowed" }
             ]
           },
           {
@@ -616,19 +504,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "english",
-                "label": "English"
-              },
-              {
-                "value": "french",
-                "label": "French"
-              }
+              { "value": "english", "label": "English" },
+              { "value": "french", "label": "French" }
             ]
           },
           {
@@ -637,35 +517,15 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "1",
-                "label": "1"
-              },
-              {
-                "value": "2",
-                "label": "2"
-              },
-              {
-                "value": "3",
-                "label": "3"
-              },
-              {
-                "value": "4",
-                "label": "4"
-              },
-              {
-                "value": "5",
-                "label": "5"
-              },
-              {
-                "value": "6",
-                "label": "6 or more"
-              }
+              { "value": "1", "label": "1" },
+              { "value": "2", "label": "2" },
+              { "value": "3", "label": "3" },
+              { "value": "4", "label": "4" },
+              { "value": "5", "label": "5" },
+              { "value": "6", "label": "6 or more" }
             ]
           },
           {
@@ -674,19 +534,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
             ]
           }
         ]
@@ -702,9 +554,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -713,9 +563,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -724,9 +572,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -735,9 +581,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -746,9 +590,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -757,9 +599,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -768,9 +608,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -779,9 +617,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -790,9 +626,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -801,9 +635,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -812,12 +644,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric",
-                "totalMonthlyIncome"
-              ]
+              "rules": ["numeric", "totalMonthlyIncome"]
             },
-            "guidance": "Add the number Zero if you have no income"
+            "guidance": "Put 0 if you have currently have no income"
           },
           {
             "name": "childcareExpenses",
@@ -825,9 +654,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -836,9 +663,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -847,9 +672,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -858,11 +681,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             },
-            "guidance": "Add the number Zero if you have no deductions"
+            "guidance": "Put 0 if you have no deductions"
           },
           {
             "name": "cashAndBank",
@@ -870,9 +691,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -881,9 +700,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -892,9 +709,7 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric"
-              ]
+              "rules": ["numeric"]
             }
           },
           {
@@ -903,12 +718,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": [
-                "numeric",
-                "totalAssets"
-              ]
+              "rules": ["numeric", "totalAssets"]
             },
-            "guidance": "Add the number Zero if you have no Assets"
+            "guidance": "put 0 if you currently have no assets"
           }
         ]
       },
@@ -923,47 +735,18 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "housing",
-                "label": "Housing and Tenancy"
-              },
-              {
-                "value": "benefits",
-                "label": "Provincial and Federal benefits"
-              },
-              {
-                "value": "employment",
-                "label": "Employment Law"
-              },
-              {
-                "value": "human-rights",
-                "label": "Human Rights"
-              },
-              {
-                "value": "small-claims",
-                "label": "Small Claims"
-              },
-              {
-                "value": "notary",
-                "label": "Notary / Commissioner of Oaths Services"
-              },
-              {
-                "value": "divorce",
-                "label": "Uncontested Divorce"
-              },
-              {
-                "value": "provincial-offences",
-                "label": "Provincial Offences (Tickets)"
-              },
-              {
-                "value": "immigration",
-                "label": "Immigration"
-              }
+              { "value": "housing", "label": "Housing and Tenancy" },
+              { "value": "benefits", "label": "Provincial and Federal benefits" },
+              { "value": "employment", "label": "Employment Law" },
+              { "value": "human-rights", "label": "Human Rights" },
+              { "value": "small-claims", "label": "Small Claims" },
+              { "value": "notary", "label": "Notary / Commissioner of Oaths Services" },
+              { "value": "divorce", "label": "Uncontested Divorce" },
+              { "value": "provincial-offences", "label": "Provincial Offences (Tickets)" },
+              { "value": "immigration", "label": "Immigration" }
             ]
           },
           {
@@ -972,9 +755,7 @@
             "type": "textarea",
             "required": true,
             "validation": {
-              "rules": [
-                "issueDescription"
-              ]
+              "rules": ["issueDescription"]
             },
             "guidance": "Include: 1. Relevant Background Information 2. Parties Involved 3. Current Status 4. Desired Outcome"
           },
@@ -984,9 +765,7 @@
             "type": "textarea",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "guidance": "Please provide the name(s) of any parties who may have an opposing interest to your own in this matter"
           },
@@ -996,19 +775,11 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             },
             "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
+              { "value": "yes", "label": "Yes" },
+              { "value": "no", "label": "No" }
             ]
           },
           {
@@ -1025,9 +796,7 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": [
-                "documentsSubmitted"
-              ]
+              "rules": ["documentsSubmitted"]
             },
             "guidance": "Please confirm you have emailed the required documents to lawclinic@unb.ca"
           }
@@ -1044,9 +813,7 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             }
           },
           {
@@ -1055,9 +822,7 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": [
-                "required"
-              ]
+              "rules": ["required"]
             }
           },
           {
@@ -1066,9 +831,7 @@
             "type": "email",
             "required": true,
             "validation": {
-              "rules": [
-                "email"
-              ]
+              "rules": ["email"]
             }
           },
           {
@@ -1077,9 +840,7 @@
             "type": "tel",
             "required": true,
             "validation": {
-              "rules": [
-                "phoneNumber"
-              ]
+              "rules": ["phoneNumber"]
             }
           },
           {
@@ -1088,9 +849,7 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": [
-                "evaluationConsent"
-              ]
+              "rules": ["evaluationConsent"]
             },
             "guidance": "I understand that I may be contacted by a Legal Clinic representative to answer questions about the service I receive"
           },
@@ -1100,9 +859,7 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": [
-                "informationDeclaration"
-              ]
+              "rules": ["informationDeclaration"]
             },
             "guidance": "I hereby declare that the information I have provided is true and correct"
           }
