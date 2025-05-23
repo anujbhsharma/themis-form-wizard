@@ -918,10 +918,10 @@ export default function LegalClinicForm() {
                     </tbody>
                   </table>
                 </div>
-                <p className="text-sm text-blue-700 mt-3">
-                  If your income or assets exceed these limits, we recommend contacting the
-                    <a href="https://flac.cliogrow.com/">Fredericton Legal Advice Clinic</a> or
-                    <a href="https://www.legal-info-legale.nb.ca/">Public Legal Education</a>
+                <p className="text-xs text-blue-700 mt-3">
+                  If your income or assets exceed these limits, we recommend contacting the 
+                    <a href="https://flac.cliogrow.com/" className='font-bold'> Fredericton Legal Advice Clinic</a> or 
+                    <a href="https://www.legal-info-legale.nb.ca/" className='font-bold'> Public Legal Education</a>
                 </p>
                 <p className="text-sm text-blue-700 mt-3">
                   Note: These thresholds may be adjusted based on special circumstances. 
@@ -1008,7 +1008,7 @@ export default function LegalClinicForm() {
 
         {/* Form fields */}
             <div className="p-6">
-              <div ref={formRef} className="max-h-[200vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
+              <div ref={formRef} className="max-h-[600vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
                 {currentStepConfig.fields.map(field => (
                   <div key={field.name} className="mb-8 last:mb-0 animate-fadeIn">
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -1165,7 +1165,7 @@ export default function LegalClinicForm() {
                 
               </div>
               
-              <div className="p-4 max-h-[calc(200vh-300px)] overflow-y-auto">
+              <div className="p-4 max-h-[calc(200vh-600vh)] overflow-y-auto">
                 {!activeResources && (
                   <div className="py-6 px-4 text-center">
                     <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
