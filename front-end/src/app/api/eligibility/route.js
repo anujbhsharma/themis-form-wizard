@@ -10,7 +10,8 @@ const FILE_PATH = path.join(process.cwd(), 'src', 'app', 'eligibility-editor-leg
 
 export async function GET() {
   try {
-    // console.log('Reading from:', FILE_PATH);
+    console.log('Reading from:', FILE_PATH);
+    console.log('Raw JSON:', data);
     const data = await fs.readFile(FILE_PATH, 'utf8');
     return NextResponse.json(JSON.parse(data));
   } catch (error) {
