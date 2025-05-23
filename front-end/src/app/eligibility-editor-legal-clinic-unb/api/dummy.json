@@ -399,7 +399,7 @@
             ]
           },
            {
-            "name": "disability",
+            "name": "indigenous",
             "label": "Do you identify as a person with a disability?",
             "type": "radio",
             "required": true,
