@@ -239,8 +239,8 @@ export default function LegalClinicForm() {
     if (['shelterNeeded', 'housingStatus'].includes(name)) {
       if (value === 'yes' || value === 'emergency') {
         updatedResources.push(...filterResourcesByCategory(
-          RESOURCES.shelters,
-          'shelters',
+          RESOURCES.Shelters,
+          'Shelters',
           {
             gender: newData.gender,
             isFirstNations: newData.indigenous === 'first-nations',
@@ -254,7 +254,7 @@ export default function LegalClinicForm() {
     if (name === 'legalIssueType') {
       // Map legal issue types to relevant resource categories
       const resourceMap = {
-        'housing': ['shelters', 'legal'],
+        'housing': ['Shelters', 'legal'],
         'benefits': ['legal'],
         'employment': ['legal'],
         'human-rights': ['legal'],
@@ -294,34 +294,34 @@ export default function LegalClinicForm() {
         updatedResources.push(...RESOURCES.emergency);
       }
     }
-    // // Handle indigenous status
-    // if (name === 'indigenous' && value === 'first-nations') {
-    //   // Add First Nations specific resources
-    //   const firstNationsResources = RESOURCES.shelters.filter(
-    //     resource => resource.notes?.toLowerCase().includes('first nations')
-    //   );
-    //   updatedResources.push(...firstNationsResources);
-    // }
+    // Handle indigenous status
+    if (name === 'indigenous' && value === 'first-nations') {
+      // Add First Nations specific resources
+      const firstNationsResources = RESOURCES.Shelters.filter(
+        resource => resource.notes?.toLowerCase().includes('first nations')
+      );
+      updatedResources.push(...firstNationsResources);
+    }
 
-    // // Handle disability status
-    // if (name === 'disabilty' && value === 'yes') {
-    //   // Add First Nations specific resources
-    //   const disabilityResources = RESOURCES.shelters.filter(
-    //     resource => resource.notes?.toLowerCase().includes('disability')
-    //   );
-    //   updatedResources.push(...disabilityResources);
-    // }
+    // Handle disability status
+    if (name === 'disabilty' && value === 'yes') {
+      // Add First Nations specific resources
+      const disabilityResources = RESOURCES.Shelters.filter(
+        resource => resource.notes?.toLowerCase().includes('disability')
+      );
+      updatedResources.push(...disabilityResources);
+    }
     
-    // // Handle gender-specific resources
-    // if (name === 'gender') {
-    //   if (value === 'female') {
-    //     // Add women-only resources
-    //     const womenResources = RESOURCES.shelters.filter(
-    //       resource => resource.notes?.toLowerCase().includes('women only')
-    //     );
-    //     updatedResources.push(...womenResources);
-    //   }
-    // }
+    // Handle gender-specific resources
+    if (name === 'gender') {
+      if (value === 'female') {
+        // Add women-only resources
+        const womenResources = RESOURCES.Shelters.filter(
+          resource => resource.notes?.toLowerCase().includes('women only')
+        );
+        updatedResources.push(...womenResources);
+      }
+    }
     
     // Handle financial eligibility steps
     if (['householdSize', 'totalMonthlyIncome', 'totalAssets'].includes(name)) {
@@ -356,7 +356,7 @@ export default function LegalClinicForm() {
     // Handle housing status
     if (name === 'housingStatus' && value === 'emergency') {
       // Add shelter resources
-      updatedResources.push(...RESOURCES.shelters);
+      updatedResources.push(...RESOURCES.Shelters);
     }
     
     // Handle document submission step

@@ -21,7 +21,7 @@ export const validationRules = {
     if (value === "yes") {
       const combinedResources = [
         ...(formData.immediateRisk === "yes" ? RESOURCES.emergency : []),
-        ...RESOURCES.shelters
+        ...RESOURCES.Shelters
       ];
       return {
         isValid: true,
