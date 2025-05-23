@@ -35,7 +35,7 @@ export async function POST(request) {
       'utf8'
     );
 
-    return NextResponse.json({ success: true, message: 'Form data saved successfully' });
+    return NextResponse.json({ success: true, message: 'Form data saved successfully' }, {status: success});
   } catch (error) {
     console.error('Error saving form data (MEOW):', error);
     return NextResponse.json(
