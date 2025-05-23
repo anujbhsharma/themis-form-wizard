@@ -25,6 +25,8 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    console.log('Reading from:', FILE_PATH);
+    console.log('Raw JSON:', data);
     const data = await request.json();
     // console.log('Saving to:', FILE_PATH);
     // console.log('Data to save:', data);

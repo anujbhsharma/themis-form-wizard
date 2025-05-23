@@ -16,13 +16,7 @@
             "name": "Outflow Men's Shelter",
             "location": "Saint John",
             "phoneNumber": "(506) 658-8050",
-<<<<<<< HEAD
-            "website": "https://outflowsj.com/",
-            "notes": "Faith-based ",
-            "category":"Shelters"
-=======
             "category":"shelters"
->>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Women in Transition",
@@ -62,14 +56,8 @@
             "name": "Impact Youth",
             "location": "Moncton",
             "phoneNumber": "(506) 869-6333",
-<<<<<<< HEAD
-            "website": "https://youthimpact.org/",
-            "notes": "Youth & Young Adult, Bilingual Services",
-             "category":"Rehabilitation"
-=======
             "notes": "Youth & Young Adult",
              "category":"rehabilitation"
->>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Teen Challenge",
@@ -80,27 +68,15 @@
         {
             "name": "Naomi & Ruth",
             "phoneNumber": "(506) 875-5371",
-<<<<<<< HEAD
-            "website": "https://naomiandruth.ca/",
-            "notes": "Women Only, Faith-based",
-             "category":"Rehabilitation"
-=======
             "notes": "Female",
              "category":"rehabilitation"
->>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Village of Hope",
             "phoneNumber": "Mike Brewer (Intake) (506) 368-2600",
             "email": "info@villageofhopenb.ca",
-<<<<<<< HEAD
-            "website": "https://villageofhope.ca/",
-            "notes": "Faith-based ",
-             "category":"Rehabilitation"
-=======
             "notes": "Male",
              "category":"rehabilitation"
->>>>>>> parent of 4ceaffa (Form Update)
         },
         {
             "name": "Harvest House - Community Centre & Shelter",
