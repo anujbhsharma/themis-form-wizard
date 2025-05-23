@@ -294,33 +294,13 @@
             }
           },
           {
-            "name": "preferredName",
-            "label": "Preferred Name (if distinct from legal name)",
-            "type": "text",
-            "requird": false
-          },
-          {
-            "name": "housing",
-            "label": "Do you currently have housing?",
-            "type": "radio",
-            "required": true,
-            "validation": {
-              "rules": ["required"]
-            },
-            "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
-            ]
-          },
-          {
             "name": "address",
             "label": "Address",
             "type": "text",
             "required": true,
             "validation": {
               "rules": ["required"]
-            },
-            "showIf": "housing === 'yes'"
+            }
           },
           {
             "name": "cityProvince",
@@ -338,8 +318,7 @@
             "required": true,
             "validation": {
               "rules": ["postalCode"]
-            },
-            "showIf": "housing === 'yes'"
+            }
           },
           {
             "name": "phoneNumber",
@@ -446,7 +425,7 @@
               { "value": "4-6", "label": "4-6 years" },
               { "value": "7-10", "label": "7-10 years" },
               { "value": "more-than-10", "label": "More than 10 years" },
-              { "value": "not-in-canada", "label": "I do not live in New Brunswick" }
+              { "value": "not-in-canada", "label": "I do not live in Canada" }
             ]
           },
           {
@@ -614,7 +593,7 @@
             "validation": {
               "rules": ["numeric", "totalMonthlyIncome"]
             },
-            "guidance": "Put 0 if you have currently have no income"
+            "guidance": "Add the number Zero if you have no income"
           },
           {
             "name": "childcareExpenses",
@@ -651,7 +630,7 @@
             "validation": {
               "rules": ["numeric"]
             },
-            "guidance": "Put 0 if you have no deductions"
+            "guidance": "Add the number Zero if you have no deductions"
           },
           {
             "name": "cashAndBank",
@@ -688,7 +667,7 @@
             "validation": {
               "rules": ["numeric", "totalAssets"]
             },
-            "guidance": "put 0 if you currently have no assets"
+            "guidance": "Add the number Zero if you have no Assets"
           }
         ]
       },

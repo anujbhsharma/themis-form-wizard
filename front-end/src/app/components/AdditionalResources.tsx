@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
+import { Search, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
 
 const AdditionalResources = ({ resources }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,10 +37,11 @@ const AdditionalResources = ({ resources }) => {
 
   // Available categories for filtering
   const categories = [
-    { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
-    { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
-    { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> }
+    { name: 'all', label: 'All Resources', icon: <Layers className="w-4 h-4" /> },
+    { name: 'shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> },
+    { name: 'rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
+    { name: 'firstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
+    { name: 'legalAndReferralServices', label: 'Legal Services', icon: <Filter className="w-4 h-4" /> }
   ];
 
   // Get category icon by name
@@ -207,7 +208,6 @@ const AdditionalResources = ({ resources }) => {
 
 // Resource Card Component
 const ResourceCard = ({ resource, getCategoryIcon }) => {
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300 flex flex-col h-full">
       {/* Category Badge */}
@@ -229,7 +229,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-5 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm line-clamp-3 flex-grow">
           {resource.description}
         </p>
       )}

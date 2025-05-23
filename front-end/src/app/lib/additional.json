@@ -174,9 +174,7 @@
         {
             "name": "Public Legal Education Information Services NB (PLEIS)",
             "description": "Provides family law information line and legal information line",
-            "phoneNumber": "1-888-236-2444 | Family Law Information Line (toll-free)",
-            "phoneNumberAlt": "(506)-453-5369 | Legal Information Line",
-            "website": "https://www.legal-info-legale.nb.ca/",
+            "phoneNumber": "Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369",
             "matters": "Family Law, Estate Advice",
             "category":"legalAndReferralServices"
         },

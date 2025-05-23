@@ -361,18 +361,13 @@ export default function IntakeForm() {
         if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
           continue;
         }
-        const validation = validateField(field, formData[field.name]);
-        if (!validation.isValid) {
-          newErrors[field.name] = validation.message;
-          isValid = false;
-        }
       }
 
-      // const validation = validateField(field, formData[field.name]);
-      // if (!validation.isValid) {
-      //   newErrors[field.name] = validation.message;
-      //   isValid = false;
-      // }
+      const validation = validateField(field, formData[field.name]);
+      if (!validation.isValid) {
+        newErrors[field.name] = validation.message;
+        isValid = false;
+      }
     }
 
     setErrors(newErrors);
@@ -648,7 +643,7 @@ export default function IntakeForm() {
                       index + 1
                     )}
                   </div>
-                  <span className="text-xs mt-2 font-medium text-center line-clamp-3">
+                  <span className="text-xs mt-2 font-medium text-center line-clamp-2">
                     {step.title}
                   </span>
                 </div>
