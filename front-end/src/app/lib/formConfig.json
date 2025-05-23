@@ -16,12 +16,30 @@
     }
   },
   "MONTHLY_THRESHOLDS": {
-    "1": { "income": 1900, "assets": 5000 },
-    "2": { "income": 2800, "assets": 9000 },
-    "3": { "income": 2900, "assets": 10000 },
-    "4": { "income": 3100, "assets": 11000 },
-    "5": { "income": 3300, "assets": 12000 },
-    "6": { "income": 3500, "assets": 13000 }
+    "1": {
+      "income": 1900,
+      "assets": 5000
+    },
+    "2": {
+      "income": 2800,
+      "assets": 9000
+    },
+    "3": {
+      "income": 2900,
+      "assets": 10000
+    },
+    "4": {
+      "income": 3100,
+      "assets": 11000
+    },
+    "5": {
+      "income": 3300,
+      "assets": 12000
+    },
+    "6": {
+      "income": 3500,
+      "assets": 13000
+    }
   },
   "RESOURCES": {
     "shelters": [
@@ -29,143 +47,146 @@
         "name": "Oak Centre",
         "location": "Fredericton",
         "phoneNumber": "(506) 206-0667",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Saint John House",
-        "location": "Fredericton", 
+        "location": "Fredericton",
         "phoneNumber": "(506) 450-1102",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Outflow Men's Shelter",
         "location": "Saint John",
         "phoneNumber": "(506) 658-8050",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Women in Transition",
         "location": "Fredericton",
         "phoneNumber": "(506) 459-2300",
         "notes": "Women Only",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Grace House for Women",
         "phoneNumber": "(506) 450-3001",
         "notes": "Women Only",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Gignoo Aboriginal Transition House",
-        "phoneNumber": "(800) 565-6878 - (506) 458-1224",
+        "phoneNumber": "(800)-565-6878 - (506) 458-1224",
+        "phoneNumberAlt": "(506)-458-1224",
+        "website": "https://gignoohouse.ca/",
         "notes": "Women Only, First Nations",
-        "category":"shelters"
-    },
-    {
+        "category": "shelters"
+      },
+      {
         "name": "Sanctuary House",
         "location": "Woodstock",
         "phoneNumber": "(506) 325-9452",
-        "category":"shelters"
-    }
+        "category": "shelters"
+      }
     ],
     "legal": [
       {
         "name": "Fredericton Legal Advice Clinic",
         "description": "Run by volunteer lawyers providing advice in person or through online contact form",
         "phoneNumber": "N/A",
-        "email": "Online Form",
+        "email": "flac.nb@gmail.com",
         "matters": "General",
-         "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Investigations of Complaints - Employment Standards",
         "description": "Handles employment-related complaints, with officers screening and investigating issues that may escalate to the New Brunswick Labour & Employment Board",
         "phoneNumber": "1-888-452-2687",
         "email": "petl.epft@gnb.ca",
         "matters": "Employment",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Landlord and Tenant Relations Office",
         "description": "Provides information and resources on rental agreements, dispute resolution, and the Residential Tenancies Act",
         "phoneNumber": "1-888-762-8600",
         "email": "renting@gnb.ca",
         "matters": "Tenancies and Landlords",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "New Brunswick Human Rights Commission",
         "description": "Government agency responsible for administering the Human Rights Act, promoting equality, and eliminating discriminatory practices",
         "phoneNumber": "Toll Free: 1-888-471-2233, (506) 453-2301",
         "email": "hrc.cdp@gnb.ca",
         "matters": "Human Rights",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "New Brunswick Legal Aid Services Commission (NBLASC)",
         "description": "Provides legal representation for child support and child custody for qualifying individuals",
         "phoneNumber": "506-444-2777",
         "email": "N/A",
         "matters": "Family Law",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Family Law Advice Lawyer",
         "description": "Offers up to two hours of assistance for family law paperwork and basic advice",
         "phoneNumber": "855-266-0266",
         "email": "N/A",
         "matters": "Family Law",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Public Legal Education Information Services NB (PLEIS)",
         "description": "Provides family law information line and legal information line",
         "phoneNumber": "Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369",
         "email": "N/A",
         "matters": "Family Law, Estate Advice",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "New Brunswick Real Estate Association (NBREA)",
         "description": "Provincial association of REALTORS® working to promote professional standards and protect public interest",
         "phoneNumber": "506-459-8055 / 1-800-762-1677",
         "email": "info@nbrea.ca",
+        "website": "www.nbrea.ca/",
         "matters": "Real Estate Complaints",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Steward McKelvey - Will Project",
         "description": "Partnership with UNB Law and Pro Bono students to create wills for people of limited means",
         "phoneNumber": "506-458-7037",
         "email": "willsproject@unb.ca",
         "matters": "Will or Power of Attorney",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Public Trustee",
         "description": "Assistance for individuals like seniors or disabled persons regarding legal capacity",
         "phoneNumber": "(506) 444-3688",
         "email": "Public.trustee@gnb.ca",
         "matters": "Other",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "NB Refugee Clinic",
         "description": "Assists with Basis of Claim forms, immigration hearings, and related refugee issues",
         "phoneNumber": "506-204-5781",
-        "email": "Online Form",
+        "email": "flac.nb@gmail.com",
         "matters": "Refugee or Immigration Issues",
-        "category":"legal"
-    },
-    {
+        "category": "legal"
+      },
+      {
         "name": "Fine Option Program",
         "description": "Allows young or adult offenders to do volunteer work in lieu of paying a monetary fine",
         "phoneNumber": "300 Saint Mary's Street",
         "email": "DPS-MSP.Information@gnb.ca",
         "matters": "Other",
-        "category":"legal"
-    }
+        "category": "legal"
+      }
     ],
     "emergency": [
       {
@@ -184,8 +205,8 @@
   },
   "formConfig": {
     "metadata": {
-      "version": "2.2.0",
-      "lastUpdated": "2024-12-06",
+      "version": "2.2.1",
+      "lastUpdated": "2025-03-27T01:29:29.892Z",
       "clinic": {
         "name": "Eligibility Screening Form",
         "phone": "(506) 452-6313",
@@ -208,11 +229,19 @@
             "required": true,
             "critical": true,
             "validation": {
-              "rules": ["immediateRisk"]
+              "rules": [
+                "immediateRisk"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes, I need immediate help" },
-              { "value": "no", "label": "No, I am safe" }
+              {
+                "value": "yes",
+                "label": "Yes, I need immediate help"
+              },
+              {
+                "value": "no",
+                "label": "No, I am safe"
+              }
             ]
           },
           {
@@ -221,11 +250,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["shelterNeeded"]
+              "rules": [
+                "shelterNeeded"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
             ]
           }
         ]
@@ -242,11 +279,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["intakeDisclaimer"]
+              "rules": [
+                "intakeDisclaimer"
+              ]
             },
             "options": [
-              { "value": "agree", "label": "I agree" },
-              { "value": "disagree", "label": "I do not agree" }
+              {
+                "value": "agree",
+                "label": "I agree"
+              },
+              {
+                "value": "disagree",
+                "label": "I do not agree"
+              }
             ]
           },
           {
@@ -255,11 +300,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["emailCommunicationConsent"]
+              "rules": [
+                "emailCommunicationConsent"
+              ]
             },
             "options": [
-              { "value": "accept", "label": "I accept" },
-              { "value": "decline", "label": "I decline" }
+              {
+                "value": "accept",
+                "label": "I accept"
+              },
+              {
+                "value": "decline",
+                "label": "I decline"
+              }
             ]
           }
         ]
@@ -275,7 +328,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
           },
           {
@@ -290,8 +345,16 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
+          },
+          {
+            "name": "preferredName",
+            "label": "Preferred Name (if distinct from legal name)",
+            "type": "text",
+            "required": false
           },
           {
             "name": "address",
@@ -299,7 +362,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
           },
           {
@@ -308,7 +373,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
           },
           {
@@ -317,7 +384,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["postalCode"]
+              "rules": [
+                "postalCode"
+              ]
             }
           },
           {
@@ -326,7 +395,9 @@
             "type": "tel",
             "required": true,
             "validation": {
-              "rules": ["phoneNumber"]
+              "rules": [
+                "phoneNumber"
+              ]
             }
           },
           {
@@ -335,12 +406,23 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "home", "label": "Home phone number" },
-              { "value": "work", "label": "Work phone number" },
-              { "value": "cell", "label": "Cell phone number" }
+              {
+                "value": "home",
+                "label": "Home phone number"
+              },
+              {
+                "value": "work",
+                "label": "Work phone number"
+              },
+              {
+                "value": "cell",
+                "label": "Cell phone number"
+              }
             ]
           },
           {
@@ -349,11 +431,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
             ]
           },
           {
@@ -362,7 +452,9 @@
             "type": "date",
             "required": true,
             "validation": {
-              "rules": ["dateOfBirth"]
+              "rules": [
+                "dateOfBirth"
+              ]
             },
             "guidance": "Must be between 18 and 120 years old"
           },
@@ -372,14 +464,31 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "female", "label": "Female" },
-              { "value": "male", "label": "Male" },
-              { "value": "nonbinary", "label": "Non-binary" },
-              { "value": "prefer-not-to-say", "label": "Prefer not to say" },
-              { "value": "other", "label": "Other" }
+              {
+                "value": "female",
+                "label": "Female"
+              },
+              {
+                "value": "male",
+                "label": "Male"
+              },
+              {
+                "value": "nonbinary",
+                "label": "Non-binary"
+              },
+              {
+                "value": "prefer-not-to-say",
+                "label": "Prefer not to say"
+              },
+              {
+                "value": "other",
+                "label": "Other"
+              }
             ]
           },
           {
@@ -388,28 +497,56 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "first-nations", "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)" },
-              { "value": "metis", "label": "Yes, Métis" },
-              { "value": "inuit", "label": "Yes, Inuit" },
-              { "value": "no", "label": "No" },
-              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
+              {
+                "value": "first-nations",
+                "label": "Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)"
+              },
+              {
+                "value": "metis",
+                "label": "Yes, Métis"
+              },
+              {
+                "value": "inuit",
+                "label": "Yes, Inuit"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              },
+              {
+                "value": "prefer-not-to-answer",
+                "label": "Prefer not to answer"
+              }
             ]
           },
-           {
+          {
             "name": "disability",
             "label": "Do you identify as a person with a disability?",
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" },
-              { "value": "prefer-not-to-answer", "label": "Prefer not to answer" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              },
+              {
+                "value": "prefer-not-to-answer",
+                "label": "Prefer not to answer"
+              }
             ]
           },
           {
@@ -418,11 +555,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
             ]
           },
           {
@@ -431,15 +576,35 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "less-than-1", "label": "Less than 1 year" },
-              { "value": "1-3", "label": "1-3 years" },
-              { "value": "4-6", "label": "4-6 years" },
-              { "value": "7-10", "label": "7-10 years" },
-              { "value": "more-than-10", "label": "More than 10 years" },
-              { "value": "not-in-canada", "label": "I do not live in Canada" }
+              {
+                "value": "less-than-1",
+                "label": "Less than 1 year"
+              },
+              {
+                "value": "1-3",
+                "label": "1-3 years"
+              },
+              {
+                "value": "4-6",
+                "label": "4-6 years"
+              },
+              {
+                "value": "7-10",
+                "label": "7-10 years"
+              },
+              {
+                "value": "more-than-10",
+                "label": "More than 10 years"
+              },
+              {
+                "value": "not-in-canada",
+                "label": "I do not live in New Brunswick"
+              }
             ]
           },
           {
@@ -448,15 +613,35 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "single", "label": "Single" },
-              { "value": "common-law", "label": "Common-Law" },
-              { "value": "married", "label": "Married" },
-              { "value": "divorced", "label": "Divorced" },
-              { "value": "separated", "label": "Separated" },
-              { "value": "widowed", "label": "Widowed" }
+              {
+                "value": "single",
+                "label": "Single"
+              },
+              {
+                "value": "common-law",
+                "label": "Common-Law"
+              },
+              {
+                "value": "married",
+                "label": "Married"
+              },
+              {
+                "value": "divorced",
+                "label": "Divorced"
+              },
+              {
+                "value": "separated",
+                "label": "Separated"
+              },
+              {
+                "value": "widowed",
+                "label": "Widowed"
+              }
             ]
           },
           {
@@ -465,11 +650,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "english", "label": "English" },
-              { "value": "french", "label": "French" }
+              {
+                "value": "english",
+                "label": "English"
+              },
+              {
+                "value": "french",
+                "label": "French"
+              }
             ]
           },
           {
@@ -478,15 +671,35 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "1", "label": "1" },
-              { "value": "2", "label": "2" },
-              { "value": "3", "label": "3" },
-              { "value": "4", "label": "4" },
-              { "value": "5", "label": "5" },
-              { "value": "6", "label": "6 or more" }
+              {
+                "value": "1",
+                "label": "1"
+              },
+              {
+                "value": "2",
+                "label": "2"
+              },
+              {
+                "value": "3",
+                "label": "3"
+              },
+              {
+                "value": "4",
+                "label": "4"
+              },
+              {
+                "value": "5",
+                "label": "5"
+              },
+              {
+                "value": "6",
+                "label": "6 or more"
+              }
             ]
           },
           {
@@ -495,11 +708,19 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
             ]
           }
         ]
@@ -515,7 +736,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -524,7 +747,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -533,7 +758,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -542,7 +769,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -551,7 +780,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -560,7 +791,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -569,7 +802,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -578,7 +813,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -587,7 +824,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -596,7 +835,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -605,7 +846,10 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric", "totalMonthlyIncome"]
+              "rules": [
+                "numeric",
+                "totalMonthlyIncome"
+              ]
             },
             "guidance": "Add the number Zero if you have no income"
           },
@@ -615,7 +859,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -624,7 +870,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -633,7 +881,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -642,7 +892,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             },
             "guidance": "Add the number Zero if you have no deductions"
           },
@@ -652,7 +904,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -661,7 +915,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -670,7 +926,9 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric"]
+              "rules": [
+                "numeric"
+              ]
             }
           },
           {
@@ -679,7 +937,10 @@
             "type": "number",
             "required": true,
             "validation": {
-              "rules": ["numeric", "totalAssets"]
+              "rules": [
+                "numeric",
+                "totalAssets"
+              ]
             },
             "guidance": "Add the number Zero if you have no Assets"
           }
@@ -696,18 +957,47 @@
             "type": "select",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "housing", "label": "Housing and Tenancy" },
-              { "value": "benefits", "label": "Provincial and Federal benefits" },
-              { "value": "employment", "label": "Employment Law" },
-              { "value": "human-rights", "label": "Human Rights" },
-              { "value": "small-claims", "label": "Small Claims" },
-              { "value": "notary", "label": "Notary / Commissioner of Oaths Services" },
-              { "value": "divorce", "label": "Uncontested Divorce" },
-              { "value": "provincial-offences", "label": "Provincial Offences (Tickets)" },
-              { "value": "immigration", "label": "Immigration" }
+              {
+                "value": "housing",
+                "label": "Housing and Tenancy"
+              },
+              {
+                "value": "benefits",
+                "label": "Provincial and Federal benefits"
+              },
+              {
+                "value": "employment",
+                "label": "Employment Law"
+              },
+              {
+                "value": "human-rights",
+                "label": "Human Rights"
+              },
+              {
+                "value": "small-claims",
+                "label": "Small Claims"
+              },
+              {
+                "value": "notary",
+                "label": "Notary / Commissioner of Oaths Services"
+              },
+              {
+                "value": "divorce",
+                "label": "Uncontested Divorce"
+              },
+              {
+                "value": "provincial-offences",
+                "label": "Provincial Offences (Tickets)"
+              },
+              {
+                "value": "immigration",
+                "label": "Immigration"
+              }
             ]
           },
           {
@@ -716,7 +1006,9 @@
             "type": "textarea",
             "required": true,
             "validation": {
-              "rules": ["issueDescription"]
+              "rules": [
+                "issueDescription"
+              ]
             },
             "guidance": "Include: 1. Relevant Background Information 2. Parties Involved 3. Current Status 4. Desired Outcome"
           },
@@ -726,7 +1018,9 @@
             "type": "textarea",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "guidance": "Please provide the name(s) of any parties who may have an opposing interest to your own in this matter"
           },
@@ -736,17 +1030,25 @@
             "type": "radio",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             },
             "options": [
-              { "value": "yes", "label": "Yes" },
-              { "value": "no", "label": "No" }
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
             ]
           },
           {
             "name": "deadlineDetails",
             "label": "Court/Hearing Date",
-            "type": "text",
+            "type": "date",
             "required": false,
             "guidance": "Court Name- YYYY-MM-DD",
             "showIf": "hasDeadline === 'yes'"
@@ -757,7 +1059,9 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": ["documentsSubmitted"]
+              "rules": [
+                "documentsSubmitted"
+              ]
             },
             "guidance": "Please confirm you have emailed the required documents to lawclinic@unb.ca"
           }
@@ -774,7 +1078,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
           },
           {
@@ -783,7 +1089,9 @@
             "type": "text",
             "required": true,
             "validation": {
-              "rules": ["required"]
+              "rules": [
+                "required"
+              ]
             }
           },
           {
@@ -792,7 +1100,9 @@
             "type": "email",
             "required": true,
             "validation": {
-              "rules": ["email"]
+              "rules": [
+                "email"
+              ]
             }
           },
           {
@@ -801,7 +1111,9 @@
             "type": "tel",
             "required": true,
             "validation": {
-              "rules": ["phoneNumber"]
+              "rules": [
+                "phoneNumber"
+              ]
             }
           },
           {
@@ -810,7 +1122,9 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": ["evaluationConsent"]
+              "rules": [
+                "evaluationConsent"
+              ]
             },
             "guidance": "I understand that I may be contacted by a Legal Clinic representative to answer questions about the service I receive"
           },
@@ -820,7 +1134,9 @@
             "type": "checkbox",
             "required": true,
             "validation": {
-              "rules": ["informationDeclaration"]
+              "rules": [
+                "informationDeclaration"
+              ]
             },
             "guidance": "I hereby declare that the information I have provided is true and correct"
           }
