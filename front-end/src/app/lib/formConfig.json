@@ -320,7 +320,8 @@
             "required": true,
             "validation": {
               "rules": ["required"]
-            }
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "cityProvince",
@@ -338,7 +339,8 @@
             "required": true,
             "validation": {
               "rules": ["postalCode"]
-            }
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "phoneNumber",

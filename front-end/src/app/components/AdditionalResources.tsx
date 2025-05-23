@@ -207,6 +207,7 @@ const AdditionalResources = ({ resources }) => {
 
 // Resource Card Component
 const ResourceCard = ({ resource, getCategoryIcon }) => {
+
   return (
     <div className="overflow-hidden bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300 flex flex-col h-full">
       {/* Category Badge */}
@@ -228,7 +229,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm line-clamp-4 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-5 flex-grow">
           {resource.description}
         </p>
       )}

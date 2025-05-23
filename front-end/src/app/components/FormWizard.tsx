@@ -294,35 +294,34 @@ export default function LegalClinicForm() {
         updatedResources.push(...RESOURCES.emergency);
       }
     }
-    
-    // Handle indigenous status
-    if (name === 'indigenous' && value === 'first-nations') {
-      // Add First Nations specific resources
-      const firstNationsResources = RESOURCES.shelters.filter(
-        resource => resource.notes?.toLowerCase().includes('first nations')
-      );
-      updatedResources.push(...firstNationsResources);
-    }
+    // // Handle indigenous status
+    // if (name === 'indigenous' && value === 'first-nations') {
+    //   // Add First Nations specific resources
+    //   const firstNationsResources = RESOURCES.shelters.filter(
+    //     resource => resource.notes?.toLowerCase().includes('first nations')
+    //   );
+    //   updatedResources.push(...firstNationsResources);
+    // }
 
-    // Handle disability status
-    if (name === 'disabilty' && value === 'yes') {
-      // Add First Nations specific resources
-      const disabilityResources = RESOURCES.shelters.filter(
-        resource => resource.notes?.toLowerCase().includes('disability')
-      );
-      updatedResources.push(...disabilityResources);
-    }
+    // // Handle disability status
+    // if (name === 'disabilty' && value === 'yes') {
+    //   // Add First Nations specific resources
+    //   const disabilityResources = RESOURCES.shelters.filter(
+    //     resource => resource.notes?.toLowerCase().includes('disability')
+    //   );
+    //   updatedResources.push(...disabilityResources);
+    // }
     
-    // Handle gender-specific resources
-    if (name === 'gender') {
-      if (value === 'female') {
-        // Add women-only resources
-        const womenResources = RESOURCES.shelters.filter(
-          resource => resource.notes?.toLowerCase().includes('women only')
-        );
-        updatedResources.push(...womenResources);
-      }
-    }
+    // // Handle gender-specific resources
+    // if (name === 'gender') {
+    //   if (value === 'female') {
+    //     // Add women-only resources
+    //     const womenResources = RESOURCES.shelters.filter(
+    //       resource => resource.notes?.toLowerCase().includes('women only')
+    //     );
+    //     updatedResources.push(...womenResources);
+    //   }
+    // }
     
     // Handle financial eligibility steps
     if (['householdSize', 'totalMonthlyIncome', 'totalAssets'].includes(name)) {
@@ -404,6 +403,16 @@ export default function LegalClinicForm() {
     return age;
   };
 
+  const calculateDate = (curDate) => {
+    if (!curDate) return null;
+    const today = new Date();
+    const courtDate = new Date(curDate);
+    if (today.getDate() < courtDate.getDate()) {
+      return false;
+    }
+    return true;
+  };
+
   const handleNext = () => {
     if (validateStep(currentStep)) {
       const nextStep = currentStep + 1;
@@ -443,7 +452,7 @@ export default function LegalClinicForm() {
     const hasError = errors[field.name];
     const commonClasses = `
       w-full p-3 rounded-lg border transition-all
-      focus:ring-2 focus:ring-blue-500 focus:border-transparent
+      focus:border-blue-500
       ${hasError ? 'border-red-500 bg-red-50' : 'border-gray-200'}
     `;
 
@@ -715,7 +724,7 @@ export default function LegalClinicForm() {
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 ease-out"
+                  className="h-full bg-gradient-to-r from-blue-500 to-red-600 transition-all duration-500 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -851,6 +860,7 @@ export default function LegalClinicForm() {
                             <Phone className="w-4 h-4 text-red-600" />
                           </div>
                           <div>
+                            <a href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`} >
                             <p className="font-medium text-red-800">{resource.name}</p>
                             <p className="text-red-600 flex items-center gap-1">
                               <a href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`} 
@@ -859,6 +869,7 @@ export default function LegalClinicForm() {
                                 <ArrowRight className="w-3 h-3" />
                               </a>
                             </p>
+                            </a>
                             {resource.description && (
                               <p className="text-sm text-red-700 mt-1">{resource.description}</p>
                             )}
@@ -907,8 +918,12 @@ export default function LegalClinicForm() {
                     </tbody>
                   </table>
                 </div>
-                
-                <p className="text-xs text-blue-700 mt-3">
+                <p className="text-sm text-blue-700 mt-3">
+                  If your income or assets exceed these limits, we recommend contacting the
+                    <a href="https://flac.cliogrow.com/">Fredericton Legal Advice Clinic</a> or
+                    <a href="https://www.legal-info-legale.nb.ca/">Public Legal Education</a>
+                </p>
+                <p className="text-sm text-blue-700 mt-3">
                   Note: These thresholds may be adjusted based on special circumstances. 
                   All financial information will be kept confidential.
                 </p>
