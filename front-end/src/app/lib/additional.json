@@ -2,7 +2,9 @@
     "Shelters": [
         {
             "name": "Gignoo Aboriginal Transition House",
+            "description": "Support for First Nation women and children who are survivors of domestic violence",
             "location": "Fredericton",
+            "website": "https://gignoohouse.ca/",
             "phoneNumber": "(800)-565-6878 | 24/7 Helpline",
             "phoneNumberAlt": "(506)-458-1224 | Local Crisis Line",
             "notes": "Women Only, First Nations",
@@ -10,6 +12,7 @@
         },
         {
             "name": "Grace House for Women",
+            "description": "Temporary Housing with support from resident support workers and a transition planner",
             "location": "Fredericton",
             "phoneNumber": "(506)-450-3001",
             "website": "https://www.theshelters.ca/our-spaces/grace-house/",
@@ -18,6 +21,7 @@
         },
         {
             "name": "Oak Centre",
+            "description": "Supportive housing complex ",
             "location": "Fredericton",
             "phoneNumber": "(506)-206-0667",
             "website": "https://johnhowardfredericton.ca/housing-programs/",
@@ -25,6 +29,7 @@
         },
         {
             "name": "Outflow Men's Shelter",
+            "description": "",
             "location": "Saint John",
             "phoneNumber": "(506)-658-8050",
             "website": "https://outflowsj.com/",
@@ -33,18 +38,25 @@
         },
         {
             "name": "Saint John House",
+            "description": "Downtown emergency shelter to up to 27 individuals, offering laundry and showering services, a resident phone, Wi-Fi, computers, access to donation, and support from Resident Support Workers, a Transition Planner and Manager.",
             "location": "Fredericton", 
             "phoneNumber": "(506)-450-1102",
+            "website": "https://www.theshelters.ca/our-spaces/st-john-house/",
             "category":"Shelters"
         },
         {
             "name": "Sanctuary House",
+            "description": "Temporary housing for women and children who are victims of domestic violence",
             "location": "Woodstock",
-            "phoneNumber": "(506) 325-9452",
-            "category":"Shelters"
+            "phoneNumber": "(506)-325-9452",
+            "phoneNumberAlt": "1-866-377-3577 | Toll-free",
+            "website":"https://www.sanctuaryhouse.ca/",
+            "category":"Shelters",
+            "notes": "Women Only"
         },
         {
             "name": "Women in Transition",
+            "description": "Shelter for women who have experienced domestic and intimate partner violence, provides accommodations for up to 19 women and their children for a period of up to 30 days",
             "location": "Fredericton",
             "email": "transhouse1@nb.aibn.com",
             "phoneNumber": "(506)-459-2300",
@@ -56,6 +68,7 @@
     "Rehabilitation": [
         {
             "name": "Harvest House - Community Centre & Shelter",
+            "description": "",
             "location": "Moncton",
             "phoneNumber": "(506) 855-0626 | Atlantic Office",
             "phoneNumberAlt": "(506) 388-4357 | Community Centre & Shelter",
@@ -63,6 +76,7 @@
         },
         {
             "name": "Impact Youth",
+            "description": "",
             "location": "Moncton",
             "phoneNumber": "(506)-869-6333",
             "website": "https://youthimpact.org/",
@@ -71,6 +85,7 @@
         },
         {
             "name": "Naomi & Ruth",
+            "description": "",
             "location": "Shediac",
             "phoneNumber": "(506) 875-5371",
             "website": "https://naomiandruth.ca/",
@@ -79,6 +94,7 @@
         },
         {
             "name": "Portage",
+            "description": "",
             "location": "Cassidy Lake",
             "phoneNumber": "(506)-839-1200",
             "website": "https://portage.ca/en/atlantic/",
@@ -87,12 +103,14 @@
         },
         {
             "name": "Riverstone Recovery Outpatient",
+            "description": "",
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
              "category":"Rehabilitation"
         },
         {
             "name": "Teen Challenge",
+            "description": "",
             "location": "Memramcook",
             "phoneNumber": "(506) 758-2377",
             "website": "https://www.teenchallenge.ca/",
@@ -101,6 +119,7 @@
         },
         {
             "name": "Village of Hope",
+            "description": "",
             "location": "Upper Tracy",
             "phoneNumber": "(506)-368-2600",
             "email": "info@villageofhopenb.ca",
@@ -112,6 +131,7 @@
     "FirstNationsResources": [
         {
             "name": "Addictions/Mental-Wellness St Mary's",
+            "description": "",
             "location": "St. Mary's First Nation",
             "contact": "Chris Brooks",
             "phoneNumber": "(506) 452-2750",
@@ -120,6 +140,7 @@
         },
         {
             "name": "Apatawsuwikuwam",
+            "description": "",
             "location": "St. Mary's First Nation",
             "phoneNumber": "(506)-206-1005",
             "email": "admin@apatawsuwikuwam.com",
@@ -127,6 +148,7 @@
         },
         {
             "name": "Elsipogtog Health & Wellness Centre",
+            "description": "",
             "location": "Elsipogtog",
             "phoneNumber": "(506)-523-8227",
             "website": "https://ehwc.ca/",
@@ -134,6 +156,7 @@
         },
         {
             "name": "Rising Sun Treatment Centre",
+            "description": "",
             "location": "Eel Ground",
             "phoneNumber": "(833)-444-4626",
             "email": "info@risingsuntreatment.ca",
@@ -142,6 +165,7 @@
         },
         {
             "name": "Wolastoqewiyik Healing Lodge - Outpatient",
+            "description": "",
             "location": "Tobique",
             "phoneNumber": "(506) 273-5403",
             "website": "https://tobiquefirstnation.ca/wolastoqewiyik-healing-lodge/",
