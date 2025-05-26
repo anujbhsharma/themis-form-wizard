@@ -7,6 +7,9 @@ export async function saveFormData(formData) {
     return response.data;
   } catch (error) {
     console.error("Error posting data (DUCK):", error);
+    console.error('Error response data:', error.response.data);
+      console.error('Error response status:', error.response.status);
+      console.error('Error response headers:', error.response.headers);
     throw error; // Re-throw the error to be handled by the caller
   }
 }
