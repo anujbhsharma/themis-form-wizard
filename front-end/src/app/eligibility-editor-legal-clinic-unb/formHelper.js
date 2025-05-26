@@ -3,14 +3,14 @@
 export async function saveFormData(formData) {
   try {
     console.log('Saving form data:', formData);
-    const response = await fetch('/api/eligibility', {
+    const response = await fetch('./api/eligibility', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
     });
-    console.log('THE Method:', response.method);
+    console.log('THE METHOD:', response.method);
     console.log('THE HEADER:', response.headers);
     console.log('THE BODY:', response.body);
     console.log('THE FULL RESPONSE:', response);
