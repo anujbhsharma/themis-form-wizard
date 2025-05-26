@@ -10,7 +10,7 @@ export async function saveFormData(formData) {
       },
       body: JSON.stringify(formData),
     });
-
+    console.log('THE BODY:', response.body);
     const result = await response.json();
     if (!response.ok) {
       throw new Error(result.error || 'Failed to save data');
