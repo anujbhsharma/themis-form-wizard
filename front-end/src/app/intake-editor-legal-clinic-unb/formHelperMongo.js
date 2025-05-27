@@ -17,13 +17,11 @@ async function getDb() {
   return client.db(dbName);
 }
 
-export async function saveFormData(formData) {
-  try {} catch{}}
 // POST: Add form data by replacing current form
 app.post('/eligibility', async (req, res) => {
   try {
     const db = await getDb();
-    const result = await db.collection('eligibility').insertOne(req.body);
+    const result = await db.collection('intake').insertOne(req.body);
     res.status(201).json({ insertedId: result.insertedId });
   } catch (err) {
     res.status(500).json({ error: err.message });
