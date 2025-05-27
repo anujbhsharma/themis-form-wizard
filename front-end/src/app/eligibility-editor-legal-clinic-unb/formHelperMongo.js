@@ -18,7 +18,7 @@ async function getDb() {
 }
 
 // POST: Add form data
-app.post('eligibility', async (req, res) => {
+app.post('/eligibility', async (req, res) => {
   try {
     const db = await getDb();
     const result = await db.collection('eligibility').insertOne(req.body);
@@ -29,10 +29,10 @@ app.post('eligibility', async (req, res) => {
 });
 
 // GET: Fetch form
-app.get('eligibility', async (req, res) => {
+app.get('/eligibility', async (req, res) => {
   try {
     const db = await getDb();
-    const cursor = db.collection('eligibility').find(); // no filter means get all
+    const cursor = db.collection('eligibility').find();
     const documents = await cursor.toArray();
     res.json(documents);
   } catch (err) {

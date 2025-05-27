@@ -45,24 +45,28 @@
     "shelters": [
       {
         "name": "Oak Centre",
+        "description": "",
         "location": "Fredericton",
         "phoneNumber": "(506) 206-0667",
         "category": "shelters"
       },
       {
         "name": "Saint John House",
+        "description": "",
         "location": "Fredericton",
         "phoneNumber": "(506) 450-1102",
         "category": "shelters"
       },
       {
         "name": "Outflow Men's Shelter",
+        "description": "",
         "location": "Saint John",
         "phoneNumber": "(506) 658-8050",
         "category": "shelters"
       },
       {
         "name": "Women in Transition",
+        "description": "",
         "location": "Fredericton",
         "phoneNumber": "(506) 459-2300",
         "notes": "Women Only",
@@ -70,18 +74,21 @@
       },
       {
         "name": "Grace House for Women",
+        "description": "",
         "phoneNumber": "(506) 450-3001",
         "notes": "Women Only",
         "category": "shelters"
       },
       {
         "name": "Gignoo Aboriginal Transition House",
+        "description": "",
         "phoneNumber": "(800) 565-6878 - (506) 458-1224",
         "notes": "Women Only, First Nations",
         "category": "shelters"
       },
       {
         "name": "Sanctuary House",
+        "description": "",
         "location": "Woodstock",
         "phoneNumber": "(506) 325-9452",
         "category": "shelters"
@@ -92,7 +99,8 @@
         "name": "Fredericton Legal Advice Clinic",
         "description": "Run by volunteer lawyers providing advice in person or through online contact form",
         "phoneNumber": "N/A",
-        "email": "Online Form",
+        "location": "",
+        "email": "flac.nb@gmail.com",
         "matters": "General",
         "category": "legal"
       },
@@ -149,6 +157,7 @@
         "description": "Provincial association of REALTORS® working to promote professional standards and protect public interest",
         "phoneNumber": "506-459-8055 / 1-800-762-1677",
         "email": "info@nbrea.ca",
+        "website": "www.nbrea.ca/",
         "matters": "Real Estate Complaints",
         "category": "legal"
       },
@@ -172,7 +181,7 @@
         "name": "NB Refugee Clinic",
         "description": "Assists with Basis of Claim forms, immigration hearings, and related refugee issues",
         "phoneNumber": "506-204-5781",
-        "email": "Online Form",
+        "email": "info@nbrc-crnb.ca",
         "matters": "Refugee or Immigration Issues",
         "category": "legal"
       },
@@ -197,13 +206,23 @@
         "phoneNumber": "1-800-667-5005",
         "category": "emergency",
         "description": "24/7 crisis support"
+      },
+      {
+        "name": "",
+        "phoneNumber": "",
+        "category": "emergency",
+        "location": "",
+        "notes": "",
+        "description": "",
+        "email": "",
+        "matters": ""
       }
     ]
   },
   "formConfig": {
     "metadata": {
-      "version": "2.2.29",
-      "lastUpdated": "2025-05-27T12:09:19.531Z",
+      "version": "2.2.6",
+      "lastUpdated": "2025-05-23T19:14:27.270Z",
       "clinic": {
         "name": "Eligibility Screening Form",
         "phone": "(506) 452-6313",
@@ -348,6 +367,33 @@
             }
           },
           {
+            "name": "preferredName",
+            "label": "Preferred Name (if distinct from legal name)",
+            "type": "text",
+            "requird": false
+          },
+          {
+            "name": "housing",
+            "label": "Do you currently have housing?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": [
+                "required"
+              ]
+            },
+            "options": [
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              }
+            ]
+          },
+          {
             "name": "address",
             "label": "Address",
             "type": "text",
@@ -356,7 +402,8 @@
               "rules": [
                 "required"
               ]
-            }
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "cityProvince",
@@ -378,7 +425,8 @@
               "rules": [
                 "postalCode"
               ]
-            }
+            },
+            "showIf": "housing === 'yes'"
           },
           {
             "name": "phoneNumber",
@@ -447,7 +495,7 @@
                 "dateOfBirth"
               ]
             },
-            "guidance": "Must be between 18 and 85 years old"
+            "guidance": "Must be between 18 and 120 years old"
           },
           {
             "name": "gender",
@@ -516,6 +564,31 @@
             ]
           },
           {
+            "name": "disability",
+            "label": "Do you identify as a person with a disability?",
+            "type": "radio",
+            "required": true,
+            "validation": {
+              "rules": [
+                "required"
+              ]
+            },
+            "options": [
+              {
+                "value": "yes",
+                "label": "Yes"
+              },
+              {
+                "value": "no",
+                "label": "No"
+              },
+              {
+                "value": "prefer-not-to-answer",
+                "label": "Prefer not to answer"
+              }
+            ]
+          },
+          {
             "name": "unbStudent",
             "label": "Are you currently a UNB Student?",
             "type": "radio",
@@ -569,7 +642,7 @@
               },
               {
                 "value": "not-in-canada",
-                "label": "I do not live in Canada"
+                "label": "I do not live in New Brunswick"
               }
             ]
           },
@@ -727,7 +800,8 @@
               "rules": [
                 "numeric"
               ]
-            }
+            },
+            "guidance": "Put 0 if you do not have a spouse"
           },
           {
             "name": "ei",
@@ -817,7 +891,7 @@
                 "totalMonthlyIncome"
               ]
             },
-            "guidance": "Add the number Zero if you have no income"
+            "guidance": "Put 0 if you have currently have no income"
           },
           {
             "name": "childcareExpenses",
@@ -862,7 +936,7 @@
                 "numeric"
               ]
             },
-            "guidance": "Add the number Zero if you have no deductions"
+            "guidance": "Put 0 if you have no deductions"
           },
           {
             "name": "cashAndBank",
@@ -908,7 +982,7 @@
                 "totalAssets"
               ]
             },
-            "guidance": "Add the number Zero if you have no Assets"
+            "guidance": "put 0 if you currently have no assets"
           }
         ]
       },
@@ -1014,7 +1088,7 @@
           {
             "name": "deadlineDetails",
             "label": "Court/Hearing Date",
-            "type": "text",
+            "type": "date",
             "required": false,
             "guidance": "Court Name- YYYY-MM-DD",
             "showIf": "hasDeadline === 'yes'"
