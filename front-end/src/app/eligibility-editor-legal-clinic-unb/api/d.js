@@ -1,4 +1,8 @@
-{
+
+const db = new sqlite3.Database('form.db');
+ 
+// Example JSON object
+const form = {
   "CONSTANTS": {
     "INCOME": {
       "MIN_ANNUAL": 0,
@@ -42,168 +46,21 @@
     }
   },
   "RESOURCES": {
-    "shelters": [
-      {
-        "name": "Oak Centre",
-        "location": "Fredericton",
-        "phoneNumber": "(506) 206-0667",
-        "category": "shelters"
-      },
-      {
-        "name": "Saint John House",
-        "location": "Fredericton",
-        "phoneNumber": "(506) 450-1102",
-        "category": "shelters"
-      },
-      {
-        "name": "Outflow Men's Shelter",
-        "location": "Saint John",
-        "phoneNumber": "(506) 658-8050",
-        "category": "shelters"
-      },
-      {
-        "name": "Women in Transition",
-        "location": "Fredericton",
-        "phoneNumber": "(506) 459-2300",
-        "notes": "Women Only",
-        "category": "shelters"
-      },
-      {
-        "name": "Grace House for Women",
-        "phoneNumber": "(506) 450-3001",
-        "notes": "Women Only",
-        "category": "shelters"
-      },
-      {
-        "name": "Gignoo Aboriginal Transition House",
-        "phoneNumber": "(800) 565-6878 - (506) 458-1224",
-        "notes": "Women Only, First Nations",
-        "category": "shelters"
-      },
-      {
-        "name": "Sanctuary House",
-        "location": "Woodstock",
-        "phoneNumber": "(506) 325-9452",
-        "category": "shelters"
-      }
-    ],
-    "legal": [
-      {
-        "name": "Fredericton Legal Advice Clinic",
-        "description": "Run by volunteer lawyers providing advice in person or through online contact form",
-        "phoneNumber": "N/A",
-        "email": "Online Form",
-        "matters": "General",
-        "category": "legal"
-      },
-      {
-        "name": "Investigations of Complaints - Employment Standards",
-        "description": "Handles employment-related complaints, with officers screening and investigating issues that may escalate to the New Brunswick Labour & Employment Board",
-        "phoneNumber": "1-888-452-2687",
-        "email": "petl.epft@gnb.ca",
-        "matters": "Employment",
-        "category": "legal"
-      },
-      {
-        "name": "Landlord and Tenant Relations Office",
-        "description": "Provides information and resources on rental agreements, dispute resolution, and the Residential Tenancies Act",
-        "phoneNumber": "1-888-762-8600",
-        "email": "renting@gnb.ca",
-        "matters": "Tenancies and Landlords",
-        "category": "legal"
-      },
-      {
-        "name": "New Brunswick Human Rights Commission",
-        "description": "Government agency responsible for administering the Human Rights Act, promoting equality, and eliminating discriminatory practices",
-        "phoneNumber": "Toll Free: 1-888-471-2233, (506) 453-2301",
-        "email": "hrc.cdp@gnb.ca",
-        "matters": "Human Rights",
-        "category": "legal"
-      },
-      {
-        "name": "New Brunswick Legal Aid Services Commission (NBLASC)",
-        "description": "Provides legal representation for child support and child custody for qualifying individuals",
-        "phoneNumber": "506-444-2777",
-        "email": "N/A",
-        "matters": "Family Law",
-        "category": "legal"
-      },
-      {
-        "name": "Family Law Advice Lawyer",
-        "description": "Offers up to two hours of assistance for family law paperwork and basic advice",
-        "phoneNumber": "855-266-0266",
-        "email": "N/A",
-        "matters": "Family Law",
-        "category": "legal"
-      },
-      {
-        "name": "Public Legal Education Information Services NB (PLEIS)",
-        "description": "Provides family law information line and legal information line",
-        "phoneNumber": "Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369",
-        "email": "N/A",
-        "matters": "Family Law, Estate Advice",
-        "category": "legal"
-      },
-      {
-        "name": "New Brunswick Real Estate Association (NBREA)",
-        "description": "Provincial association of REALTORS® working to promote professional standards and protect public interest",
-        "phoneNumber": "506-459-8055 / 1-800-762-1677",
-        "email": "info@nbrea.ca",
-        "matters": "Real Estate Complaints",
-        "category": "legal"
-      },
-      {
-        "name": "Steward McKelvey - Will Project",
-        "description": "Partnership with UNB Law and Pro Bono students to create wills for people of limited means",
-        "phoneNumber": "506-458-7037",
-        "email": "willsproject@unb.ca",
-        "matters": "Will or Power of Attorney",
-        "category": "legal"
-      },
-      {
-        "name": "Public Trustee",
-        "description": "Assistance for individuals like seniors or disabled persons regarding legal capacity",
-        "phoneNumber": "(506) 444-3688",
-        "email": "Public.trustee@gnb.ca",
-        "matters": "Other",
-        "category": "legal"
-      },
-      {
-        "name": "NB Refugee Clinic",
-        "description": "Assists with Basis of Claim forms, immigration hearings, and related refugee issues",
-        "phoneNumber": "506-204-5781",
-        "email": "Online Form",
-        "matters": "Refugee or Immigration Issues",
-        "category": "legal"
-      },
-      {
-        "name": "Fine Option Program",
-        "description": "Allows young or adult offenders to do volunteer work in lieu of paying a monetary fine",
-        "phoneNumber": "300 Saint Mary's Street",
-        "email": "DPS-MSP.Information@gnb.ca",
-        "matters": "Other",
-        "category": "legal"
-      }
-    ],
-    "emergency": [
-      {
-        "name": "Emergency Services",
+      "Emergency Services" : {
         "phoneNumber": "911",
         "category": "emergency",
         "description": "For immediate danger"
       },
-      {
-        "name": "Mental Health Crisis Line",
+      "Mental Health Crisis Line" : {
         "phoneNumber": "1-800-667-5005",
         "category": "emergency",
         "description": "24/7 crisis support"
       }
-    ]
   },
   "formConfig": {
     "metadata": {
-      "version": "2.2.26",
-      "lastUpdated": "2025-05-27T12:04:02.926Z",
+      "version": "2.2.25",
+      "lastUpdated": "2025-05-26T18:58:33.426Z",
       "clinic": {
         "name": "Eligibility Screening Form",
         "phone": "(506) 452-6313",
@@ -1111,3 +968,102 @@
     ]
   }
 }
+
+db.serialize(() => {
+  // Create tables
+  db.run(`CREATE TABLE IF NOT EXISTS constants (
+   category TEXT,
+    key TEXT,
+    value INTEGER
+  )`);
+
+  // Insert constants
+  for (const [category, values] of Object.entries(data.CONSTANTS)) {
+    for (const [key, value] of Object.entries(values)) {
+      db.run(`INSERT INTO constants (category, key, value) VALUES (?, ?, ?)`,
+        [category, key, value]);
+    }
+  }
+
+  db.run(`CREATE TABLE IF NOT EXISTS monthly_thresholds (
+    household_size INTEGER PRIMARY KEY,
+    income INTEGER,
+    assets INTEGER
+  )`);
+
+  // Insert monthly thresholds
+  for (const [size, values] of Object.entries(data.MONTHLY_THRESHOLDS)) {
+    db.run(`INSERT INTO monthly_thresholds (household_size, income, assets) VALUES (?, ?, ?)`,
+      [parseInt(size), values.income, values.assets]);
+  }
+
+  db.run(`CREATE TABLE IF NOT EXISTS resources (
+    name TEXT NOT NULL,
+    phoneNumber TEXT NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT
+  )`);
+
+  // Insert monthly thresholds
+  for (const [size, values] of Object.entries(data.RESOURCES)) {
+    db.run(`INSERT INTO resources (household_size, income, assets) VALUES (?, ?, ?)`,
+      [parseInt(size), values.income, values.assets]);
+  }
+});
+
+ 
+  // db.run(`CREATE TABLE IF NOT EXISTS fields (
+	// id INTEGER PRIMARY KEY AUTOINCREMENT,
+	// form_id TEXT,
+	// name TEXT,
+	// label TEXT,
+	// type TEXT,
+	// required BOOLEAN,
+	// FOREIGN KEY(form_id) REFERENCES forms(id)
+  // )`);
+ 
+  // db.run(`CREATE TABLE IF NOT EXISTS validation_rules (
+	// id INTEGER PRIMARY KEY AUTOINCREMENT,
+	// field_id INTEGER,
+	// rule TEXT,
+	// FOREIGN KEY(field_id) REFERENCES fields(id)
+  // )`);
+ 
+  // db.run(`CREATE TABLE IF NOT EXISTS options (
+	// id INTEGER PRIMARY KEY AUTOINCREMENT,
+	// field_id INTEGER,
+	// value TEXT,
+	// label TEXT,
+	// FOREIGN KEY(field_id) REFERENCES fields(id)
+  // )`);
+ 
+  // // Insert form
+  // db.run(`INSERT INTO forms (id, title, icon, critical) VALUES (?, ?, ?, ?)`,
+	// [form.id, form.title, form.icon, form.critical]);
+ 
+  // // Insert fields and related data
+  // form.fields.forEach(field => {
+	// db.run(`INSERT INTO fields (form_id, name, label, type, required) VALUES (?, ?, ?, ?, ?)`,
+  // 	[form.id, field.name, field.label, field.type, field.required],
+  // 	function (err) {
+  //   	if (err) throw err;
+  //   	const fieldId = this.lastID;
+ 
+  //   	// Insert validation rules
+  //   	field.validation?.rules?.forEach(rule => {
+  //     	db.run(`INSERT INTO validation_rules (field_id, rule) VALUES (?, ?)`,
+  //       	[fieldId, rule]);
+  //   	});
+ 
+  //   	// Insert options
+  //   	field.options?.forEach(opt => {
+  //     	db.run(`INSERT INTO options (field_id, value, label) VALUES (?, ?, ?)`,
+  //       	[fieldId, opt.value, opt.label]);
+  //   	});
+  // 	}
+	// );
+  // });
+ 
+db.close(() => {
+  console.log("Nested JSON successfully imported into SQLite database.");
+});
