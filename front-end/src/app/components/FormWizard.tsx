@@ -489,7 +489,8 @@ export default function LegalClinicForm() {
 
     // Special handling for number fields with currency
     if (field.type === 'number' && 
-       (field.name.toLowerCase().includes('income') || 
+       (field.name.toLowerCase().includes('(total amount per month)') || 
+        field.name.toLowerCase().includes('income') || 
         field.name.toLowerCase().includes('expense') || 
         field.name.toLowerCase().includes('assets'))) {
       return (

@@ -21,7 +21,7 @@
         },
         {
             "name": "Oak Centre",
-            "description": "Supportive housing complex ",
+            "description": "Supportive housing complex",
             "location": "Fredericton",
             "phoneNumber": "(506)-206-0667",
             "website": "https://johnhowardfredericton.ca/housing-programs/",
@@ -29,7 +29,7 @@
         },
         {
             "name": "Outflow Men's Shelter",
-            "description": "",
+            "description": "24/7 free-of-charge shelter with 30 beds, provides a light meal, showers, laundry, and breakfast",
             "location": "Saint John",
             "phoneNumber": "(506)-658-8050",
             "website": "https://outflowsj.com/",
@@ -38,8 +38,8 @@
         },
         {
             "name": "Saint John House",
-            "description": "Downtown emergency shelter to up to 27 individuals, offering laundry and showering services, a resident phone, Wi-Fi, computers, access to donation, and support from Resident Support Workers, a Transition Planner and Manager.",
-            "location": "Fredericton", 
+            "description": "Downtown emergency shelter to up to 27 individuals, offering laundry and showering services, a resident phone, Wi-Fi, computers, access to donation, and support from Resident Support Workers, a Transition Planner and Manager",
+            "location": "Fredericton",
             "phoneNumber": "(506)-450-1102",
             "website": "https://www.theshelters.ca/our-spaces/st-john-house/",
             "category":"Shelters"
@@ -75,8 +75,8 @@
             "category":"Rehabilitation"
         },
         {
-            "name": "Impact Youth",
-            "description": "",
+            "name": "Youth Impact Jeunesse",
+            "description": "Offers residential services for youths between two and twenty-five, outreach programs for youths aged 16 or older",
             "location": "Moncton",
             "phoneNumber": "(506)-869-6333",
             "website": "https://youthimpact.org/",
@@ -85,7 +85,7 @@
         },
         {
             "name": "Naomi & Ruth",
-            "description": "",
+            "description": "Faith-based one year program offering a supportive environment with  medical treatment, therapy, mentorship, financial counseling, fitness programs, stress management, and life skills training",
             "location": "Shediac",
             "phoneNumber": "(506) 875-5371",
             "website": "https://naomiandruth.ca/",
@@ -106,6 +106,7 @@
             "description": "",
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
+            "website": "",
              "category":"Rehabilitation"
         },
         {
@@ -119,7 +120,7 @@
         },
         {
             "name": "Village of Hope",
-            "description": "",
+            "description": "Ten-month Christianity-based program centred on drug and alcohol addiction recovery",
             "location": "Upper Tracy",
             "phoneNumber": "(506)-368-2600",
             "email": "info@villageofhopenb.ca",

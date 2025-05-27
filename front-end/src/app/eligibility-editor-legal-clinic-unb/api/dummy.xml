@@ -1,0 +1,1026 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <root>
+     <CONSTANTS>
+         <INCOME>
+             <MIN_ANNUAL>0</MIN_ANNUAL>
+             <MAX_ANNUAL>42000</MAX_ANNUAL>
+             <PER_DEPENDENT>5000</PER_DEPENDENT>
+         </INCOME>
+         <AGE>
+             <MIN>18</MIN>
+             <MAX>120</MAX>
+         </AGE>
+         <HOUSEHOLD>
+             <MAX_DEPENDENTS>10</MAX_DEPENDENTS>
+             <MIN_SIZE>1</MIN_SIZE>
+             <MAX_SIZE>6</MAX_SIZE>
+         </HOUSEHOLD>
+     </CONSTANTS>
+     <MONTHLY_THRESHOLDS>
+         <1>
+             <income>1900</income>
+             <assets>5000</assets>
+         </1>
+         <2>
+             <income>2800</income>
+             <assets>9000</assets>
+         </2>
+         <3>
+             <income>2900</income>
+             <assets>10000</assets>
+         </3>
+         <4>
+             <income>3100</income>
+             <assets>11000</assets>
+         </4>
+         <5>
+             <income>3300</income>
+             <assets>12000</assets>
+         </5>
+         <6>
+             <income>3500</income>
+             <assets>13000</assets>
+         </6>
+     </MONTHLY_THRESHOLDS>
+     <RESOURCES>
+         <shelters>
+             <name>Oak Centre</name>
+             <description></description>
+             <location>Fredericton</location>
+             <phoneNumber>(506) 206-0667</phoneNumber>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Saint John House</name>
+             <description></description>
+             <location>Fredericton</location>
+             <phoneNumber>(506) 450-1102</phoneNumber>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Outflow Men's Shelter</name>
+             <description></description>
+             <location>Saint John</location>
+             <phoneNumber>(506) 658-8050</phoneNumber>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Women in Transition</name>
+             <description></description>
+             <location>Fredericton</location>
+             <phoneNumber>(506) 459-2300</phoneNumber>
+             <notes>Women Only</notes>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Grace House for Women</name>
+             <description></description>
+             <phoneNumber>(506) 450-3001</phoneNumber>
+             <notes>Women Only</notes>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Gignoo Aboriginal Transition House</name>
+             <description></description>
+             <phoneNumber>(800) 565-6878 - (506) 458-1224</phoneNumber>
+             <notes>Women Only, First Nations</notes>
+             <category>shelters</category>
+         </shelters>
+         <shelters>
+             <name>Sanctuary House</name>
+             <description></description>
+             <location>Woodstock</location>
+             <phoneNumber>(506) 325-9452</phoneNumber>
+             <category>shelters</category>
+         </shelters>
+         <legal>
+             <name>Fredericton Legal Advice Clinic</name>
+             <description>Run by volunteer lawyers providing advice in person or through online contact form</description>
+             <phoneNumber>N/A</phoneNumber>
+             <location></location>
+             <email>flac.nb@gmail.com</email>
+             <matters>General</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Investigations of Complaints - Employment Standards</name>
+             <description>Handles employment-related complaints, with officers screening and investigating issues that may escalate to the New Brunswick Labour & Employment Board</description>
+             <phoneNumber>1-888-452-2687</phoneNumber>
+             <email>petl.epft@gnb.ca</email>
+             <matters>Employment</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Landlord and Tenant Relations Office</name>
+             <description>Provides information and resources on rental agreements, dispute resolution, and the Residential Tenancies Act</description>
+             <phoneNumber>1-888-762-8600</phoneNumber>
+             <email>renting@gnb.ca</email>
+             <matters>Tenancies and Landlords</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>New Brunswick Human Rights Commission</name>
+             <description>Government agency responsible for administering the Human Rights Act, promoting equality, and eliminating discriminatory practices</description>
+             <phoneNumber>Toll Free: 1-888-471-2233, (506) 453-2301</phoneNumber>
+             <email>hrc.cdp@gnb.ca</email>
+             <matters>Human Rights</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>New Brunswick Legal Aid Services Commission (NBLASC)</name>
+             <description>Provides legal representation for child support and child custody for qualifying individuals</description>
+             <phoneNumber>506-444-2777</phoneNumber>
+             <email>N/A</email>
+             <matters>Family Law</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Family Law Advice Lawyer</name>
+             <description>Offers up to two hours of assistance for family law paperwork and basic advice</description>
+             <phoneNumber>855-266-0266</phoneNumber>
+             <email>N/A</email>
+             <matters>Family Law</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Public Legal Education Information Services NB (PLEIS)</name>
+             <description>Provides family law information line and legal information line</description>
+             <phoneNumber>Family Law Information Line (toll-free): 1-888-236-2444, Legal Information Line: (506) 453-5369</phoneNumber>
+             <email>N/A</email>
+             <matters>Family Law, Estate Advice</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>New Brunswick Real Estate Association (NBREA)</name>
+             <description>Provincial association of REALTORS® working to promote professional standards and protect public interest</description>
+             <phoneNumber>506-459-8055 / 1-800-762-1677</phoneNumber>
+             <email>info@nbrea.ca</email>
+             <website>www.nbrea.ca/</website>
+             <matters>Real Estate Complaints</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Steward McKelvey - Will Project</name>
+             <description>Partnership with UNB Law and Pro Bono students to create wills for people of limited means</description>
+             <phoneNumber>506-458-7037</phoneNumber>
+             <email>willsproject@unb.ca</email>
+             <matters>Will or Power of Attorney</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Public Trustee</name>
+             <description>Assistance for individuals like seniors or disabled persons regarding legal capacity</description>
+             <phoneNumber>(506) 444-3688</phoneNumber>
+             <email>Public.trustee@gnb.ca</email>
+             <matters>Other</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>NB Refugee Clinic</name>
+             <description>Assists with Basis of Claim forms, immigration hearings, and related refugee issues</description>
+             <phoneNumber>506-204-5781</phoneNumber>
+             <email>info@nbrc-crnb.ca</email>
+             <matters>Refugee or Immigration Issues</matters>
+             <category>legal</category>
+         </legal>
+         <legal>
+             <name>Fine Option Program</name>
+             <description>Allows young or adult offenders to do volunteer work in lieu of paying a monetary fine</description>
+             <phoneNumber>300 Saint Mary's Street</phoneNumber>
+             <email>DPS-MSP.Information@gnb.ca</email>
+             <matters>Other</matters>
+             <category>legal</category>
+         </legal>
+         <emergency>
+             <name>Emergency Services</name>
+             <phoneNumber>911</phoneNumber>
+             <category>emergency</category>
+             <description>For immediate danger</description>
+         </emergency>
+         <emergency>
+             <name>Mental Health Crisis Line</name>
+             <phoneNumber>1-800-667-5005</phoneNumber>
+             <category>emergency</category>
+             <description>24/7 crisis support</description>
+         </emergency>
+         <emergency>
+             <name></name>
+             <phoneNumber></phoneNumber>
+             <category>emergency</category>
+             <location></location>
+             <notes></notes>
+             <description></description>
+             <email></email>
+             <matters></matters>
+         </emergency>
+     </RESOURCES>
+     <formConfig>
+         <metadata>
+             <version>2.2.6</version>
+             <lastUpdated>2025-05-23T19:14:27.270Z</lastUpdated>
+             <clinic>
+                 <name>Eligibility Screening Form</name>
+                 <phone>(506) 452-6313</phone>
+                 <email>lawclinic@unb.ca</email>
+                 <address>41 Dineen Drive, Fredericton, NB</address>
+             </clinic>
+         </metadata>
+         <steps>
+             <id>emergency</id>
+             <title>Emergency Assessment</title>
+             <critical>true</critical>
+             <icon>AlertCircle</icon>
+             <guidance>Your safety is our primary concern. Please let us know if you need immediate assistance.</guidance>
+             <fields>
+                 <name>immediateRisk</name>
+                 <label>Are you in immediate danger?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <critical>true</critical>
+                 <validation>
+                     <rules>immediateRisk</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes, I need immediate help</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No, I am safe</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>shelterNeeded</name>
+                 <label>Do you need emergency shelter?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>shelterNeeded</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+         </steps>
+         <steps>
+             <id>disclaimers</id>
+             <title>Disclaimers and Consent</title>
+             <icon>FileText</icon>
+             <critical>true</critical>
+             <fields>
+                 <name>intakeDisclaimer</name>
+                 <label>Intake Disclaimer</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>intakeDisclaimer</rules>
+                 </validation>
+                 <options>
+                     <value>agree</value>
+                     <label>I agree</label>
+                 </options>
+                 <options>
+                     <value>disagree</value>
+                     <label>I do not agree</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>emailCommunicationConsent</name>
+                 <label>Email Communication Authorization</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>emailCommunicationConsent</rules>
+                 </validation>
+                 <options>
+                     <value>accept</value>
+                     <label>I accept</label>
+                 </options>
+                 <options>
+                     <value>decline</value>
+                     <label>I decline</label>
+                 </options>
+             </fields>
+         </steps>
+         <steps>
+             <id>demographic</id>
+             <title>Demographic Information</title>
+             <icon>User</icon>
+             <fields>
+                 <name>firstName</name>
+                 <label>First Name</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>middleName</name>
+                 <label>Middle Name</label>
+                 <type>text</type>
+                 <required>false</required>
+             </fields>
+             <fields>
+                 <name>lastName</name>
+                 <label>Last Name</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>preferredName</name>
+                 <label>Preferred Name (if distinct from legal name)</label>
+                 <type>text</type>
+                 <requird>false</requird>
+             </fields>
+             <fields>
+                 <name>housing</name>
+                 <label>Do you currently have housing?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>address</name>
+                 <label>Address</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <showIf>housing === 'yes'</showIf>
+             </fields>
+             <fields>
+                 <name>cityProvince</name>
+                 <label>City/Province</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>postalCode</name>
+                 <label>Postal Code</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>postalCode</rules>
+                 </validation>
+                 <showIf>housing === 'yes'</showIf>
+             </fields>
+             <fields>
+                 <name>phoneNumber</name>
+                 <label>Phone Number</label>
+                 <type>tel</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>phoneNumber</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>phoneType</name>
+                 <label>This phone number is my</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>home</value>
+                     <label>Home phone number</label>
+                 </options>
+                 <options>
+                     <value>work</value>
+                     <label>Work phone number</label>
+                 </options>
+                 <options>
+                     <value>cell</value>
+                     <label>Cell phone number</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>phoneMessagePermission</name>
+                 <label>If we call and someone else answers, can we tell the person who answers that we are calling from the UNB Legal Clinic?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>dateOfBirth</name>
+                 <label>Date of Birth</label>
+                 <type>date</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>dateOfBirth</rules>
+                 </validation>
+                 <guidance>Must be between 18 and 120 years old</guidance>
+             </fields>
+             <fields>
+                 <name>gender</name>
+                 <label>Gender</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>female</value>
+                     <label>Female</label>
+                 </options>
+                 <options>
+                     <value>male</value>
+                     <label>Male</label>
+                 </options>
+                 <options>
+                     <value>nonbinary</value>
+                     <label>Non-binary</label>
+                 </options>
+                 <options>
+                     <value>prefer-not-to-say</value>
+                     <label>Prefer not to say</label>
+                 </options>
+                 <options>
+                     <value>other</value>
+                     <label>Other</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>indigenous</name>
+                 <label>Do you identify as an Indigenous person?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>first-nations</value>
+                     <label>Yes, First Nations (e.g., Mi'kmaq or Wolastoqiyik)</label>
+                 </options>
+                 <options>
+                     <value>metis</value>
+                     <label>Yes, Métis</label>
+                 </options>
+                 <options>
+                     <value>inuit</value>
+                     <label>Yes, Inuit</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+                 <options>
+                     <value>prefer-not-to-answer</value>
+                     <label>Prefer not to answer</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>disability</name>
+                 <label>Do you identify as a person with a disability?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+                 <options>
+                     <value>prefer-not-to-answer</value>
+                     <label>Prefer not to answer</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>unbStudent</name>
+                 <label>Are you currently a UNB Student?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>nbResidency</name>
+                 <label>How long have you lived in New Brunswick?</label>
+                 <type>select</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>less-than-1</value>
+                     <label>Less than 1 year</label>
+                 </options>
+                 <options>
+                     <value>1-3</value>
+                     <label>1-3 years</label>
+                 </options>
+                 <options>
+                     <value>4-6</value>
+                     <label>4-6 years</label>
+                 </options>
+                 <options>
+                     <value>7-10</value>
+                     <label>7-10 years</label>
+                 </options>
+                 <options>
+                     <value>more-than-10</value>
+                     <label>More than 10 years</label>
+                 </options>
+                 <options>
+                     <value>not-in-canada</value>
+                     <label>I do not live in New Brunswick</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>maritalStatus</name>
+                 <label>Present Marital Status</label>
+                 <type>select</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>single</value>
+                     <label>Single</label>
+                 </options>
+                 <options>
+                     <value>common-law</value>
+                     <label>Common-Law</label>
+                 </options>
+                 <options>
+                     <value>married</value>
+                     <label>Married</label>
+                 </options>
+                 <options>
+                     <value>divorced</value>
+                     <label>Divorced</label>
+                 </options>
+                 <options>
+                     <value>separated</value>
+                     <label>Separated</label>
+                 </options>
+                 <options>
+                     <value>widowed</value>
+                     <label>Widowed</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>preferredLanguage</name>
+                 <label>What is your preferred language to communicate with the clinic?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>english</value>
+                     <label>English</label>
+                 </options>
+                 <options>
+                     <value>french</value>
+                     <label>French</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>householdSize</name>
+                 <label>How many people live in your home?</label>
+                 <type>select</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>1</value>
+                     <label>1</label>
+                 </options>
+                 <options>
+                     <value>2</value>
+                     <label>2</label>
+                 </options>
+                 <options>
+                     <value>3</value>
+                     <label>3</label>
+                 </options>
+                 <options>
+                     <value>4</value>
+                     <label>4</label>
+                 </options>
+                 <options>
+                     <value>5</value>
+                     <label>5</label>
+                 </options>
+                 <options>
+                     <value>6</value>
+                     <label>6 or more</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>employed</name>
+                 <label>Are you currently employed?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+         </steps>
+         <steps>
+             <id>financial</id>
+             <title>Financial Information</title>
+             <icon>DollarSign</icon>
+             <fields>
+                 <name>employmentIncome</name>
+                 <label>Employment (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>spouseIncome</name>
+                 <label>Spouse's Income (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>socialAssistance</name>
+                 <label>Social Assistance (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+                 <guidance>Put 0 if you do not have a spouse</guidance>
+             </fields>
+             <fields>
+                 <name>ei</name>
+                 <label>E.I. (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>wcbCppDisability</name>
+                 <label>WCB/CPP Disability (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>pensions</name>
+                 <label>Pension(s) (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>supportPayments</name>
+                 <label>Child or Spousal Support (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>rentalIncome</name>
+                 <label>Rental Income (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>childTaxCredit</name>
+                 <label>Child Tax Credit (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>otherIncome</name>
+                 <label>Other Income (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>totalMonthlyIncome</name>
+                 <label>Total Income per month</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                     <rules>totalMonthlyIncome</rules>
+                 </validation>
+                 <guidance>Put 0 if you have currently have no income</guidance>
+             </fields>
+             <fields>
+                 <name>childcareExpenses</name>
+                 <label>Childcare Expenses (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>medicalExpenses</name>
+                 <label>Medical Expenses (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>supportPaymentsDeduction</name>
+                 <label>Child or Spousal Support (Total Amount per month)</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>totalDeductions</name>
+                 <label>Total Allowable deductions per month</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+                 <guidance>Put 0 if you have no deductions</guidance>
+             </fields>
+             <fields>
+                 <name>cashAndBank</name>
+                 <label>Cash / Bank Accounts</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>investments</name>
+                 <label>Investments</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>otherAssets</name>
+                 <label>Other Liquid Assets or Resources</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>totalAssets</name>
+                 <label>Total Assets Available</label>
+                 <type>number</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>numeric</rules>
+                     <rules>totalAssets</rules>
+                 </validation>
+                 <guidance>put 0 if you currently have no assets</guidance>
+             </fields>
+         </steps>
+         <steps>
+             <id>legalIssue</id>
+             <title>Your Legal Issue</title>
+             <icon>Scale</icon>
+             <fields>
+                 <name>legalIssueType</name>
+                 <label>Which one of the following categories best applies to your legal issue?</label>
+                 <type>select</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>housing</value>
+                     <label>Housing and Tenancy</label>
+                 </options>
+                 <options>
+                     <value>benefits</value>
+                     <label>Provincial and Federal benefits</label>
+                 </options>
+                 <options>
+                     <value>employment</value>
+                     <label>Employment Law</label>
+                 </options>
+                 <options>
+                     <value>human-rights</value>
+                     <label>Human Rights</label>
+                 </options>
+                 <options>
+                     <value>small-claims</value>
+                     <label>Small Claims</label>
+                 </options>
+                 <options>
+                     <value>notary</value>
+                     <label>Notary / Commissioner of Oaths Services</label>
+                 </options>
+                 <options>
+                     <value>divorce</value>
+                     <label>Uncontested Divorce</label>
+                 </options>
+                 <options>
+                     <value>provincial-offences</value>
+                     <label>Provincial Offences (Tickets)</label>
+                 </options>
+                 <options>
+                     <value>immigration</value>
+                     <label>Immigration</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>issueDescription</name>
+                 <label>Please provide a detailed description of your legal matter</label>
+                 <type>textarea</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>issueDescription</rules>
+                 </validation>
+                 <guidance>Include: 1. Relevant Background Information 2. Parties Involved 3. Current Status 4. Desired Outcome</guidance>
+             </fields>
+             <fields>
+                 <name>opposingParties</name>
+                 <label>Opposing Parties</label>
+                 <type>textarea</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <guidance>Please provide the name(s) of any parties who may have an opposing interest to your own in this matter</guidance>
+             </fields>
+             <fields>
+                 <name>hasDeadline</name>
+                 <label>Do you have a court/hearing date or other deadline approaching?</label>
+                 <type>radio</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+                 <options>
+                     <value>yes</value>
+                     <label>Yes</label>
+                 </options>
+                 <options>
+                     <value>no</value>
+                     <label>No</label>
+                 </options>
+             </fields>
+             <fields>
+                 <name>deadlineDetails</name>
+                 <label>Court/Hearing Date</label>
+                 <type>date</type>
+                 <required>false</required>
+                 <guidance>Court Name- YYYY-MM-DD</guidance>
+                 <showIf>hasDeadline === 'yes'</showIf>
+             </fields>
+             <fields>
+                 <name>documentsSubmitted</name>
+                 <label>Required Documents Submission</label>
+                 <type>checkbox</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>documentsSubmitted</rules>
+                 </validation>
+                 <guidance>Please confirm you have emailed the required documents to lawclinic@unb.ca</guidance>
+             </fields>
+         </steps>
+         <steps>
+             <id>submissionInfo</id>
+             <title>Submission Information</title>
+             <icon>Send</icon>
+             <fields>
+                 <name>submitterName</name>
+                 <label>Name of Person who completed this form</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>relationshipToClient</name>
+                 <label>Relationship with the potential client</label>
+                 <type>text</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>required</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>submitterEmail</name>
+                 <label>Email Address</label>
+                 <type>email</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>email</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>submitterPhone</name>
+                 <label>Phone Number</label>
+                 <type>tel</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>phoneNumber</rules>
+                 </validation>
+             </fields>
+             <fields>
+                 <name>evaluationConsent</name>
+                 <label>Service Evaluation Consent</label>
+                 <type>checkbox</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>evaluationConsent</rules>
+                 </validation>
+                 <guidance>I understand that I may be contacted by a Legal Clinic representative to answer questions about the service I receive</guidance>
+             </fields>
+             <fields>
+                 <name>informationDeclaration</name>
+                 <label>Declaration of Truth</label>
+                 <type>checkbox</type>
+                 <required>true</required>
+                 <validation>
+                     <rules>informationDeclaration</rules>
+                 </validation>
+                 <guidance>I hereby declare that the information I have provided is true and correct</guidance>
+             </fields>
+         </steps>
+     </formConfig>
+ </root>
