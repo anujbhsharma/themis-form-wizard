@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export async function saveFormData(formData) {
   try {
-    const response = await axios.post('http://localhost:4000/api/eligibility', formData);
+    const response = await axios.post('/api/eligibility', formData);
     return response.data;
   } catch (error) {
     console.error("Error posting data (DUCK):", error);

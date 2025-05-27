@@ -1,5 +1,5 @@
 
-const db = new sqlite3.Database('form.db');
+const eligibilityDB = new sqlite3.Database('form.db');
  
 // Example JSON object
 const form = {
@@ -304,7 +304,7 @@ const form = {
                 "dateOfBirth"
               ]
             },
-            "guidance": "Must be between 18 and 85 years old"
+            "guidance": "Must be between 18 and 120 years old"
           },
           {
             "name": "gender",
@@ -373,8 +373,8 @@ const form = {
             ]
           },
           {
-            "name": "unbStudent",
-            "label": "Are you currently a UNB Student?",
+            "name": "Student",
+            "label": "Are you currently a student?",
             "type": "radio",
             "required": true,
             "validation": {
@@ -395,7 +395,7 @@ const form = {
           },
           {
             "name": "nbResidency",
-            "label": "How long have you lived in New Brunswick?",
+            "label": "How long have you lived in Canada?",
             "type": "select",
             "required": true,
             "validation": {
@@ -969,10 +969,10 @@ const form = {
   }
 }
 
-db.serialize(() => {
+eligibilityDB.serialize(() => {
   // Create tables
-  db.run(`CREATE TABLE IF NOT EXISTS constants (
-   category TEXT,
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS constants (
+    category TEXT,
     key TEXT,
     value INTEGER
   )`);
@@ -980,12 +980,12 @@ db.serialize(() => {
   // Insert constants
   for (const [category, values] of Object.entries(data.CONSTANTS)) {
     for (const [key, value] of Object.entries(values)) {
-      db.run(`INSERT INTO constants (category, key, value) VALUES (?, ?, ?)`,
+      eligibilityDB.run(`INSERT INTO constants (category, key, value) VALUES (?, ?, ?)`,
         [category, key, value]);
     }
   }
 
-  db.run(`CREATE TABLE IF NOT EXISTS monthly_thresholds (
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS monthly_thresholds (
     household_size INTEGER PRIMARY KEY,
     income INTEGER,
     assets INTEGER
@@ -993,26 +993,60 @@ db.serialize(() => {
 
   // Insert monthly thresholds
   for (const [size, values] of Object.entries(data.MONTHLY_THRESHOLDS)) {
-    db.run(`INSERT INTO monthly_thresholds (household_size, income, assets) VALUES (?, ?, ?)`,
+    eligibilityDB.run(`INSERT INTO monthly_thresholds (household_size, income, assets) VALUES (?, ?, ?)`,
       [parseInt(size), values.income, values.assets]);
   }
 
-  db.run(`CREATE TABLE IF NOT EXISTS resources (
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS resources (
     name TEXT NOT NULL,
     phoneNumber TEXT NOT NULL,
     category TEXT NOT NULL,
     description TEXT
   )`);
 
-  // Insert monthly thresholds
+  // Insert resources
   for (const [size, values] of Object.entries(data.RESOURCES)) {
-    db.run(`INSERT INTO resources (household_size, income, assets) VALUES (?, ?, ?)`,
+    eligibilityDB.run(`INSERT INTO resources (name, phoneNumber, category, description) VALUES (?, ?, ?, ?)`,
+      [parseInt(size), values.income, values.assets]);
+  }
+
+
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS metadata (
+    version TEXT NOT NULL,
+    lastUpdated TEXT NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT
+  )`);
+
+  // STEPS
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS steps (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    critical BOOLEAN,
+    icon TEXT NOT NULL,
+    guidance TEXT NOT NULL
+    FOREIGN KEY(field_id) REFERENCES fields(id)
+  )`);
+
+  // SECTIONS
+  // EMERGENCY ASSESSMENT
+  eligibilityDB.run(`CREATE TABLE IF NOT EXISTS emergency (
+    id INTEGER PRIMARY KEY,
+    version TEXT NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    address INTEGER
+  )`);
+
+  // Insert resources
+  for (const [size, values] of Object.entries(data.RESOURCES)) {
+    eligibilityDB.run(`INSERT INTO resources (name, phoneNumber, category, description) VALUES (?, ?, ?, ?)`,
       [parseInt(size), values.income, values.assets]);
   }
 });
 
  
-  // db.run(`CREATE TABLE IF NOT EXISTS fields (
+  // eligibilityDB.run(`CREATE TABLE IF NOT EXISTS fields (
 	// id INTEGER PRIMARY KEY AUTOINCREMENT,
 	// form_id TEXT,
 	// name TEXT,
@@ -1022,14 +1056,14 @@ db.serialize(() => {
 	// FOREIGN KEY(form_id) REFERENCES forms(id)
   // )`);
  
-  // db.run(`CREATE TABLE IF NOT EXISTS validation_rules (
+  // eligibilityDB.run(`CREATE TABLE IF NOT EXISTS validation_rules (
 	// id INTEGER PRIMARY KEY AUTOINCREMENT,
 	// field_id INTEGER,
 	// rule TEXT,
 	// FOREIGN KEY(field_id) REFERENCES fields(id)
   // )`);
  
-  // db.run(`CREATE TABLE IF NOT EXISTS options (
+  // eligibilityDB.run(`CREATE TABLE IF NOT EXISTS options (
 	// id INTEGER PRIMARY KEY AUTOINCREMENT,
 	// field_id INTEGER,
 	// value TEXT,
@@ -1038,12 +1072,12 @@ db.serialize(() => {
   // )`);
  
   // // Insert form
-  // db.run(`INSERT INTO forms (id, title, icon, critical) VALUES (?, ?, ?, ?)`,
+  // eligibilityDB.run(`INSERT INTO forms (id, title, icon, critical) VALUES (?, ?, ?, ?)`,
 	// [form.id, form.title, form.icon, form.critical]);
  
   // // Insert fields and related data
   // form.fields.forEach(field => {
-	// db.run(`INSERT INTO fields (form_id, name, label, type, required) VALUES (?, ?, ?, ?, ?)`,
+	// eligibilityDB.run(`INSERT INTO fields (form_id, name, label, type, required) VALUES (?, ?, ?, ?, ?)`,
   // 	[form.id, field.name, field.label, field.type, field.required],
   // 	function (err) {
   //   	if (err) throw err;
@@ -1051,19 +1085,19 @@ db.serialize(() => {
  
   //   	// Insert validation rules
   //   	field.validation?.rules?.forEach(rule => {
-  //     	db.run(`INSERT INTO validation_rules (field_id, rule) VALUES (?, ?)`,
+  //     	eligibilityDB.run(`INSERT INTO validation_rules (field_id, rule) VALUES (?, ?)`,
   //       	[fieldId, rule]);
   //   	});
  
   //   	// Insert options
   //   	field.options?.forEach(opt => {
-  //     	db.run(`INSERT INTO options (field_id, value, label) VALUES (?, ?, ?)`,
+  //     	eligibilityDB.run(`INSERT INTO options (field_id, value, label) VALUES (?, ?, ?)`,
   //       	[fieldId, opt.value, opt.label]);
   //   	});
   // 	}
 	// );
   // });
  
-db.close(() => {
+eligibilityDB.close(() => {
   console.log("Nested JSON successfully imported into SQLite database.");
 });
