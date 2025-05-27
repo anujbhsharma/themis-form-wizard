@@ -1,7 +1,7 @@
 // intake-editor/formHelper.js
 import axios from 'axios';
 
-export async function saveFormData(formData) {
+export async function saveForm(formData) {
   try {
     const response = await axios.post('/api/eligibility', formData);
     return response.data;
@@ -23,6 +23,28 @@ export async function saveFormData(formData) {
   //     throw new Error(result.error || 'Failed to save data');
   //   }
   //   return { success: true, data: result };
+export async function saveFormData(formData) {
+  try {
+    // console.log('Saving form data:', formData);
+    const response = await fetch('/api/form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || 'Failed to save data');
+    }
+
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('Error saving form data (HELLO):', error);
+    return { success: false, error: error.message };
+  }
+}
 
 export async function getFormData() {
   try {
