@@ -24,7 +24,7 @@ function ConfigPage() {
 
   // Fetch all configs on load
   useEffect(() => {
-    fetch('http://localhost:3000/config')
+    fetch('http://localhost:3000/eligibility')
       .then(res => res.json())
       .then(data => setConfigs(data))
       .catch(err => console.error('Error fetching configs:', err));
@@ -33,7 +33,7 @@ function ConfigPage() {
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3000/config', {
+    const response = await fetch('http://localhost:3000/eligibility', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
