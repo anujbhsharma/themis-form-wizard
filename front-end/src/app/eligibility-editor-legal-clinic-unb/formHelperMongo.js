@@ -1,7 +1,10 @@
 // intake-editor/formHelperMongo.js
 // Document inserted with _id: new ObjectId('6835c7ff80cbf3bc8a2d714e')
-const express = require('express');
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 const { MongoClient, ObjectId } = require('mongodb');
+const express = require('express');
 
 const app = express();
 app.use(express.json()); // for parsing JSON bodies
@@ -42,5 +45,5 @@ app.get('/eligibility', async (req, res) => {
   }
 });
 
-const PORT = 4000;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

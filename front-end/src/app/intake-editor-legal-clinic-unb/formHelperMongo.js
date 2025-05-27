@@ -18,7 +18,7 @@ async function getDb() {
 }
 
 // POST: Add form data by replacing current form
-app.post('/eligibility', async (req, res) => {
+app.post('/intake', async (req, res) => {
   try {
     const db = await getDb();
     const result = await db.collection('intake').insertOne(req.body);
@@ -29,10 +29,10 @@ app.post('/eligibility', async (req, res) => {
 });
 
 // GET: Fetch form
-app.get('/eligibility', async (req, res) => {
+app.get('/intake', async (req, res) => {
   try {
     const db = await getDb();
-    const cursor = db.collection('eligibility').find();
+    const cursor = db.collection('intake').find();
     const documents = await cursor.toArray();
     res.json(documents);
   } catch (err) {
@@ -40,5 +40,5 @@ app.get('/eligibility', async (req, res) => {
   }
 });
 
-const PORT = 4000;
+const PORT = 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

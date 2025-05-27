@@ -2,7 +2,7 @@
 export async function saveFormData(formData) {
   try {
     // console.log('Saving form data:', formData);
-    const response = await fetch('/api/form', {
+    const response = await fetch('/eligibility', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
