@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('../server/config/db.js');
+const connectDB = require('../config/db.js');
 require('dotenv').config();
 
-const app = express();
+const app = express.Router();
 app.use(cors());
 app.use(express.json());
 
@@ -43,7 +43,9 @@ app.get('/intake', async (req, res) => {
   res.json(intakes);
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 3001;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+module.exports = app; // export router
