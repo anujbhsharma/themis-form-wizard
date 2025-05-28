@@ -72,11 +72,12 @@
             "location": "Moncton",
             "phoneNumber": "(506) 855-0626 | Atlantic Office",
             "phoneNumberAlt": "(506) 388-4357 | Community Centre & Shelter",
+            "website": "https://harvesthouseatlantic.org/",
             "category":"Rehabilitation"
         },
         {
             "name": "Youth Impact Jeunesse",
-            "description": "Offers residential services for youths between two and twenty-five, outreach programs for youths aged 16 or older",
+            "description": "Offers residential services for youths between two and twenty-five, as well as outreach programs for youths aged 16 or older",
             "location": "Moncton",
             "phoneNumber": "(506)-869-6333",
             "website": "https://youthimpact.org/",
@@ -106,12 +107,12 @@
             "description": "",
             "location": "Fredericton",
             "phoneNumber": "(506) 447-9634",
-            "website": "",
+            "website": "https://www.facebook.com/riverstonerecoverycentre/",
              "category":"Rehabilitation"
         },
         {
             "name": "Teen Challenge",
-            "description": "",
+            "description": "12-month in-residence alcohol and drug addiction rehabilitation programs for adults 18 or older",
             "location": "Memramcook",
             "phoneNumber": "(506) 758-2377",
             "website": "https://www.teenchallenge.ca/",
@@ -120,7 +121,7 @@
         },
         {
             "name": "Village of Hope",
-            "description": "Ten-month Christianity-based program centred on drug and alcohol addiction recovery",
+            "description": "10-month Christianity-based program centred on drug and alcohol addiction recovery",
             "location": "Upper Tracy",
             "phoneNumber": "(506)-368-2600",
             "email": "info@villageofhopenb.ca",
