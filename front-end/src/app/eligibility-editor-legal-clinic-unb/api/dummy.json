@@ -42,27 +42,27 @@
     }
   },
   "RESOURCES": {
-    "shelters": [
+    "Shelters": [
       {
         "name": "Oak Centre",
         "description": "",
         "location": "Fredericton",
         "phoneNumber": "(506) 206-0667",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Saint John House",
         "description": "",
         "location": "Fredericton",
         "phoneNumber": "(506) 450-1102",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Outflow Men's Shelter",
         "description": "",
         "location": "Saint John",
         "phoneNumber": "(506) 658-8050",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Women in Transition",
@@ -70,28 +70,28 @@
         "location": "Fredericton",
         "phoneNumber": "(506) 459-2300",
         "notes": "Women Only",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Grace House for Women",
         "description": "",
         "phoneNumber": "(506) 450-3001",
         "notes": "Women Only",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Gignoo Aboriginal Transition House",
         "description": "",
         "phoneNumber": "(800) 565-6878 - (506) 458-1224",
         "notes": "Women Only, First Nations",
-        "category": "shelters"
+        "category": "Shelters"
       },
       {
         "name": "Sanctuary House",
         "description": "",
         "location": "Woodstock",
         "phoneNumber": "(506) 325-9452",
-        "category": "shelters"
+        "category": "Shelters"
       }
     ],
     "legal": [
@@ -206,16 +206,6 @@
         "phoneNumber": "1-800-667-5005",
         "category": "emergency",
         "description": "24/7 crisis support"
-      },
-      {
-        "name": "",
-        "phoneNumber": "",
-        "category": "emergency",
-        "location": "",
-        "notes": "",
-        "description": "",
-        "email": "",
-        "matters": ""
       }
     ]
   },

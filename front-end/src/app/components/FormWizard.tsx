@@ -294,26 +294,34 @@ export default function LegalClinicForm() {
         updatedResources.push(...RESOURCES.emergency);
       }
     }
+    // // Handle indigenous status
+    // if (name === 'indigenous' && value === 'first-nations') {
+    //   // Add First Nations specific resources
+    //   const firstNationsResources = RESOURCES.shelters.filter(
+    //     resource => resource.notes?.toLowerCase().includes('first nations')
+    //   );
+    //   updatedResources.push(...firstNationsResources);
+    // }
+
+    // // Handle disability status
+    // if (name === 'disabilty' && value === 'yes') {
+    //   // Add First Nations specific resources
+    //   const disabilityResources = RESOURCES.shelters.filter(
+    //     resource => resource.notes?.toLowerCase().includes('disability')
+    //   );
+    //   updatedResources.push(...disabilityResources);
+    // }
     
-    // Handle indigenous status
-    if (name === 'indigenous' && value === 'first-nations') {
-      // Add First Nations specific resources
-      const firstNationsResources = RESOURCES.shelters.filter(
-        resource => resource.notes?.toLowerCase().includes('first nations')
-      );
-      updatedResources.push(...firstNationsResources);
-    }
-    
-    // Handle gender-specific resources
-    if (name === 'gender') {
-      if (value === 'female') {
-        // Add women-only resources
-        const womenResources = RESOURCES.shelters.filter(
-          resource => resource.notes?.toLowerCase().includes('women only')
-        );
-        updatedResources.push(...womenResources);
-      }
-    }
+    // // Handle gender-specific resources
+    // if (name === 'gender') {
+    //   if (value === 'female') {
+    //     // Add women-only resources
+    //     const womenResources = RESOURCES.shelters.filter(
+    //       resource => resource.notes?.toLowerCase().includes('women only')
+    //     );
+    //     updatedResources.push(...womenResources);
+    //   }
+    // }
     
     // Handle financial eligibility steps
     if (['householdSize', 'totalMonthlyIncome', 'totalAssets'].includes(name)) {
@@ -395,6 +403,16 @@ export default function LegalClinicForm() {
     return age;
   };
 
+  const calculateDate = (curDate) => {
+    if (!curDate) return null;
+    const today = new Date();
+    const courtDate = new Date(curDate);
+    if (today.getDate() < courtDate.getDate()) {
+      return false;
+    }
+    return true;
+  };
+
   const handleNext = () => {
     if (validateStep(currentStep)) {
       const nextStep = currentStep + 1;
@@ -434,7 +452,7 @@ export default function LegalClinicForm() {
     const hasError = errors[field.name];
     const commonClasses = `
       w-full p-3 rounded-lg border transition-all
-      focus:ring-2 focus:ring-blue-500 focus:border-transparent
+      focus:border-blue-500
       ${hasError ? 'border-red-500 bg-red-50' : 'border-gray-200'}
     `;
 
@@ -471,7 +489,8 @@ export default function LegalClinicForm() {
 
     // Special handling for number fields with currency
     if (field.type === 'number' && 
-       (field.name.toLowerCase().includes('income') || 
+       (field.name.toLowerCase().includes('(total amount per month)') || 
+        field.name.toLowerCase().includes('income') || 
         field.name.toLowerCase().includes('expense') || 
         field.name.toLowerCase().includes('assets'))) {
       return (
@@ -591,8 +610,8 @@ export default function LegalClinicForm() {
         <h4 className="font-medium text-gray-900 mb-2">Supporting Documents Submission</h4>
         <p className="text-sm text-gray-500 text-center mb-4">
           Any supporting documents related to this matter must be sent to 
-          <a href="mailto:lawclinic@unb.ca" className="text-blue-600 hover:underline"> lawclinic@unb.ca</a> 
-          with the email subject formatted as Your First Name, Last Name - issue's Category. 
+          <a href="mailto:lawclinic@unb.ca" className="text-blue-600 hover:underline"> lawclinic@unb.ca </a> 
+          with the email subject formatted as your First Name, Last Name - Issue's Category. 
           For example: John Doe - Housing and Tenancy.
         </p>
         <p className="text-sm text-gray-500 text-center mb-4">
@@ -654,12 +673,12 @@ export default function LegalClinicForm() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b  md:py-8 px-4 md:px-8">
+    <div className="min-h-screen bg-gradient-to-b  md:py-6 px-4 md:px-8">
       {showSuccess && <SuccessModal />}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <Card className="mb-6 shadow-lg overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 w-full"></div>
+          <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-fulll"></div>
           <CardHeader className="pb-6 pt-6">
             <CardTitle className="text-2xl md:text-3xl text-center text-blue-800 font-bold">
               {formConfig.metadata.clinic.name}
@@ -706,7 +725,7 @@ export default function LegalClinicForm() {
               </div>
               <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 ease-out"
+                  className="h-full bg-gradient-to-r from-blue-500 to-red-600 transition-all duration-500 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -739,7 +758,7 @@ export default function LegalClinicForm() {
                       index + 1
                     )}
                   </div>
-                  <span className="text-xs font-medium text-center max-w-20 truncate">
+                  <span className="text-xs font-medium text-center max-w-22 truncate">
                     {step.title}
                   </span>
                 </div>
@@ -842,6 +861,7 @@ export default function LegalClinicForm() {
                             <Phone className="w-4 h-4 text-red-600" />
                           </div>
                           <div>
+                            <a href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`} >
                             <p className="font-medium text-red-800">{resource.name}</p>
                             <p className="text-red-600 flex items-center gap-1">
                               <a href={`tel:${resource.phoneNumber.replace(/[^0-9]/g, '')}`} 
@@ -850,6 +870,7 @@ export default function LegalClinicForm() {
                                 <ArrowRight className="w-3 h-3" />
                               </a>
                             </p>
+                            </a>
                             {resource.description && (
                               <p className="text-sm text-red-700 mt-1">{resource.description}</p>
                             )}
@@ -876,7 +897,7 @@ export default function LegalClinicForm() {
               </div>
               <div>
                 <h3 className="font-medium text-blue-800 mb-2">Financial Eligibility Guidelines</h3>
-                <p className="text-sm text-blue-700 mb-3">The following income and asset thresholds determine eligibility for our services:</p>
+                <p className="text-sm text-blue-700 mb-3">The following income and asset upper thresholds determine eligibility for our services:</p>
                 
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -898,8 +919,12 @@ export default function LegalClinicForm() {
                     </tbody>
                   </table>
                 </div>
-                
                 <p className="text-xs text-blue-700 mt-3">
+                  If your income or assets exceed these limits, we recommend contacting the 
+                    <a href="https://flac.cliogrow.com/" className='font-bold'> Fredericton Legal Advice Clinic</a> or 
+                    <a href="https://www.legal-info-legale.nb.ca/" className='font-bold'> Public Legal Education</a>
+                </p>
+                <p className="text-sm text-blue-700 mt-3">
                   Note: These thresholds may be adjusted based on special circumstances. 
                   All financial information will be kept confidential.
                 </p>
@@ -952,7 +977,7 @@ export default function LegalClinicForm() {
       </div>
 
         {/* Main content grid */}
-        <div className="grid md:grid-cols-[2fr,1fr] gap-6">
+        <div className="grid gap-6">
           {/* Main form */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
             {/* Step header */}
@@ -984,7 +1009,7 @@ export default function LegalClinicForm() {
 
         {/* Form fields */}
             <div className="p-6">
-              <div ref={formRef} className="max-h-[60vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
+              <div ref={formRef} className="max-h-[600vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
                 {currentStepConfig.fields.map(field => (
                   <div key={field.name} className="mb-8 last:mb-0 animate-fadeIn">
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -1010,7 +1035,7 @@ export default function LegalClinicForm() {
                     {field.name === 'intakeDisclaimer' && (
                       <div className="mb-4">
                         <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
-                          <p className="text-sm text-gray-600">
+                          <p className="text-base text-gray-600">
                             This form is for initial eligibility screening purposes only. Submitting this form does not create an 
                             attorney-client relationship. The legal clinic will review your information and contact you regarding 
                             your eligibility for services. Please note that our services are limited and not all applicants can be accepted.
@@ -1024,7 +1049,7 @@ export default function LegalClinicForm() {
                     {field.name === 'emailCommunicationConsent' && (
                       <div className="mb-4">
                         <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
-                          <p className="text-sm text-gray-600">
+                          <p className="text-base text-gray-600">
                             Email is not a completely secure or confidential method of communication. By accepting, you acknowledge 
                             the risks of email communication and authorize the legal clinic to communicate with you via email regarding 
                             your case, including sending documents and information related to your matter.
@@ -1125,7 +1150,7 @@ export default function LegalClinicForm() {
             )}
 
             {/* Resources - Always Visible */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden sticky top-4">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden hidden top-4">
               <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-4 border-b border-blue-100 text-white flex justify-between items-center">
                 <div>
                   <h3 className="font-medium text-white flex items-center gap-2">
@@ -1141,7 +1166,7 @@ export default function LegalClinicForm() {
                 
               </div>
               
-              <div className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
+              <div className="p-4 max-h-[calc(200vh-600vh)] overflow-y-auto">
                 {!activeResources && (
                   <div className="py-6 px-4 text-center">
                     <div className="bg-blue-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -1270,7 +1295,7 @@ export default function LegalClinicForm() {
                   <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-700">
                     <div className="flex items-start gap-2">
                       <Info className="w-4 h-4 text-blue-500 mt-0.5" />
-                      <div>
+                      {/* <div>
                         <p className="font-medium mb-1">How to use these resources:</p>
                         <ul className="list-disc pl-4 space-y-1">
                           <li>Click phone numbers to call directly</li>
@@ -1278,7 +1303,7 @@ export default function LegalClinicForm() {
                           <li>Resources are filtered based on your form responses</li>
                           <li>You can always return to this list later</li>
                         </ul>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 )}

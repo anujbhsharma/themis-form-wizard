@@ -76,7 +76,7 @@ const initialState = {
     "6": { income: 3500, assets: 13000 }
   },
   RESOURCES: {
-    shelters: [],
+    Shelters: [],
     legal: [],
     emergency: []
   },
@@ -724,7 +724,7 @@ const FormPreview = ({ formData }) => {
       setShowEmergencyAlert(true);
       setActiveResources(formData.RESOURCES.emergency || []);
     } else if (name === 'shelterNeeded' && value === 'yes') {
-      setActiveResources(prev => [...prev, ...(formData.RESOURCES.shelters || [])]);
+      setActiveResources(prev => [...prev, ...(formData.RESOURCES.Shelters || [])]);
     } else if (name === 'legalIssueType') {
       setActiveResources(formData.RESOURCES.legal || []);
     }
@@ -1580,7 +1580,7 @@ const ResourcesEditor = ({ resources, onChange }) => {
       </CardHeader>
       <CardContent>
         <ResourceCategory category="emergency" title="Emergency Resources" />
-        <ResourceCategory category="shelters" title="Shelter Resources" />
+        <ResourceCategory category="Shelters" title="Shelter Resources" />
         <ResourceCategory category="legal" title="Legal Resources" />
       </CardContent>
     </Card>

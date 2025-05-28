@@ -24,49 +24,49 @@
     "6": { "income": 3500, "assets": 13000 }
   },
   "RESOURCES": {
-    "shelters": [
+    "Shelters": [
       {
         "name": "Oak Centre",
         "location": "Fredericton",
         "phoneNumber": "(506) 206-0667",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Saint John House",
         "location": "Fredericton", 
         "phoneNumber": "(506) 450-1102",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Outflow Men's Shelter",
         "location": "Saint John",
         "phoneNumber": "(506) 658-8050",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Women in Transition",
         "location": "Fredericton",
         "phoneNumber": "(506) 459-2300",
         "notes": "Women Only",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Grace House for Women",
         "phoneNumber": "(506) 450-3001",
         "notes": "Women Only",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Gignoo Aboriginal Transition House",
         "phoneNumber": "(800) 565-6878 - (506) 458-1224",
         "notes": "Women Only, First Nations",
-        "category":"shelters"
+        "category":"Shelters"
     },
     {
         "name": "Sanctuary House",
         "location": "Woodstock",
         "phoneNumber": "(506) 325-9452",
-        "category":"shelters"
+        "category":"Shelters"
     }
     ],
     "legal": [
