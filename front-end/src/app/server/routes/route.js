@@ -12,12 +12,15 @@ app.use(express.json());
  */
 app.post('/eligibility', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').insertOne(req.body);
+  const result = await db.collection('eligibility').insertOne({
+    ...req.body,
+    createdAt: new Date()
+  });
   res.json({ insertedId: result.insertedId });
 });
 
 /**
- * POST to users collection
+ * POST to intake collection
  */
 app.post('/intake', async (req, res) => {
   const db = await connectDB();
@@ -30,8 +33,13 @@ app.post('/intake', async (req, res) => {
  */
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
-  const eligibilities = await db.collection('eligibility').find().toArray();
-  res.json(eligibilities);
+  const eligibilities = await db.collection('eligibility')
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(1)
+    .toArray();
+
+  res.json(eligibilities[0] || {}); // Return empty object if none found
 });
 
 /**
@@ -39,7 +47,10 @@ app.get('/eligibility', async (req, res) => {
  */
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
-  const intakes = await db.collection('intake').find().toArray();
+  const intakes = await db.collection('intake').find()
+    .sort({ createdAt: -1 })
+    .limit(1)
+    .toArray();
   res.json(intakes);
 });
 
