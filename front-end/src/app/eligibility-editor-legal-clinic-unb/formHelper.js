@@ -1,14 +1,14 @@
 // intake-editor/formHelper.js
-
 const cors = require('cors');
-
-
+// const mongosh = require('mongosh');
 
 const allowedOrigin = 'http://localhost:3001/eligibility';
 
 export async function saveFormData(formData) {
   try {
-    console.log('Saving form data:', formData);
+    formData.createdAt = new Date().toISOString();
+    const { _id, ...safeData } = formData;
+    console.log('Saving form data:', safeData);
     // const db = await connectDB();
     // const response = await db.collection('eligibility').insertOne({
     //   ...formData.body,
@@ -19,7 +19,7 @@ export async function saveFormData(formData) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(safeData),
     });
 
     const result = await response.json();

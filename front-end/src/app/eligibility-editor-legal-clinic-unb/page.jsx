@@ -79,8 +79,7 @@ const initialState = {
     legal: [],
     emergency: []
   },
-  _id: "68374cc21d484858c905e52e",
-  createdAt: "2025-05-28T17:49:54.877Z",
+  createdAt: new Date().toISOString(),
   formConfig: {
     metadata: {
       version: "1.0.0",
