@@ -985,7 +985,7 @@ const FormPreview = ({ formData }) => {
     );
   };
   
-  app.use(cors("http://localhost:3001/eligibiity"));
+//app.use(cors("http://localhost:3001/eligibility"));
 
   // Get substep title if applicable
   const getSubstepTitle = () => {
