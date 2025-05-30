@@ -28,7 +28,7 @@ app.use('/intake', require('./routes/route.js'));
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
   const result = await db.collection('eligibility').find()
-    .sort({ createdAt: -1 })
+    .sort({ _id: -1 })
     .limit(1)
     .toArray();
   res.json(result);
@@ -49,16 +49,22 @@ app.post('/eligibility', async (req, res) => {
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
   const result = await db.collection('intake').find()
-    .sort({ createdAt: -1 })
+    .sort({  _id: -1 })
     .limit(1)
     .toArray();
   res.json(result);
 });
 
 app.post('/intake', async (req, res) => {
-  const db = await connectDB();
-  const result = await db.collection('intake').insertOne(req.body);
-  res.status(201).json({ insertedId: result.insertedId });
+  try{
+    const db = await connectDB();
+    const result = await db.collection('intake').insertOne(req.body);
+    res.status(201).json({ insertedId: result.insertedId });
+  }
+  catch (error) {
+    console.error('POST /intake error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 const PORT = process.env.PORT || 3001;

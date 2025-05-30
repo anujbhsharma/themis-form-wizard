@@ -2519,8 +2519,6 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        //const response = await fetch('api/eligibility');
-        
         const response = await fetch('http://localhost:3001/eligibility')
         //Gets collection
         if (!response.ok) {
@@ -2529,7 +2527,7 @@ const FormEditor = () => {
           setFormData(initialState);
           return;
         }
-        //MONKEY
+
         const data = await response.json()
         console.log('RAW JSON DATA: ', data);
         setFormData(data[data.length-1]);

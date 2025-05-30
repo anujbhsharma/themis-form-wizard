@@ -1,19 +1,21 @@
 // intake-editor/formHelper.js
 const cors = require('cors');
-// const mongosh = require('mongosh');
 
 const allowedOrigin = 'http://localhost:3001/eligibility';
 
 export async function saveFormData(formData) {
   try {
-    formData.createdAt = new Date().toISOString();
-    const { _id, ...safeData } = formData;
+    //DELETE OLD DOCUMENTS (Only three documents will be in the
+    //collection at one time)
+    // const recentDocs = await collection.find()
+    //   .sort({ createdAt: -1 }) 
+    //   .limit(2)
+    //   .toArray();
+
+    // const recentIds = recentDocs.map(doc => doc._id);
+    // await collection.deleteMany({ _id: { $nin: recentIds } });
+
     console.log('Saving form data:', safeData);
-    // const db = await connectDB();
-    // const response = await db.collection('eligibility').insertOne({
-    //   ...formData.body,
-    //   createdAt: new Date()
-    // });
     const response = await fetch(allowedOrigin, {
       method: 'POST',
       headers: {
