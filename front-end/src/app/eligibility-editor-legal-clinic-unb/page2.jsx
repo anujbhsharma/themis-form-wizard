@@ -1,7 +1,4 @@
-"use client"
-
-const cors = require('cors');
-
+// "use client"
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   // Lucide Icons
@@ -2516,8 +2513,7 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        const response = await fetch('api/eligibility');
-        // const response = await fetch('http://localhost:3000/eligibility');
+        const response = await fetch('/api/eligibility');
         
         if (!response.ok) {
           // If API fails, use initial state
