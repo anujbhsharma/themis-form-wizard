@@ -204,7 +204,7 @@ const HomeHeader = () => {
               // For the imported default logo
               <Image 
                 src={logoSrc}
-                alt="Legal Clinic  Logo" 
+                alt="Legal Clinic Logo" 
                 width={400}
                 height={400}
                 className="object-contain"
