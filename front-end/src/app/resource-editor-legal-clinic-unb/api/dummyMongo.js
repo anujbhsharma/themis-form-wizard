@@ -19,7 +19,7 @@ async function run() {
   try {
     await client.connect();
     const db = client.db('tcdb'); 
-    const collection = db.collection('intake');
+    const collection = db.collection('resources');
     const result = await collection.insertOne(data);
     console.log('Document inserted with _id:', result.insertedId);
   } catch (err) {
