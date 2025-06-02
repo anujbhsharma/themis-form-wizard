@@ -1,19 +1,14 @@
-/// intake-editor/formHelper.js
-const cors = require('cors');
-
-const allowedOrigin = 'http://localhost:3001/intake';
+// intake-editor/formHelper.js
 
 export async function saveFormData(formData) {
   try {
-    formData.createdAt = new Date().toISOString();
-    const { _id, ...safeData } = formData;
-    console.log('Saving form data:', safeData);
-    const response = await fetch(allowedOrigin, {
+    // console.log('Saving form data:', formData);
+    const response = await fetch('/api/form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(safeData),
+      body: JSON.stringify(formData),
     });
 
     const result = await response.json();
@@ -23,14 +18,14 @@ export async function saveFormData(formData) {
 
     return { success: true, data: result };
   } catch (error) {
-    console.error('Error saving form data (MOWER):', error);
+    console.error('Error saving form data (MOO):', error);
     return { success: false, error: error.message };
   }
 }
 
 export async function getFormData() {
   try {
-    const response = await fetch('http://localhost:3001/intake');
+    const response = await fetch('/api/form');
     const result = await response.json();
     
     if (!response.ok) {
@@ -42,13 +37,4 @@ export async function getFormData() {
     console.error('Error loading form data:', error);
     return { success: false, error: error.message };
   }
-}
-
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': allowedOrigin,
-    },
-  })
 }

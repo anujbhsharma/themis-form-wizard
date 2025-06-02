@@ -35,7 +35,7 @@ app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
   const eligibilities = await db.collection('eligibility')
     .find()
-    .sort({  _id: -1  })
+    .sort({ createdAt: -1 })
     .limit(1)
     .toArray();
 
@@ -47,7 +47,10 @@ app.get('/eligibility', async (req, res) => {
  */
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
-  const intakes = await db.collection('intake').find().toArray();
+  const intakes = await db.collection('intake').find()
+    .sort({ createdAt: -1 })
+    .limit(1)
+    .toArray();
   res.json(intakes);
 });
 
