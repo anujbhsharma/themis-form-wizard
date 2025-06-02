@@ -20,9 +20,7 @@ async function run() {
     await client.connect();
     const db = client.db('tcdb'); 
     const collection = db.collection('eligibility'); //6835d3a49389eda801870829
-    const result = await collection.insertOne({
-    ...data,
-    createdAt: new Date()});
+    const result = await collection.insertOne(data);
     console.log('Document inserted with _id:', result.insertedId);
   } catch (err) {
     console.error('MongoDB error:', err.message);

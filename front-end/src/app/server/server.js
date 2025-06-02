@@ -4,37 +4,15 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db.js');
 
 dotenv.config();
-const app = express()
-
-const allowedOrigins = [
-  'http://localhost:3001/eligibility',
-  'http://localhost:3001/intake'
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true); // Allow
-    } else {
-      callback(new Error('Not allowed by CORS')); // INvalid origins blocked
-    }
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+const app = express();
+app.use(cors({ origin: 'http://localhost:3001' }));
 app.use(express.json());
 app.use('/eligibility', require('./routes/route.js'));
 app.use('/intake', require('./routes/route.js'));
 
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').find()
-    .sort({ createdAt: -1 })
-    .limit(1)
-    .toArray();
+  const result = await db.collection('eligibility').find().toArray();
   res.json(result);
 });
 
@@ -52,10 +30,7 @@ app.post('/eligibility', async (req, res) => {
 
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('intake').find()
-    .sort({ createdAt: -1 })
-    .limit(1)
-    .toArray();
+  const result = await db.collection('intake').find().toArray();
   res.json(result);
 });
 
