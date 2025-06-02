@@ -1,22 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db.js');
+const connectDB = require('./config/db');
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/eligibility', async (req, res) => {
+app.get('/config', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').find().toArray();
+  const result = await db.collection('config').find().toArray();
   res.json(result);
 });
 
-app.post('/eligibity', async (req, res) => {
+app.post('/config', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').insertOne(req.body);
+  const result = await db.collection('config').insertOne(req.body);
   res.status(201).json({ insertedId: result.insertedId });
 });
 
