@@ -229,7 +229,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm :not(:hover):line-clamp-3 hover:line-clamp-6 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-5 flex-grow">
           {resource.description}
         </p>
       )}
