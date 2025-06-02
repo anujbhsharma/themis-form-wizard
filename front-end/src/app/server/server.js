@@ -6,15 +6,19 @@ const connectDB = require('./config/db.js');
 dotenv.config();
 const app = express()
 
-const allowedOrigins = ['http://localhost:4000']; 
+const allowedOrigins = [
+  'http://localhost:3001/eligibility',
+  'http://localhost:3001/intake'
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); //for curl
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
+      callback(null, true); // Allow
     } else {
-      callback(new Error('Not allowed by CORS')); 
+      callback(new Error('Not allowed by CORS')); // INvalid origins blocked
     }
   },
   credentials: true,

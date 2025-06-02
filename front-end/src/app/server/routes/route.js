@@ -54,4 +54,9 @@ app.get('/intake', async (req, res) => {
   res.json(intakes);
 });
 
+// const PORT = process.env.PORT || 3001;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
 module.exports = app; // export router

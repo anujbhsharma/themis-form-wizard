@@ -2884,7 +2884,6 @@ const FormEditor = () => {
                   <ResourcesEditor 
                     resources={formData.RESOURCES}
                     onChange={(newResources) => setFormData({ ...formData, RESOURCES: newResources })}
-                    // onChange={}
                   />
                 )}
               </div>
