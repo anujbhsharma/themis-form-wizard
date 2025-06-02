@@ -12,7 +12,7 @@ try {
   process.exit(1);
 }
 
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb+srv://themiscore:bxwWDa1uk9XsXlr5@unb-legal-clinic.nosdxtp.mongodb.net/tcdb';
 const client = new MongoClient(uri);
 
 async function run() {

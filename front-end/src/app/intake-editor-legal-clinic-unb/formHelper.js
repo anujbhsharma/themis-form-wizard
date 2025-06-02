@@ -5,7 +5,6 @@ const allowedOrigin = 'http://localhost:3001/intake';
 
 export async function saveFormData(formData) {
   try {
-    formData.createdAt = new Date().toISOString();
     const { _id, ...safeData } = formData;
     console.log('Saving form data:', safeData);
     const response = await fetch(allowedOrigin, {
