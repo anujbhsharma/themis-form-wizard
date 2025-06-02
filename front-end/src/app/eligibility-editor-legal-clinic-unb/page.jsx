@@ -1,6 +1,8 @@
 "use client"
 
 const cors = require('cors');
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   // Lucide Icons
@@ -13,7 +15,7 @@ import {
   ArrowUp, Square, Bookmark, List, Folder, FolderPlus, 
   Info, AlertTriangle
 } from 'lucide-react';
-import { saveFormData, getFormData, OPTIONS } from './formHelper';
+import { saveFormData, getFormData } from './formHelper';
 
 // DND Kit imports
 import {
@@ -79,8 +81,6 @@ const initialState = {
     legal: [],
     emergency: []
   },
-  _id: "68374cc21d484858c905e52e",
-  createdAt: "2025-05-28T17:49:54.877Z",
   formConfig: {
     metadata: {
       version: "1.0.0",
@@ -985,8 +985,8 @@ const FormPreview = ({ formData }) => {
       </div>
     );
   };
-  
-  app.use(cors("http://localhost:3001/eligibiity"));
+
+  app.use(cors({ origin: 'http://localhost:3001/eligibility' }));
 
   // Get substep title if applicable
   const getSubstepTitle = () => {
@@ -2460,10 +2460,21 @@ const FormEditor = () => {
     }
   };
   
+  // Handle Save (MONGODB)
+    const handleSaveMongo = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:3001/eligibility', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+    .then(res => res.json())
+    .then(newItem => setItems([...items, newItem]));
+  };
+
   // Handle save
   const handleSave = async () => {
     setSaveStatus('Saving...');
-    console.log("FORM DATA", formData);
     try {
       const { success } = await saveFormData(formData);
       setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
@@ -2521,19 +2532,17 @@ const FormEditor = () => {
         
         // Try to fetch data from API
         //const response = await fetch('api/eligibility');
+        const response = await fetch('http://localhost:3001/eligibility');
         
-        const response = await fetch('http://localhost:3001/eligibility')
-        //Gets collection
         if (!response.ok) {
           // If API fails, use initial state
           console.warn('Failed to load form data, using initial state');
           setFormData(initialState);
           return;
         }
-        //MONKEY
-        const data = await response.json()
-        console.log('RAW JSON DATA: ', data);
-        setFormData(data[data.length-1]);
+
+        const data = await response.json();
+        setFormData(data);
       } catch (error) {
         console.error('Error loading form data:', error);
         setLoadError('Failed to load form data');
