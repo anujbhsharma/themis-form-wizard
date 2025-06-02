@@ -1,7 +1,6 @@
 "use client"
 
 const cors = require('cors');
-
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   // Lucide Icons
@@ -14,7 +13,7 @@ import {
   ArrowUp, Square, Bookmark, List, Folder, FolderPlus, 
   Info, AlertTriangle
 } from 'lucide-react';
-import { saveFormData, getFormData } from './formHelper';
+import { saveFormData, getFormData, OPTIONS } from './formHelper';
 
 // DND Kit imports
 import {
@@ -80,6 +79,8 @@ const initialState = {
     legal: [],
     emergency: []
   },
+  _id: "68374cc21d484858c905e52e",
+  createdAt: "2025-05-28T17:49:54.877Z",
   formConfig: {
     metadata: {
       version: "1.0.0",
@@ -984,6 +985,8 @@ const FormPreview = ({ formData }) => {
       </div>
     );
   };
+  
+  app.use(cors("http://localhost:3001/eligibiity"));
 
   // Get substep title if applicable
   const getSubstepTitle = () => {
@@ -2460,6 +2463,7 @@ const FormEditor = () => {
   // Handle save
   const handleSave = async () => {
     setSaveStatus('Saving...');
+    console.log("FORM DATA", formData);
     try {
       const { success } = await saveFormData(formData);
       setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
@@ -2516,18 +2520,20 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        const response = await fetch('api/eligibility');
-        // const response = await fetch('http://localhost:3000/eligibility');
+        //const response = await fetch('api/eligibility');
         
+        const response = await fetch('http://localhost:3001/eligibility')
+        //Gets collection
         if (!response.ok) {
           // If API fails, use initial state
           console.warn('Failed to load form data, using initial state');
           setFormData(initialState);
           return;
         }
-
-        const data = await response.json();
-        setFormData(data);
+        //MONKEY
+        const data = await response.json()
+        console.log('RAW JSON DATA: ', data);
+        setFormData(data[data.length-1]);
       } catch (error) {
         console.error('Error loading form data:', error);
         setLoadError('Failed to load form data');
