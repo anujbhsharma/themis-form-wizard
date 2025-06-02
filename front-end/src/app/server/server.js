@@ -28,8 +28,7 @@ app.use('/intake', require('./routes/route.js'));
 //ELIGIBILITY
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
-  const collection = db.collection('eligibility'); 
-  const result = await collection.find()
+  const result = await db.collection('eligibility').find()
     .sort({ _id: -1 })
     .limit(2)
     .toArray();
@@ -39,7 +38,6 @@ app.get('/eligibility', async (req, res) => {
 app.post('/eligibility', async (req, res) => {
   try{
     const db = await connectDB();
-    const collection = db.collection('eligibility'); 
     // Delete all but latest document
     const recentDocs = await collection.find()
       .sort({ _id: -1 }) 
@@ -50,7 +48,7 @@ app.post('/eligibility', async (req, res) => {
 
     await collection.deleteMany({ _id: { $nin: recentIds } });
 
-    const result = await collection.insertOne(req.body);
+    const result = await db.collection('eligibility').insertOne(req.body);
     res.status(201).json({ insertedId: result.insertedId });
   }
   catch (error) {
@@ -62,8 +60,7 @@ app.post('/eligibility', async (req, res) => {
 //INTAKE
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
-  const collection = db.collection('intake'); 
-  const result = await collection.find()
+  const result = await db.collection('intake').find()
     .sort({  _id: -1 })
     .limit(2)
     .toArray();
@@ -73,7 +70,6 @@ app.get('/intake', async (req, res) => {
 app.post('/intake', async (req, res) => {
   try{
     const db = await connectDB();
-    const collection = db.collection('intake'); 
     const recentDocs = await collection.find()
       .sort({ _id: -1 }) 
       .limit(2)
@@ -82,7 +78,7 @@ app.post('/intake', async (req, res) => {
     const recentIds = recentDocs.map(doc => doc._id);
 
     await collection.deleteMany({ _id: { $nin: recentIds } });
-    const result = await collection.insertOne(req.body);
+    const result = await db.collection('intake').insertOne(req.body);
     res.status(201).json({ insertedId: result.insertedId });
   }
   catch (error) {
@@ -94,16 +90,14 @@ app.post('/intake', async (req, res) => {
 // RESOURCES
 app.get('/resources', async (req, res) => {
   const db = await connectDB();
-  const collection = db.collection('resources'); 
-  const result = await collection.find().toArray();
+  const result = await db.collection('resources').find().toArray();
   res.json(result);
 });
 
 app.post('/resources', async (req, res) => {
   try{
     const db = await connectDB();
-    const collection = db.collection('resources'); 
-    const result = await collection.insertOne(req.body);
+    const result = await db.collection('resources').insertOne(req.body);
     res.status(201).json({ insertedId: result.insertedId });
   }
   catch (error) {

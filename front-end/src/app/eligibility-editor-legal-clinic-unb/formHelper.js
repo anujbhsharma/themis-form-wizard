@@ -1,6 +1,6 @@
 // intake-editor/formHelper.js
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const cors = require('cors');
 
 const allowedOrigin = 'http://localhost:3001/eligibility';
