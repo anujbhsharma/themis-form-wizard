@@ -43,7 +43,7 @@ app.post('/eligibility', async (req, res) => {
     // Delete all but latest document
     const recentDocs = await collection.find()
       .sort({ _id: -1 }) 
-      .limit(2)
+      .limit(1)
       .toArray();
 
     const recentIds = recentDocs.map(doc => doc._id);
