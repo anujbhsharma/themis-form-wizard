@@ -11,7 +11,9 @@ app.use(express.json());
 app.post('/eligibility', async (req, res) => {
   const db = await connectDB();
   const result = await db.collection('eligibility').insertOne({
-    ...req.body});
+    ...req.body,
+    createdAt: new Date()
+  });
   res.json({ insertedId: result.insertedId });
 });
 

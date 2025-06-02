@@ -12,7 +12,7 @@ try {
   process.exit(1);
 }
 
-const uri = 'mongodb+srv://themiscore:bxwWDa1uk9XsXlr5@unb-legal-clinic.nosdxtp.mongodb.net/tcdb';
+const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 
 async function run() {
@@ -21,7 +21,8 @@ async function run() {
     const db = client.db('tcdb'); 
     const collection = db.collection('eligibility'); //6835d3a49389eda801870829
     const result = await collection.insertOne({
-    ...data});
+    ...data,
+    createdAt: new Date()});
     console.log('Document inserted with _id:', result.insertedId);
   } catch (err) {
     console.error('MongoDB error:', err.message);
