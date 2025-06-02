@@ -277,6 +277,29 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Display active announcements */}
+      {content?.announcements && content.announcements.length > 0 && (
+        
+        <div className="bg-gray-50 py-2">
+          <h2 className="text-xl font-bold text-blue-800 mb-3">Announcements</h2>
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="space-y-2">
+              {content.announcements
+                .filter(announcement => announcement.active)
+                .map(announcement => (
+                  <Announcement 
+                    key={announcement.id} 
+                    title={announcement.title}
+                    content={announcement.content}
+                    type={announcement.type}
+                  />
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      )}
           
           {/* Calendly integration */}
           {content?.clinicInfo?.calendlyLink && (
@@ -314,27 +337,6 @@ export default function Home() {
     <main className="min-h-screen">
       {/* Pass the logo URL to HomeHeader */}
       <HomeHeader />
-      
-      {/* Display active announcements */}
-      {content?.announcements && content.announcements.length > 0 && (
-        <div className="bg-gray-50 py-2">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="space-y-2">
-              {content.announcements
-                .filter(announcement => announcement.active)
-                .map(announcement => (
-                  <Announcement 
-                    key={announcement.id} 
-                    title={announcement.title}
-                    content={announcement.content}
-                    type={announcement.type}
-                  />
-                ))
-              }
-            </div>
-          </div>
-        </div>
-      )}
       
       <div className="container mx-auto px-4 py-2 max-w-5xl">
         <motion.div 
