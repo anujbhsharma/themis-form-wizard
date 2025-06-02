@@ -5,8 +5,10 @@ const connectDB = require('./config/db.js');
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3001' }));
 app.use(express.json());
+app.use('/eligibility', require('./routes/route.js'));
+app.use('/intake', require('./routes/route.js'));
 
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
@@ -14,9 +16,27 @@ app.get('/eligibility', async (req, res) => {
   res.json(result);
 });
 
-app.post('/eligibity', async (req, res) => {
+app.post('/eligibility', async (req, res) => {
+  try{
+    const db = await connectDB();
+    const result = await db.collection('eligibility').insertOne(req.body);
+    res.status(201).json({ insertedId: result.insertedId });
+  }
+  catch (error) {
+    console.error('POST /eligibility error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/intake', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').insertOne(req.body);
+  const result = await db.collection('intake').find().toArray();
+  res.json(result);
+});
+
+app.post('/intake', async (req, res) => {
+  const db = await connectDB();
+  const result = await db.collection('intake').insertOne(req.body);
   res.status(201).json({ insertedId: result.insertedId });
 });
 

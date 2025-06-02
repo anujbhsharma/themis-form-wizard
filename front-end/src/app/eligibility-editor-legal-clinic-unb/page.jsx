@@ -2,6 +2,7 @@
 
 const cors = require('cors');
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   // Lucide Icons
@@ -984,6 +985,8 @@ const FormPreview = ({ formData }) => {
       </div>
     );
   };
+
+  app.use(cors({ origin: 'http://localhost:3001/eligibility' }));
 
   // Get substep title if applicable
   const getSubstepTitle = () => {
@@ -2457,6 +2460,18 @@ const FormEditor = () => {
     }
   };
   
+  // Handle Save (MONGODB)
+    const handleSaveMongo = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:3001/eligibility', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+    .then(res => res.json())
+    .then(newItem => setItems([...items, newItem]));
+  };
+
   // Handle save
   const handleSave = async () => {
     setSaveStatus('Saving...');
@@ -2516,8 +2531,8 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        const response = await fetch('api/eligibility');
-        // const response = await fetch('http://localhost:3000/eligibility');
+        //const response = await fetch('api/eligibility');
+        const response = await fetch('http://localhost:3001/eligibility');
         
         if (!response.ok) {
           // If API fails, use initial state
