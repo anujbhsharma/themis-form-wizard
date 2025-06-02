@@ -18,6 +18,7 @@ export async function saveFormData(formData) {
     });
 
     const result = await response.json();
+    console.log('Insert result:', result);
     if (!response.ok) {
       throw new Error(result.error || 'Failed to save data');
     }
