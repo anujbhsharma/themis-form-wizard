@@ -1294,8 +1294,8 @@ export default function LegalClinicForm() {
                 {activeResources && activeResources.length > 0 && (
                   <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-700">
                     <div className="flex items-start gap-2">
-                      <Info className="w-4 h-4 text-blue-500 mt-0.5" />
-                      {/* <div>
+                      {/* <Info className="w-4 h-4 text-blue-500 mt-0.5" />
+                      <div>
                         <p className="font-medium mb-1">How to use these resources:</p>
                         <ul className="list-disc pl-4 space-y-1">
                           <li>Click phone numbers to call directly</li>

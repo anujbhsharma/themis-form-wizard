@@ -1,7 +1,6 @@
 "use client"
 
 const cors = require('cors');
-
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   // Lucide Icons
@@ -984,7 +983,7 @@ const FormPreview = ({ formData }) => {
       </div>
     );
   };
-
+  
   // Get substep title if applicable
   const getSubstepTitle = () => {
     if (hasSubsteps) {
@@ -2456,10 +2455,42 @@ const FormEditor = () => {
       }
     }
   };
+
+  const restoreLastSaveSimple = async () => {
+    if (window.confirm('Are you sure you want to reset to the previous form configuration?')) {
+      try {
+        setSaveStatus('Resetting...');
+        
+        // Load the original JSON file
+        const response = await fetch('http://localhost:3001/eligibility')
+        //Gets collection
+        if (!response.ok) {
+          // If API fails, use initial state
+          console.warn('Failed to load form data, using initial state');
+          setFormData(initialState);
+          return;
+        }
+
+        const data = await response.json()
+        console.log('RAW JSON DATA: ', data);
+        setFormData(data[0]);
+        
+        // Reset form data
+        
+        setSaveStatus('Reset complete!');
+        setTimeout(() => setSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to reset eligibility form:', error);
+        setSaveStatus('Reset failed');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }
+  };
   
   // Handle save
   const handleSave = async () => {
     setSaveStatus('Saving...');
+    console.log("FORM DATA", formData);
     try {
       const { success } = await saveFormData(formData);
       setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
@@ -2516,9 +2547,8 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        const response = await fetch('api/eligibility');
-        // const response = await fetch('http://localhost:3000/eligibility');
-        
+        const response = await fetch('http://localhost:3001/eligibility')
+        //Gets collection
         if (!response.ok) {
           // If API fails, use initial state
           console.warn('Failed to load form data, using initial state');
@@ -2526,8 +2556,9 @@ const FormEditor = () => {
           return;
         }
 
-        const data = await response.json();
-        setFormData(data);
+        const data = await response.json()
+        console.log('RAW JSON DATA: ', data);
+        setFormData(data[data.length-1]);
       } catch (error) {
         console.error('Error loading form data:', error);
         setLoadError('Failed to load form data');
@@ -2771,15 +2802,31 @@ const FormEditor = () => {
               <button
                 onClick={resetEligibilitySimple}
                 disabled={isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-2 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
-                    <RefreshCcw size={16} className="animate-spin" /> Loading...
+                    <RefreshCcw size={14} className="animate-spin" /> Loading...
                   </>
                 ) : (
                   <>
-                    <RefreshCcw size={16} /> Reset to Original
+                    <RefreshCcw size={14} /> Reset to Original
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={restoreLastSaveSimple}
+                disabled={isLoading}
+                className="flex items-center gap-2 px-2 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <>
+                    <RefreshCcw size={14} className="animate-spin" /> Loading...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCcw size={14} /> Restore Last Save
                   </>
                 )}
               </button>
@@ -2878,6 +2925,7 @@ const FormEditor = () => {
                   <ResourcesEditor 
                     resources={formData.RESOURCES}
                     onChange={(newResources) => setFormData({ ...formData, RESOURCES: newResources })}
+                    // onChange={}
                   />
                 )}
               </div>
