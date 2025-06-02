@@ -1,11 +1,8 @@
 // intake-editor/formHelper.js
-const cors = require('cors');
-const allowedOrigin = 'http://localhost:3001/eligibility';
-
 export async function saveFormData(formData) {
   try {
     // console.log('Saving form data:', formData);
-    const response = await fetch(allowedOrigin, {
+    const response = await fetch('/eligibility', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +24,7 @@ export async function saveFormData(formData) {
 
 export async function getFormData() {
   try {
-    const response = await fetch('http://localhost:3001/eligibility');
+    const response = await fetch('/api/eligibility');
     const result = await response.json();
     
     if (!response.ok) {
@@ -39,16 +36,4 @@ export async function getFormData() {
     console.error('Error loading form data:', error);
     return { success: false, error: error.message };
   }
-
-  
-}
-
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': allowedOrigin,
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-    },
-  })
 }
