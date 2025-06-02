@@ -14,7 +14,7 @@ export async function saveFormData(formData) {
 
     // const recentIds = recentDocs.map(doc => doc._id);
     // await collection.deleteMany({ _id: { $nin: recentIds } });
-    const { _id, ...safeData } = formData; 
+
     console.log('Saving form data:', safeData);
     const response = await fetch(allowedOrigin, {
       method: 'POST',
