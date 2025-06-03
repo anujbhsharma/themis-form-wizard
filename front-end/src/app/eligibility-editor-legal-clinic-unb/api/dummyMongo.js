@@ -1,4 +1,3 @@
-// Creates a database entry based the current state of dummy.json
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
 
