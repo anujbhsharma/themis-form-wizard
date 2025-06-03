@@ -10,6 +10,7 @@ const allowedOrigins = [
   'http://localhost:3001/eligibility',
   'http://localhost:3001/intake',
   'http://localhost:4000',
+  'https://themis-form-wizard.vercel.app',
 ];
 
 const corsOptions = {
