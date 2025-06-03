@@ -248,21 +248,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
             </a>
           </div>
         )}
-
-        <div className="space-y-3 text-sm mt-auto">
-        {resource.phoneNumberAlt && (
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-              <Phone className="w-4 h-4 text-blue-600" />
-            </div>
-            <a 
-              href={`tel:${resource.phoneNumberAlt.replace(/\s+/g, '')}`} 
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              {resource.phoneNumberAlt}
-            </a>
-          </div>
-        )}
+        
         
         {resource.email && (
           <div className="flex items-center gap-3">
