@@ -8,7 +8,8 @@ const app = express()
 
 const allowedOrigins = [
   'http://localhost:3001/eligibility',
-  'http://localhost:3001/intake'
+  'http://localhost:3001/intake',
+  'http://localhost:4000',
 ];
 
 const corsOptions = {
