@@ -2435,6 +2435,38 @@ const FormEditor = () => {
       setIsLoading(false);
     }
   };
+
+  //Returns the form to the last known entry
+  const restoreLastSaveSimple = async () => {
+    if (window.confirm('Are you sure you want to reset to the previous form configuration?')) {
+      try {
+        setSaveStatus('Resetting...');
+        
+        // Load the original JSON file
+        const response = await fetch('http://localhost:3001/eligibility')
+        //Gets collection
+        if (!response.ok) {
+          // If API fails, use initial state
+          console.warn('Failed to load form data, using initial state');
+          setFormData(initialState);
+          return;
+        }
+
+        const data = await response.json()
+        console.log('RAW JSON DATA: ', data);
+        setFormData(data[0]);
+        
+        // Reset form data
+        
+        setSaveStatus('Reset complete!');
+        setTimeout(() => setSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to reset eligibility form:', error);
+        setSaveStatus('Reset failed');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }
+  };
   
   const resetEligibilitySimple = async () => {
     if (window.confirm('Are you sure you want to reset to the original form configuration?')) {
@@ -2780,6 +2812,22 @@ const FormEditor = () => {
                 ) : (
                   <>
                     <RefreshCcw size={16} /> Reset to Original
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={restoreLastSaveSimple}
+                disabled={isLoading}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <>
+                    <RefreshCcw size={16} className="animate-spin" /> Loading...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCcw size={16} /> Restore Last Save
                   </>
                 )}
               </button>
