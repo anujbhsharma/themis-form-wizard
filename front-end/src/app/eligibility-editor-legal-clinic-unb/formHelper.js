@@ -32,7 +32,7 @@ export async function saveFormData(formData) {
 
 export async function getFormData() {
   try {
-    const response = await fetch('http://localhost:3001/eligibility');
+    const response = await fetch(allowedOrigin);
     const result = await response.json();
     
     if (!response.ok) {

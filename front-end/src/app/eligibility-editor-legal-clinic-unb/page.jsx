@@ -2548,8 +2548,7 @@ const FormEditor = () => {
         setLoadError(null);
         
         // Try to fetch data from API
-        const response = await fetch('api/eligibility');
-        // const response = await fetch('http://localhost:3000/eligibility');
+        const response = await fetch('http://localhost:3001/eligibility');
         
         if (!response.ok) {
           // If API fails, use initial state
@@ -2558,8 +2557,10 @@ const FormEditor = () => {
           return;
         }
 
-        const data = await response.json();
-        setFormData(data);
+       const data = await response.json()
+        console.log('RAW JSON DATA: ', data);
+        setFormData(data[data.length-1]);
+
       } catch (error) {
         console.error('Error loading form data:', error);
         setLoadError('Failed to load form data');

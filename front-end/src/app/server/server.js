@@ -33,8 +33,8 @@ app.use(express.json());
 app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
   const result = await db.collection('eligibility').find()
-    .sort({ createdAt: -1 })
-    .limit(1)
+    .sort({ _id: -1 })
+    .limit(2)
     .toArray();
   res.json(result);
 });
@@ -54,8 +54,8 @@ app.post('/eligibility', async (req, res) => {
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
   const result = await db.collection('intake').find()
-    .sort({ createdAt: -1 })
-    .limit(1)
+    .sort({ _id: -1 })
+    .limit(2)
     .toArray();
   res.json(result);
 });
