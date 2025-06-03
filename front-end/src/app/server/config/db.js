@@ -1,13 +1,13 @@
-// const { MongoClient } = require('mongodb');
-// require('dotenv').config();
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-// const client = new MongoClient(process.env.MONGO_URI);
+const client = new MongoClient(process.env.MONGO_URI);
 
-// async function connectDB() {
-//   if (!client.topology || !client.topology.isConnected()) {
-//     await client.connect();
-//   }
-//   return client.db(process.env.DB_NAME);
-// }
+async function connectDB() {
+  if (!client.topology || !client.topology.isConnected()) {
+    await client.connect();
+  }
+  return client.db(process.env.DB_NAME);
+}
 
-// module.exports = connectDB;
+module.exports = connectDB;

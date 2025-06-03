@@ -6,7 +6,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
 app.use(express.json()); // for parsing JSON bodies
 
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb+srv://themiscore:bxwWDa1uk9XsXlr5@unb-legal-clinic.nosdxtp.mongodb.net/tcdb';
 const client = new MongoClient(uri);
 const dbName = 'tcdb';
 
