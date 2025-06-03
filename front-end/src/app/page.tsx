@@ -281,6 +281,7 @@ export default function Home() {
            {/* Display active announcements */}
       {content?.announcements && content.announcements.length > 0 && (
         <div className="bg-gray-50 py-2">
+          <h2 className="text-xl font-bold text-blue-800 mb-3">Announcements</h2>
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="space-y-2">
               {content.announcements
