@@ -1,11 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db.js');
-require('dotenv').config();
+// const express = require('express');
+// const cors = require('cors');
+// const connectDB = require('./config/db.js');
+// require('dotenv').config();
 
-const app = express.Router();
-app.use(cors());
-app.use(express.json());
+// const app = express.Router();
+// app.use(cors());
+// app.use(express.json());
 
 // /**
 //  * POST to eligibility collection
@@ -51,4 +51,4 @@ app.use(express.json());
 //   res.json(intakes);
 // });
 
-module.exports = app; // export router
+// module.exports = app; // export router
