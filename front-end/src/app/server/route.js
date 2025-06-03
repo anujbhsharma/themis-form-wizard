@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('../config/db.js');
+const connectDB = require('./config/db.js');
 require('dotenv').config();
 
 const app = express.Router();
@@ -12,10 +12,7 @@ app.use(express.json());
  */
 app.post('/eligibility', async (req, res) => {
   const db = await connectDB();
-  const result = await db.collection('eligibility').insertOne({
-    ...req.body,
-    createdAt: new Date()
-  });
+  const result = await db.collection('eligibility').insertOne(req.body);
   res.json({ insertedId: result.insertedId });
 });
 
@@ -35,7 +32,7 @@ app.get('/eligibility', async (req, res) => {
   const db = await connectDB();
   const eligibilities = await db.collection('eligibility')
     .find()
-    .sort({ createdAt: -1 })
+    .sort({ _id: -1 })
     .limit(1)
     .toArray();
 
@@ -48,7 +45,7 @@ app.get('/eligibility', async (req, res) => {
 app.get('/intake', async (req, res) => {
   const db = await connectDB();
   const intakes = await db.collection('intake').find()
-    .sort({ createdAt: -1 })
+    .sort({ _id: -1 })
     .limit(1)
     .toArray();
   res.json(intakes);
