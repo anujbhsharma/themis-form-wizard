@@ -1,9 +1,9 @@
 // intake-editor/formHelper.js
 // import { createRequire } from "module";
 // const require = createRequire(import.meta.url);
-// import clientPromise from '../../lib/mongodb'
+//import clientPromise from '../../lib/mongodb'
 const cors = require('cors');
-const allowedOrigin = './api/eligibility';
+const allowedOrigin = 'http://localhost:3001/eligibility';
 
 export async function saveFormData(formData) {
   try {
