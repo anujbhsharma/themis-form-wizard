@@ -3,7 +3,7 @@
 // const require = createRequire(import.meta.url);
 //import clientPromise from '../../lib/mongodb'
 const cors = require('cors');
-const allowedOrigin = 'http://localhost:3001/eligibility';
+const allowedOrigin = '/api/eligibility';
 
 export async function saveFormData(formData) {
   try {
