@@ -58,7 +58,18 @@ export async function POST(req) {
     const body = await req.json();
     const client = await clientPromise;
     const db = client.db();
-    const result = await db.collection('eligibility').insertOne(body);
+    const collection = db.collection('eligibility'); 
+    // Delete all but latest document
+    const recentDocs = await collection.find()
+      .sort({ _id: -1 }) 
+      .limit(3)
+      .toArray();
+
+    const recentIds = recentDocs.map(doc => doc._id);
+
+    await collection.deleteMany({ _id: { $nin: recentIds } });
+
+    const result = await collection.insertOne(body);
     return new Response(JSON.stringify({ success: true, id: result.insertedId }), { status: 200 });
   } catch (error) {
     console.error(error);

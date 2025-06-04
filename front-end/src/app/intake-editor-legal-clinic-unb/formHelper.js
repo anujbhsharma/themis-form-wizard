@@ -1,7 +1,7 @@
 // intake-editor/formHelper.js
 // import clientPromise from '../../lib/mongodb'
 const cors = require('cors');
-const allowedOrigin = 'http://localhost:3001/intake';
+const allowedOrigin = '/api/intake';
 
 export async function saveFormData(formData) {
   try {
@@ -30,7 +30,7 @@ export async function saveFormData(formData) {
 
 export async function getFormData() {
   try {
-    const response = await fetch('http://localhost:3001/intake');
+    const response = await fetch(allowedOrigin);
     const result = await response.json();
     
     if (!response.ok) {
@@ -42,8 +42,6 @@ export async function getFormData() {
     console.error('Error loading form data:', error);
     return { success: false, error: error.message };
   }
-
-  
 }
 
 export async function OPTIONS() {

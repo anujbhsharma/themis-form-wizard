@@ -656,7 +656,8 @@ const FormEditor = () => {
       try {
         const { success, data, error } = await getFormData();
         if (success && data) {
-          setFormData(data);
+          console.log('Loaded form data:', data);
+          setFormData(data[data.length-1]);
         } else {
           console.error('Error loading data:', error);
           setFormData(initialFormState);
@@ -744,7 +745,7 @@ const FormEditor = () => {
         setSaveStatus('Resetting...');
         
         // Load the original JSON file
-        const response = await fetch('http://localhost:3001/eligibility')
+        const response = await fetch('api/intake')
         //Gets collection
         if (!response.ok) {
           // If API fails, use initial state

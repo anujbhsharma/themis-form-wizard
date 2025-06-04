@@ -2443,7 +2443,7 @@ const FormEditor = () => {
         setSaveStatus('Resetting...');
         
         // Load the original JSON file
-        const response = await fetch('http://localhost:3001/eligibility')
+        const response = await fetch('/api/eligibility')
         //Gets collection
         if (!response.ok) {
           // If API fails, use initial state
