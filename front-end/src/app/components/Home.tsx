@@ -5,7 +5,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import defaultLogo from './legallogo.jpg'; // Keep as fallback
-import tclogo from './tclogo.png';
 
 const HomeHeader = () => {
   const [logoSrc, setLogoSrc] = useState(defaultLogo);

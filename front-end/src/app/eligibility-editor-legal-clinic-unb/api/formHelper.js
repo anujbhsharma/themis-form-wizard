@@ -1,4 +1,4 @@
-// import clientPromise from '../../../lib/mongodb.js'
+import clientPromise from '../../../lib/mongodb.js'
 
 export default async function handler(req, res) {
   const client = await clientPromise
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     const { name } = req.body
-    if (!name) return res.status(400).json({ error: 'Missing name field' })
+    if (!name) return res.status(400).json({ error: 'Missing  field' })
 
     const result = await collection.insertOne({ name })
     return res.status(201).json({ insertedId: result.insertedId })
