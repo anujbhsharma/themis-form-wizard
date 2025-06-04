@@ -142,11 +142,12 @@
         },
         {
             "name": "Apatawsuwikuwam",
-            "description": "",
+            "description": "Addiction- ",
             "location": "St. Mary's First Nation",
             "phoneNumber": "(506)-206-1005",
             "email": "admin@apatawsuwikuwam.com",
-              "category":"FirstNationsResources"
+             "website": "https://www.facebook.com/Apatawsuwikuwam/",
+            "category":"FirstNationsResources"
         },
         {
             "name": "Elsipogtog Health & Wellness Centre",

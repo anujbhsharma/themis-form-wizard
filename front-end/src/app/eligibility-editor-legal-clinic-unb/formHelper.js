@@ -1,8 +1,5 @@
-// intake-editor/formHelper.js
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
-//import clientPromise from '../../lib/mongodb'
-const cors = require('cors');
+// Pushes form data to the server and retrieves it.
+// const cors = require('cors');
 const allowedOrigin = '/api/eligibility';
 
 export async function saveFormData(formData) {
@@ -44,8 +41,6 @@ export async function getFormData() {
     console.error('Error loading form data:', error);
     return { success: false, error: error.message };
   }
-
-  
 }
 
 export async function OPTIONS() {
