@@ -47,11 +47,11 @@ export default function LegalClinicForm() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-  //const { formConfig, RESOURCES, MONTHLY_THRESHOLDS } = configData;
+  const { formConfig, RESOURCES, MONTHLY_THRESHOLDS } = configData;
 
-  const [formConfig, setConfig] = useState(null);
-  const [RESOURCES, setResources] = useState(null);
-  const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
+  // const [formConfig, setConfig] = useState(null);
+  // const [RESOURCES, setResources] = useState(null);
+  // const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
 
   useEffect(() => {
     async function fetchEligibilityData() {
@@ -64,9 +64,7 @@ export default function LegalClinicForm() {
         }
         console.log('Eligibility data fetched successfully:', data);
         const formData = data[data.length-1];
-        setConfig(formData.formConfig);
-        setResources(formData.RESOURCES);
-        setThresholds(formData.MONTHLY_THRESHOLDS);
+        console.log('Form data fetched successfully:', formData);
       } catch (error) {
         console.error('Failed to fetch eligibility data:', error);
       }
