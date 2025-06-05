@@ -1,5 +1,4 @@
 "use client"
-// const cors = require('cors');
 
 import React, { useState, useEffect, useRef } from 'react';
 import { 

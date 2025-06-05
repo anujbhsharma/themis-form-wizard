@@ -1,4 +1,3 @@
-
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
@@ -47,8 +46,6 @@ export default function LegalClinicForm() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-  //const { formConfig } = configData;
-
   const [ formConfig , setConfig] = useState(configData.formConfig);
   const [RESOURCES, setResources] = useState(null);
   const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
@@ -72,7 +69,7 @@ export default function LegalClinicForm() {
     }
 
     fetchEligibilityData()
-  }, [ MONTHLY_THRESHOLDS, RESOURCES, formConfig]);
+  }, [ ]);
 
   // Helper function to filter resources by category and criteria
   const filterResourcesByCategory = (resources, category, criteria = {}) => {

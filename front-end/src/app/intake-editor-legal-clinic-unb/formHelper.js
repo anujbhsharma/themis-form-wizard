@@ -1,6 +1,4 @@
-// intake-editor/formHelper.js
-// import clientPromise from '../../lib/mongodb'
-// const cors = require('cors');
+
 const allowedOrigin = '/api/intake';
 
 export async function saveFormData(formData) {

@@ -1,5 +1,4 @@
 // Pushes form data to the server and retrieves it.
-// const cors = require('cors');
 const allowedOrigin = '/api/eligibility';
 
 export async function saveFormData(formData) {

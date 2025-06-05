@@ -145,11 +145,11 @@ const AdditionalResources = ({ resources }) => {
 
         {/* Filter Status */}
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
+          {/* <div className="text-sm text-gray-500">
             Showing {sortedResources.length} resources
             {selectedCategory !== 'all' && ` in "${categories.find(c => c.name === selectedCategory)?.label}"`}
             {searchTerm && ` matching "${searchTerm}"`}
-          </div>
+          </div> */}
           
           {(selectedCategory !== 'all' || searchTerm) && (
             <button
@@ -249,21 +249,6 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
           </div>
         )}
 
-        {resource.phoneNumberAlt && (
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-              <Phone className="w-4 h-4 text-blue-600" />
-            </div>
-            <a 
-              href={`tel:${resource.phoneNumberAlt.replace(/\s+/g, '')}`} 
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              {resource.phoneNumberAlt}
-            </a>
-          </div>
-        )}
-        
-        
         {resource.email && (
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
@@ -365,16 +350,6 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
               <span className="hidden md:inline text-sm truncate max-w-[150px]">
                 {resource.website}
               </span>
-            </a>
-          )}
-
-          {resource.phoneNumber && (
-            <a 
-              href={`tel:${resource.phoneNumber.replace(/\s+/g, '')}`} 
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
-            >
-              <Phone className="w-4 h-4" />
-              <span className="hidden md:inline text-sm">{resource.phoneNumber}</span>
             </a>
           )}
           
