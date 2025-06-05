@@ -47,11 +47,11 @@ export default function LegalClinicForm() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-  const { formConfig, RESOURCES, MONTHLY_THRESHOLDS } = configData;
+  //const { formConfig } = configData;
 
-  // const [formConfig, setConfig] = useState(null);
-  // const [RESOURCES, setResources] = useState(null);
-  // const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
+  const [ formConfig , setConfig] = useState(configData.formConfig);
+  const [RESOURCES, setResources] = useState(null);
+  const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
 
   useEffect(() => {
     async function fetchEligibilityData() {
@@ -62,16 +62,17 @@ export default function LegalClinicForm() {
         if (!res.ok) {
           throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
         }
-        console.log('Eligibility data fetched successfully:', data);
         const formData = data[data.length-1];
-        console.log('Form data fetched successfully:', formData);
+        setThresholds(formData.MONTHLY_THRESHOLDS);
+        setResources(formData.RESOURCES);
+        setConfig({...formData.formConfig});
       } catch (error) {
         console.error('Failed to fetch eligibility data:', error);
       }
     }
 
     fetchEligibilityData()
-  }, [])
+  }, [ MONTHLY_THRESHOLDS, RESOURCES, formConfig]);
 
   // Helper function to filter resources by category and criteria
   const filterResourcesByCategory = (resources, category, criteria = {}) => {
