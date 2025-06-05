@@ -16,7 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { submitFormWithOutFiles } from '../lib/api';
 // Resource definitions
-import formConfig from '../intake-editor-legal-clinic-unb/api/dummy.json';
+// import formConfig from '../intake-editor-legal-clinic-unb/api/dummy.json';
 
 const RESOURCES = {
   Shelters: [
@@ -91,6 +91,23 @@ export default function IntakeForm() {
   const [submitStatus, setSubmitStatus] = useState({ loading: false, error: null });
   const [showSuccess, setShowSuccess] = useState(false);
   const [submissionId, setSubmissionId] = useState(null);
+  const [formConfig, setFormConfig] = useState(null);
+
+   useEffect(() => {
+    async function fetchIntakeData() {
+      try {
+        console.log('Fetching intake data from API...');
+        const res = await fetch('/api/intake')
+        const data = await res.json()
+        console.log('Intake data fetched successfully:', data);
+        const formData = data[data.length-1]
+        setFormConfig(formData.formConfig)
+      } catch (error) {
+        console.error('Failed to fetch intake data:', error)
+      }
+    }
+      fetchIntakeData()
+  }, [])
 
   const resetForm = () => {
     setFormData({});

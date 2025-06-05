@@ -33,7 +33,6 @@ import { validationRules, combineValidations } from '../lib/validationRules';
 import { submitFormWithFiles } from '../lib/api';
 
 export default function LegalClinicForm() {
-  const { formConfig, RESOURCES, MONTHLY_THRESHOLDS } = configData;
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -48,28 +47,33 @@ export default function LegalClinicForm() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-  // const [formConfig, setConfig] = useState(null);
-  // const [RESOURCES, setResources] = useState(null);
-  // const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
+  //const { formConfig, RESOURCES, MONTHLY_THRESHOLDS } = configData;
 
-  // useEffect(() => {
-  //   async function fetchEligibilityData() {
-  //     try {
-  //       console.log('Fetching eligibility data from API...');
-  //       const res = await fetch('/api/eligibility')
-  //       const data = await res.json()
-  //       console.log('Eligibility data fetched successfully:', data);
-  //       const formData = data[data.length-1]
-  //       setConfig(formData.formConfig)
-  //       setResources(formData.RESOURCES)
-  //       setThresholds(formData.MONTHLY_THRESHOLDS)
-  //     } catch (error) {
-  //       console.error('Failed to fetch eligibility data:', error)
-  //     }
-  //   }
+  const [formConfig, setConfig] = useState(null);
+  const [RESOURCES, setResources] = useState(null);
+  const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
 
-  //   fetchEligibilityData()
-  // }, [])
+  useEffect(() => {
+    async function fetchEligibilityData() {
+      try {
+        console.log('Fetching eligibility data from API...');
+        const res = await fetch('/api/eligibility');
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
+        }
+        console.log('Eligibility data fetched successfully:', data);
+        const formData = data[data.length-1];
+        setConfig(formData.formConfig);
+        setResources(formData.RESOURCES);
+        setThresholds(formData.MONTHLY_THRESHOLDS);
+      } catch (error) {
+        console.error('Failed to fetch eligibility data:', error);
+      }
+    }
+
+    fetchEligibilityData()
+  }, [])
 
   // Helper function to filter resources by category and criteria
   const filterResourcesByCategory = (resources, category, criteria = {}) => {
