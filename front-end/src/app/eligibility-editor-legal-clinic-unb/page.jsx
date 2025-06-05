@@ -2816,7 +2816,7 @@ const FormEditor = () => {
                 )}
               </button>
 
-              {/* <button
+              <button
                 onClick={restoreLastSaveSimple}
                 disabled={isLoading}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors disabled:opacity-50"
@@ -2830,7 +2830,7 @@ const FormEditor = () => {
                     <RefreshCcw size={16} /> Restore Last Save
                   </>
                 )}
-              </button> */}
+              </button>
               
               <span className={`text-sm ${
                 saveStatus.includes('Error') ? 'text-red-500' : 'text-green-500'
