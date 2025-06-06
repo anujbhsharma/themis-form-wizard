@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen } from 'lucide-react';
+import { Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen, House } from 'lucide-react';
 
 const AdditionalResources = ({ resources }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +40,7 @@ const AdditionalResources = ({ resources }) => {
     { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
     { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
     { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
-    { name: 'Shelters', label: 'Shelters', icon: <MapPin className="w-4 h-4" /> }
+    { name: 'Shelters', label: 'Shelters', icon: <House className="w-4 h-4" /> }
   ];
 
   // Get category icon by name
@@ -61,15 +61,15 @@ const AdditionalResources = ({ resources }) => {
       {/* Header */}
       <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
       <div className="h-2 bg-gradient-to-r from-blue-600 via-red-500 to-blue-600 w-full"></div>
-  <div className="px-6 py-8 text-center">
-    <h1 className="text-3xl font-semibold text-blue-800 mb-3">
-      Support Resources
-    </h1>
-    <p className="text-gray-600 max-w-2.5xl mx-auto">
-      Find support services available in New Brunswick. Use the search and filters to locate specific resources.
-    </p>
-  </div>
-</div>
+        <div className="px-6 py-8 text-center">
+          <h1 className="text-3xl font-semibold text-blue-800 mb-3">
+            Support Resources
+          </h1>
+          <p className="text-gray-600 max-w-2.5xl mx-auto">
+            Find support services available in New Brunswick. Use the search bar and filters to locate specific resources.
+          </p>
+        </div>
+      </div>
       
       {/* Search and Filters */}
       <div className="mb-8 space-y-4">
@@ -229,7 +229,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-5 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-6 flex-grow">
           {resource.description}
         </p>
       )}
@@ -385,23 +385,18 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
           )}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* {resource.website && (
+            {resource.phoneNumber && (
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <Globe className="w-4 h-4 text-blue-600" />
+                  <Phone className="w-4 h-4 text-blue-600" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500">Website</div>
-                  <a 
-                  href={`${resource.website}`} 
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800"
-                  >
-                    <div className="text-sm text-gray-700 truncate flex-shrink-0">{resource.website}</div>
-                  </a>
+                  <div className="text-xs text-gray-500">Services</div>
+                  <div className="text-sm text-gray-700">{resource.phoneNumber}</div>
                 </div>
               </div>
-            )} */}
-
+            )}
+            
             {resource.matters && (
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">

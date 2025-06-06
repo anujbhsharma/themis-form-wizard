@@ -263,10 +263,12 @@ export default function Home() {
         {/* Footer */}
         <footer className="text-center mt-8 text-blue-600 pb-8">
           <p className="text-sm">
+            <a href="https://www.unb.ca/fredericton/law/services/legalclinic.html">
             © {new Date().getFullYear()} {content?.clinicInfo?.name || "Legal Clinic Services"}
-            
+            </a>
             <span className="flex items-center justify-center">
               <span className="mr-2 text-gray-900">Developed by</span>
+              <a href="https://themiscore.com">
               <Image 
                 src={tclogo}
                 alt="TC Logo" 
@@ -275,6 +277,7 @@ export default function Home() {
                 className="object-contain"
                 priority
               />
+            </a>
             </span>
           </p>
           {content?.lastUpdated && (
