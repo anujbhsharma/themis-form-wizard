@@ -625,7 +625,7 @@ const FormEditor = () => {
                             >
                               <div className="w-full">
                                 <div className="flex items-center justify-between">
-                                  <span className="font-medium">{field.label || 'Unnamed Field'}</span>
+                                  <span className="font-medium">{field.name || 'Unnamed Field'}</span>
                                   <div className="flex items-center gap-2">
                                     <button
                                       onClick={() => setExpandedField(expandedField === `${stepIndex}-${fieldIndex}` ? null : `${stepIndex}-${fieldIndex}`)}
@@ -646,15 +646,6 @@ const FormEditor = () => {
                                   <div className="mt-4 space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                       <div>
-                                        <label className="block text-sm font-medium mb-1">Label</label>
-                                        <input
-                                          type="text"
-                                          value={field.label || ''}
-                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'label', e.target.value)}
-                                          className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        />
-                                      </div>
-                                      <div>
                                         <label className="block text-sm font-medium mb-1">Name</label>
                                         <input
                                           type="text"
@@ -663,193 +654,71 @@ const FormEditor = () => {
                                           className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
                                       </div>
+                                      <div>
+                                        <label className="block text-sm font-medium mb-1">Email</label>
+                                        <input
+                                          type="text"
+                                          value={field.email || ''}
+                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'email', e.target.value)}
+                                          className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        />
+                                      </div>
                                     </div>
   
                                     <div className="grid grid-cols-2 gap-4">
                                       <div>
-                                        <label className="block text-sm font-medium mb-1">Type</label>
-                                        <select
-                                          value={field.type}
-                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'type', e.target.value)}
+                                        <label className="block text-sm font-medium mb-1">Location</label>
+                                        <input
+                                          type="text"
+                                          value={field.location || ''}
+                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'location', e.target.value)}
                                           className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        >
-                                          <option value="text">Text</option>
-                                          <option value="textarea">Textarea</option>
-                                          <option value="number">Number</option>
-                                          <option value="email">Email</option>
-                                          <option value="tel">Telephone</option>
-                                          <option value="date">Date</option>
-                                          <option value="checkbox">Checkbox</option>
-                                          <option value="radio">Radio</option>
-                                          <option value="select">Select</option>
-                                        </select>
+                                        />
                                       </div>
-                                      <div className="flex items-center">
-                                        <label className="inline-flex items-center">
-                                          <input
-                                            type="checkbox"
-                                            checked={field.required || false}
-                                            onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'required', e.target.checked)}
-                                            className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-                                          />
-                                          <span className="ml-2 text-sm font-medium text-gray-700">Required</span>
-                                        </label>
-                                      </div>
-                                    </div>
   
-                                    {(field.type === 'select' || field.type === 'radio') && (
+                                        <div>
+                                          <label className="block text-sm font-medium mb-1">Website</label>
+                                          <input
+                                            type="text"
+                                            value={field.website || ''}
+                                            onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'website', e.target.value)}
+                                            className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          />
+                                        </div>
+                                      </div>
+                                  
+                                  <div className="grid grid-cols-1 gap-4">
                                       <div>
-                                        <label className="block text-sm font-medium mb-2">Options</label>
-                                        {field.options?.map((option, optIndex) => (
-                                          <div key={optIndex} className="flex gap-2 mb-2">
-                                            <input
-                                              type="text"
-                                              value={option.label || ''}
-                                              onChange={(e) => {
-                                                const newOptions = [...(field.options || [])];
-                                                newOptions[optIndex] = {
-                                                  value: e.target.value.toLowerCase().replace(/\s+/g, '-'),
-                                                  label: e.target.value
-                                                };
-                                                handleFieldChange(stepIndex, fieldIndex, 'options', newOptions);
-                                              }}
-                                              className="flex-1 p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                              placeholder="Option label"
-                                            />
-                                            <button
-                                              onClick={() => {
-                                                const newOptions = field.options.filter((_, i) => i !== optIndex);
-                                                handleFieldChange(stepIndex, fieldIndex, 'options', newOptions);
-                                              }}
-                                              className="p-2 text-red-500 hover:bg-red-50 rounded-md transition-colors"
-                                            >
-                                              <Trash2 size={16} />
-                                            </button>
-                                          </div>
-                                        ))}
-                                        <button
-                                          onClick={() => {
-                                            const newOptions = [...(field.options || []), { value: '', label: '' }];
-                                            handleFieldChange(stepIndex, fieldIndex, 'options', newOptions);
-                                          }}
-                                          className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-600"
-                                      >
-                                        <Plus size={14} /> Add Option
-                                      </button>
+                                        <label className="block text-sm font-medium mb-1">Phone Number</label>
+                                        <input
+                                          type="text"
+                                          value={field.phoneNumber || ''}
+                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'phoneNumber', e.target.value)}
+                                          className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        />
+                                      </div>
                                     </div>
-                                  )}
 
                                   <div>
-                                    <label className="block text-sm font-medium mb-1">Hint Text</label>
+                                    <label className="block text-sm font-medium mb-1">Description</label>
                                     <input
-                                      type="text"
-                                      value={field.hint || ''}
-                                      onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'hint', e.target.value)}
+                                      type="textarea"
+                                      value={field.description || ''}
+                                      onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'description', e.target.value)}
                                       className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                      placeholder="Helper text shown below the field"
+                                      placeholder=""
                                     />
                                   </div>
 
-                                  {/* Conditional Display */}
                                   <div>
-                                    <label className="block text-sm font-medium mb-2">Conditional Display</label>
-                                    <div className="space-y-2">
-                                      <div>
-                                        <label className="inline-flex items-center">
-                                          <input
-                                            type="checkbox"
-                                            checked={!!field.conditional}
-                                            onChange={(e) => {
-                                              if (e.target.checked) {
-                                                handleFieldChange(stepIndex, fieldIndex, 'conditional', {
-                                                  field: '',
-                                                  value: ''
-                                                });
-                                              } else {
-                                                const updatedField = { ...field };
-                                                delete updatedField.conditional;
-                                                handleFieldChange(stepIndex, fieldIndex, 'conditional', undefined);
-                                              }
-                                            }}
-                                            className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-                                          />
-                                          <span className="ml-2 text-sm text-gray-700">Show this field conditionally</span>
-                                        </label>
-                                      </div>
-
-                                      {field.conditional && (
-                                        <div className="grid grid-cols-2 gap-4 mt-2">
-                                          <div>
-                                            <select
-                                              value={field.conditional.field || ''}
-                                              onChange={(e) => {
-                                                handleFieldChange(stepIndex, fieldIndex, 'conditional', {
-                                                  ...field.conditional,
-                                                  field: e.target.value
-                                                });
-                                              }}
-                                              className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                            >
-                                              <option value="">Select field</option>
-                                              {formData.steps.flatMap((step, sIndex) => 
-                                                step.fields.map((f, fIndex) => 
-                                                  sIndex < stepIndex || (sIndex === stepIndex && fIndex < fieldIndex) ? (
-                                                    <option key={`${sIndex}-${fIndex}`} value={f.name}>
-                                                      {f.label || f.name}
-                                                    </option>
-                                                  ) : null
-                                                )
-                                              ).filter(Boolean)}
-                                            </select>
-                                          </div>
-                                          <div>
-                                            <input
-                                              type="text"
-                                              value={field.conditional.value || ''}
-                                              onChange={(e) => {
-                                                handleFieldChange(stepIndex, fieldIndex, 'conditional', {
-                                                  ...field.conditional,
-                                                  value: e.target.value
-                                                });
-                                              }}
-                                              className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                              placeholder="Value to match"
-                                            />
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Validation Rules */}
-                                  <div>
-                                    <label className="block text-sm font-medium mb-2">Validation Rules</label>
-                                    <div className="space-y-2">
-                                      {['email', 'phoneNumber', 'postalCode'].map(rule => (
-                                        <div key={rule}>
-                                          <label className="inline-flex items-center">
-                                            <input
-                                              type="checkbox"
-                                              checked={field.validation?.rules?.includes(rule) || false}
-                                              onChange={(e) => {
-                                                const currentRules = field.validation?.rules || [];
-                                                const updatedRules = e.target.checked
-                                                  ? [...currentRules, rule]
-                                                  : currentRules.filter(r => r !== rule);
-                                                handleFieldChange(stepIndex, fieldIndex, 'validation', {
-                                                  ...field.validation,
-                                                  rules: updatedRules
-                                                });
-                                              }}
-                                              className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-                                            />
-                                            <span className="ml-2 text-sm text-gray-700">
-                                              {rule.charAt(0).toUpperCase() + rule.slice(1)} validation
-                                            </span>
-                                          </label>
-                                        </div>
-                                      ))}
-                                    </div>
+                                    <label className="block text-sm font-medium mb-1">Notes</label>
+                                    <input
+                                      type="text"
+                                      value={field.notes || ''}
+                                      onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'notes', e.target.value)}
+                                      className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="Women only, Wheelchair-accessible, Faith-based, Bilingual Services..."
+                                    />
                                   </div>
                                 </div>
                               )}
@@ -865,7 +734,7 @@ const FormEditor = () => {
                           <div className="flex items-center gap-2">
                             <GripVertical className="text-gray-400" size={16} />
                             <span className="font-medium">
-                              {step.fields[parseInt(activeId)]?.label || 'Unnamed Field'}
+                              {step.fields[parseInt(activeId)]?.name || 'Unnamed Field'}
                             </span>
                           </div>
                         </div>

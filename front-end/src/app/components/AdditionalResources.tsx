@@ -144,13 +144,7 @@ const AdditionalResources = ({ resources }) => {
         </div>
 
         {/* Filter Status */}
-        <div className="flex items-center justify-between">
-          {/* <div className="text-sm text-gray-500">
-            Showing {sortedResources.length} resources
-            {selectedCategory !== 'all' && ` in "${categories.find(c => c.name === selectedCategory)?.label}"`}
-            {searchTerm && ` matching "${searchTerm}"`}
-          </div> */}
-          
+        <div className="flex items-center justify-between">          
           {(selectedCategory !== 'all' || searchTerm) && (
             <button
               onClick={resetFilters}

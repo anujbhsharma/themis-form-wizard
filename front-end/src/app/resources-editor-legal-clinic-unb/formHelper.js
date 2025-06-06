@@ -1,5 +1,5 @@
 // Pushes form data to the server and retrieves it.
-const allowedOrigin = '/api/resources';
+const allowedOrigin = '/api/resource';
 
 export async function saveFormData(formData) {
   try {
