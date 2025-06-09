@@ -1772,27 +1772,29 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
   };
 
   const removeField = (stepIndex, fieldIndex, substepIndex) => {
-    const newFormConfig = { ...formConfig };
-    const newSteps = [...formConfig.steps];
+    if (window.confirm('Are you sure you want to delete this field?')) {
+      const newFormConfig = { ...formConfig };
+      const newSteps = [...formConfig.steps];
+      
+      if (substepIndex !== undefined) {
+        // Remove field from a substep
+        const step = { ...newSteps[stepIndex] };
+        const substep = { ...step.substeps[substepIndex] };
+        
+        substep.fields = substep.fields.filter((_, index) => index !== fieldIndex);
+        step.substeps[substepIndex] = substep;
+        newSteps[stepIndex] = step;
+      } else {
+        // Remove field from the main step
+        const step = { ...newSteps[stepIndex] };
+        
+        step.fields = step.fields.filter((_, index) => index !== fieldIndex);
+        newSteps[stepIndex] = step;
+      }
     
-    if (substepIndex !== undefined) {
-      // Remove field from a substep
-      const step = { ...newSteps[stepIndex] };
-      const substep = { ...step.substeps[substepIndex] };
-      
-      substep.fields = substep.fields.filter((_, index) => index !== fieldIndex);
-      step.substeps[substepIndex] = substep;
-      newSteps[stepIndex] = step;
-    } else {
-      // Remove field from the main step
-      const step = { ...newSteps[stepIndex] };
-      
-      step.fields = step.fields.filter((_, index) => index !== fieldIndex);
-      newSteps[stepIndex] = step;
+      newFormConfig.steps = newSteps;
+      onChange(newFormConfig);
     }
-    
-    newFormConfig.steps = newSteps;
-    onChange(newFormConfig);
   };
 
   const addStep = () => {

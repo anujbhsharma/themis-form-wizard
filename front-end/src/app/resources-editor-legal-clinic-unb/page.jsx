@@ -75,7 +75,7 @@ const SortableField = ({ field, fieldId, children }) => {
     transition,
     isDragging,
   } = useSortable({ 
-    id: fieldId,
+    name: fieldId,
     data: {
       type: 'field',
       field
@@ -111,26 +111,26 @@ const FormEditor = () => {
   const initialFormState = {
     steps: [
       {
-        id: "FirstNations",
-        title: "First Nations Resources",
+        name: "FirstNations",
+        label: "First Nations Resources",
         icon: "Info",
         fields: []
       },
       {
-        id: "Rehabilitation",
-        title: "Rehabilitation",
+        name: "Rehabilitation",
+        label: "Rehabilitation",
         icon: "BookOpen",
         fields: []
       },
       {
-        id: "Shelters",
-        title: "Shelters",
+        name: "Shelters",
+        label: "Shelters",
         icon: "House",
         fields: []
       },
       {
-        id: "LegalAndReferralServices",
-        title: "Legal And Referral Services",
+        name: "LegalAndReferralServices",
+        label: "Legal And Referral Services",
         icon: "Scale",
         fields: []
       }
@@ -221,6 +221,27 @@ const FormEditor = () => {
     loadData();
   }, [isAuthenticated]);
 
+  const resetEligibilitySimple = async () => {
+    if (window.confirm('Are you sure you want to reset to the original form configuration?')) {
+      try {
+        setSaveStatus('Resetting...');
+        
+        // Load the original JSON file
+        const originalJSON = await import('./api/dummy.json');
+        
+        // Reset form data
+        setFormData(originalJSON.default);
+        
+        setSaveStatus('Reset complete!');
+        setTimeout(() => setSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to reset eligibility form:', error);
+        setSaveStatus('Reset failed');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }
+  };
+
   // Auto-save functionality
   useEffect(() => {
     if (!isInitialized || !isAuthenticated) return;
@@ -291,7 +312,7 @@ const FormEditor = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     
-    if (!over || active.id === over.id) {
+    if (!over || active.name === over.name) {
       setDraggedItemType(null);
       setDraggedItem(null);
       return;
@@ -300,8 +321,8 @@ const FormEditor = () => {
     setFormData((formData) => {
       if (active.data.current.type === 'field') {
         // Handle field reordering
-        const [sourceStepIndex, sourceFieldIndex] = active.id.split('-').map(Number);
-        const [targetStepIndex, targetFieldIndex] = over.id.split('-').map(Number);
+        const [sourceStepIndex, sourceFieldIndex] = active.name.split('-').map(Number);
+        const [targetStepIndex, targetFieldIndex] = over.name.split('-').map(Number);
         
         const newSteps = [...formData.steps];
         const sourceStep = newSteps[sourceStepIndex];
@@ -327,8 +348,8 @@ const FormEditor = () => {
         return { ...formData, steps: newSteps };
       } else {
         // Handle step reordering
-        const oldIndex = formData.steps.findIndex((step) => step.id === active.id);
-        const newIndex = formData.steps.findIndex((step) => step.id === over.id);
+        const oldIndex = formData.steps.findIndex((step) => step.name === active.name);
+        const newIndex = formData.steps.findIndex((step) => step.name === over.name);
         return {
           ...formData,
           steps: arrayMove(formData.steps, oldIndex, newIndex),
@@ -344,8 +365,8 @@ const FormEditor = () => {
     setFormData(prev => ({
       ...prev,
       steps: [...prev.steps, {
-        id: `step_${prev.steps.length + 1}`,
-        title: "New Step",
+        name: `category_${prev.steps.length + 1}`,
+        label: "New Category",
         icon: "User",
         fields: []
       }]
@@ -353,12 +374,14 @@ const FormEditor = () => {
   };
 
   const removeStep = (stepIndex) => {
+    if (window.confirm('Are you sure you want to delete this category?')) {
     setFormData(prev => ({
       ...prev,
       steps: prev.steps.filter((_, index) => index !== stepIndex)
     }));
     if (activeStep >= stepIndex) {
       setActiveStep(Math.max(0, activeStep - 1));
+    }
     }
   };
 
@@ -392,6 +415,7 @@ const FormEditor = () => {
   };
 
   const removeField = (stepIndex, fieldIndex) => {
+    if (window.confirm('Are you sure you want to delete this announcement?')) {
     setFormData(prev => {
       const newSteps = [...prev.steps];
       newSteps[stepIndex] = {
@@ -400,7 +424,8 @@ const FormEditor = () => {
       };
       return { ...prev, steps: newSteps };
     });
-  };
+  }
+};
 
   const handleFieldChange = (stepIndex, fieldIndex, field, value) => {
     setFormData(prev => {
@@ -536,7 +561,7 @@ const FormEditor = () => {
             </div>
   
             {formData.steps.map((step, stepIndex) => (
-              <Card key={step.id} className="mb-4">
+              <Card key={step.name} className="mb-4">
                 <CardContent className="p-6">
                   {/* Step Header */}
                   <div className="flex items-center justify-between mb-4">
@@ -547,8 +572,8 @@ const FormEditor = () => {
                       })}
                       <input
                         type="text"
-                        value={step.title}
-                        onChange={(e) => handleStepChange(stepIndex, 'title', e.target.value)}
+                        value={step.label}
+                        onChange={(e) => handleStepChange(stepIndex, 'label', e.target.value)}
                         className="font-semibold p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
@@ -588,13 +613,13 @@ const FormEditor = () => {
                       collisionDetection={closestCenter}
                       onDragEnd={(event) => {
                         const { active, over } = event;
-                        if (!over || active.id === over.id) return;
+                        if (!over || active.name === over.name) return;
   
                         setFormData(prev => {
                           const newSteps = [...prev.steps];
                           const step = newSteps[stepIndex];
-                          const activeIndex = parseInt(active.id);
-                          const overIndex = parseInt(over.id);
+                          const activeIndex = parseInt(active.name);
+                          const overIndex = parseInt(over.name);
                           
                           const fields = [...step.fields];
                           const [movedField] = fields.splice(activeIndex, 1);

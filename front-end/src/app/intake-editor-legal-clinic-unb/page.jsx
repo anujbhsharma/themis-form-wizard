@@ -634,6 +634,26 @@ const FormEditor = () => {
     }
   }, []);
 
+  //Get resources
+  useEffect(() => {
+        async function fetchResourceData() {
+          try {
+            console.log('Fetching resource data from API...');
+            const res = await fetch('/api/resource');
+            const data = await res.json();
+            if (!res.ok) {
+              throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
+            }
+            const formData = data[data.length-1];
+            console.log('Data: ', formData);
+          } catch (error) {
+            console.error('Failed to fetch resource data:', error);
+          }
+        }
+    
+        fetchResourceData()
+      }, [ ]);
+
   // Handle lock timer countdown
   useEffect(() => {
     let interval;
@@ -837,6 +857,7 @@ const FormEditor = () => {
   };
 
   const removeStep = (stepIndex) => {
+    if (window.confirm('Are you sure you want to delete this step?')) {
     setFormData(prev => ({
       ...prev,
       steps: prev.steps.filter((_, index) => index !== stepIndex)
@@ -844,6 +865,7 @@ const FormEditor = () => {
     if (activeStep >= stepIndex) {
       setActiveStep(Math.max(0, activeStep - 1));
     }
+     }
   };
 
   const handleStepChange = (stepIndex, field, value) => {
@@ -877,6 +899,7 @@ const FormEditor = () => {
   };
 
   const removeField = (stepIndex, fieldIndex) => {
+        if (window.confirm('Are you sure you want to delete this field?')) {
     setFormData(prev => {
       const newSteps = [...prev.steps];
       newSteps[stepIndex] = {
@@ -885,6 +908,7 @@ const FormEditor = () => {
       };
       return { ...prev, steps: newSteps };
     });
+  }
   };
 
   const handleFieldChange = (stepIndex, fieldIndex, field, value) => {

@@ -7,6 +7,8 @@ const AdditionalResources = ({ resources }) => {
   const [view, setView] = useState('grid');
   const [sortBy, setSortBy] = useState('name');
   const [showFilters, setShowFilters] = useState(false);
+  const [resourceCategories, setCategories] = useState([]);       // Full data
+  const [activeCategory, setActiveCategory] = useState('all'); // 
 
   // Combine all resources
   const allResources = [
@@ -15,6 +17,8 @@ const AdditionalResources = ({ resources }) => {
     ...resources.FirstNationsResources,
     ...resources.LegalAndReferralServices
   ];
+
+  // const [allResources, setResources] = useState({});
 
   // Filter resources based on search and category
   const filteredResources = allResources.filter(resource => 
@@ -42,6 +46,32 @@ const AdditionalResources = ({ resources }) => {
     { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
     { name: 'Shelters', label: 'Shelters', icon: <House className="w-4 h-4" /> }
   ];
+
+  useEffect(() => {
+      async function fetchResourceData() {
+          console.log('Fetching resource data from API...');
+          const res = await fetch('/api/resource')
+          .then(res => res.json())
+          .then(data => {
+            if (data.steps) {
+              setCategories(data.steps); // Extract from the "steps" field
+              console.log("CATEGORIES: ", resourceCategories);
+            } else {
+              console.error('No steps field in response');
+            }
+          })
+          .catch(err => console.error('Failed to fetch data:', err));
+        //   const data = await res.json();
+        //   if (!res.ok) {
+        //     throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
+        //   }
+        //   const formData = data[data.length-1].steps;
+        //   setCategories(formData);
+        //   console.log('Data: ', resourceCategories);
+        // } catch (error) {
+        //   console.error('Failed to fetch resource data:', error);
+      fetchResourceData()
+    }}, [ ]);
 
   // Get category icon by name
   const getCategoryIcon = (categoryName) => {

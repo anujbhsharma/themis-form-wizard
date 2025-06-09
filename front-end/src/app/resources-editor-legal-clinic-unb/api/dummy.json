@@ -1,7 +1,7 @@
 {
     "steps": [{
-        "id": "shelters",
-        "title": "Shelters",
+        "name": "Shelters",
+        "label": "Shelters",
         "icon": "House",
         "fields": [{
                 "name": "Gignoo Aboriginal Transition House",
@@ -69,8 +69,8 @@
             }
         ]},
         {
-        "id": "rehabilitation",
-        "title": "Rehabilitation",
+        "name": "Rehabilitation",
+        "label": "Rehabilitation",
         "icon": "BookOpen",
         "fields": [
             {
@@ -138,8 +138,8 @@
             }
         ]},
         {
-        "id": "firstNations",
-        "title": "First Nations",
+        "name": "FirstNations",
+        "label": "First Nations",
         "icon": "Info",
         "fields": [
             {
@@ -186,8 +186,8 @@
             }
         ]},
         {
-        "id": "legalAndReferralServices",
-        "title": "Legal and Referral Services",
+        "name": "LegalAndReferralServices",
+        "label": "Legal and Referral Services",
         "icon": "Scale",
         "fields": [
             {
