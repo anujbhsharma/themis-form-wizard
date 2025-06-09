@@ -2804,15 +2804,15 @@ const FormEditor = () => {
               <button
                 onClick={resetEligibilitySimple}
                 disabled={isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-2 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
-                    <RefreshCcw size={16} className="animate-spin" /> Loading...
+                    <RefreshCcw size={14} className="animate-spin" /> Loading...
                   </>
                 ) : (
                   <>
-                    <RefreshCcw size={16} /> Reset to Original
+                    <RefreshCcw size={14} /> Reset to Original
                   </>
                 )}
               </button>
@@ -2820,15 +2820,15 @@ const FormEditor = () => {
               <button
                 onClick={restoreLastSaveSimple}
                 disabled={isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-2 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
-                    <RefreshCcw size={16} className="animate-spin" /> Loading...
+                    <RefreshCcw size={14} className="animate-spin" /> Loading...
                   </>
                 ) : (
                   <>
-                    <RefreshCcw size={16} /> Restore Last Save
+                    <RefreshCcw size={14} /> Restore Last Save
                   </>
                 )}
               </button>
@@ -2844,9 +2844,9 @@ const FormEditor = () => {
                   updateFormMetadata();
                   handleSave();
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                className="flex items-center gap-2 px-2 py-2 bg-green-500 text-white rounded hover:bg-green-600"
               >
-                <Save size={16} /> Save Changes
+                <Save size={14} /> Save Changes
               </button>
             </div>
           </div>

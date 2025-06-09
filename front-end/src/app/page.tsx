@@ -65,28 +65,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch resources
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const response = await fetch('/api/resources');
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log("Content loaded:", data);
-        setContent(data);
-      } catch (err) {
-        console.error("Error fetching content:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchResources();
-  }, []);
-
   // Fetch content from API
   useEffect(() => {
     const fetchContent = async () => {

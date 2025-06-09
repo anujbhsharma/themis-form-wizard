@@ -407,6 +407,7 @@ const FormEditor = () => {
             type: 'text',
             name: `entry_${newSteps[stepIndex].fields.length + 1}`,
             label: 'New Entry',
+            category: `${newSteps[stepIndex].name}`,
           }
         ]
       };
@@ -415,7 +416,7 @@ const FormEditor = () => {
   };
 
   const removeField = (stepIndex, fieldIndex) => {
-    if (window.confirm('Are you sure you want to delete this announcement?')) {
+    if (window.confirm('Are you sure you want to delete this entry?')) {
     setFormData(prev => {
       const newSteps = [...prev.steps];
       newSteps[stepIndex] = {

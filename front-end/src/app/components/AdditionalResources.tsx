@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen, House } from 'lucide-react';
+import { User, Shield, DollarSign, BriefcaseIcon, FileText, Search, Scale, Filter, Layers, Phone, Mail, Tag, MapPin, Globe, Info, AlertTriangle, ChevronDown, Grid, List, BookOpen, House } from 'lucide-react';
 
 const AdditionalResources = ({ resources }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [view, setView] = useState('grid');
   const [sortBy, setSortBy] = useState('name');
-  const [showFilters, setShowFilters] = useState(false);
-  const [resourceCategories, setCategories] = useState([]);       // Full data
-  const [activeCategory, setActiveCategory] = useState('all'); // 
+  const [showFilters, setShowFilters] = useState(false); 
+
+  const ICONS = {
+    User,
+    Shield,
+    House,
+    BookOpen,
+    Phone,
+    Info,
+    Mail,
+    DollarSign,
+    Scale,
+    FileText,
+    BriefcaseIcon
+  };
 
   // Combine all resources
   const allResources = [
@@ -18,10 +30,10 @@ const AdditionalResources = ({ resources }) => {
     ...resources.LegalAndReferralServices
   ];
 
-  // const [allResources, setResources] = useState({});
+  const [totalResources, setResources] = useState(allResources);
 
   // Filter resources based on search and category
-  const filteredResources = allResources.filter(resource => 
+  const filteredResources = totalResources.filter(resource => 
     (selectedCategory === 'all' || 
      resource.category.toLowerCase().includes(selectedCategory.toLowerCase())) &&
     (resource.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -40,12 +52,21 @@ const AdditionalResources = ({ resources }) => {
   });
 
   // Available categories for filtering
-  const categories = [
-    { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
-    { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
-    { name: 'Shelters', label: 'Shelters', icon: <House className="w-4 h-4" /> }
+  // const categories = [
+  //   { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
+  //   { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
+  //   { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
+  //   { name: 'Shelters', label: 'Shelters', icon: <House className="w-4 h-4" /> }
+  // ];
+
+   const categories = [
+    { name: 'FirstNationsResources', label: 'First Nations', icon: "Info" },
+    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: "Scale"},
+    { name: 'Rehabilitation', label: 'Rehabilitation', icon: "BookOpen"},
+    { name: 'Shelters', label: 'Shelters', icon: "House" }
   ];
+
+  const [resourceCategories, setCategories] = useState(categories); 
 
   useEffect(() => {
       async function fetchResourceData() {
@@ -53,30 +74,32 @@ const AdditionalResources = ({ resources }) => {
           const res = await fetch('/api/resource')
           .then(res => res.json())
           .then(data => {
-            if (data.steps) {
-              setCategories(data.steps); // Extract from the "steps" field
-              console.log("CATEGORIES: ", resourceCategories);
+            if (data[data.length-1].steps) {
+              const steps = data[data.length - 1].steps;
+              setCategories(steps);
+              console.log("Categories: ", resourceCategories);
+              setResources(steps.flatMap(step => Array.isArray(step.fields) ? step.fields : []));
+              console.log("Resources: ", steps.flatMap(step => Array.isArray(step.fields) ? step.fields : []));
             } else {
-              console.error('No steps field in response');
+              console.error('No field steps in response');
             }
           })
           .catch(err => console.error('Failed to fetch data:', err));
-        //   const data = await res.json();
-        //   if (!res.ok) {
-        //     throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
-        //   }
-        //   const formData = data[data.length-1].steps;
-        //   setCategories(formData);
-        //   console.log('Data: ', resourceCategories);
-        // } catch (error) {
-        //   console.error('Failed to fetch resource data:', error);
-      fetchResourceData()
-    }}, [ ]);
+        }
+      fetchResourceData();
+    }, [ ]);
 
   // Get category icon by name
   const getCategoryIcon = (categoryName) => {
-    const category = categories.find(c => c.name === categoryName);
-    return category ? category.icon : <Filter className="w-4 h-4" />;
+    const category = resourceCategories.find(c => c.name === categoryName);
+    const iconKey = category?.icon;
+    console.log("CATEGORY ICON: ", iconKey);
+
+
+  // If iconKey exists and matches ICONS, use it; otherwise fallback
+    const IconComponent = iconKey && ICONS[iconKey] ? ICONS[iconKey] : Info;
+    console.log("CATEGORY ICON KEY: ", IconComponent);
+    return <IconComponent className="w-4 h-4" />;
   };
 
   // Reset all filters
@@ -127,7 +150,7 @@ const AdditionalResources = ({ resources }) => {
         <div className="flex flex-col md:flex-row justify-between gap-4">
           {/* Category Filters */}
           <div className="flex flex-wrap justify-center md:justify-start gap-2">
-            {categories.map((category) => (
+            {resourceCategories.map((category) => (
               <button 
                 key={category.name}
                 onClick={() => setSelectedCategory(category.name)}
