@@ -26,7 +26,7 @@ const AdditionalResources = ({ resources }) => {
   const allResources = [
     ...resources.Shelters, 
     ...resources.Rehabilitation, 
-    ...resources.FirstNationsResources,
+    ...resources.FirstNations,
     ...resources.LegalAndReferralServices
   ];
 
@@ -51,16 +51,10 @@ const AdditionalResources = ({ resources }) => {
     return 0;
   });
 
-  // Available categories for filtering
-  // const categories = [
-  //   { name: 'FirstNationsResources', label: 'First Nations', icon: <Info className="w-4 h-4" /> },
-  //   { name: 'LegalAndReferralServices', label: 'Legal Services', icon: <Scale className="w-4 h-4" /> },
-  //   { name: 'Rehabilitation', label: 'Rehabilitation', icon: <BookOpen className="w-4 h-4" /> },
-  //   { name: 'Shelters', label: 'Shelters', icon: <House className="w-4 h-4" /> }
-  // ];
+
 
    const categories = [
-    { name: 'FirstNationsResources', label: 'First Nations', icon: "Info" },
+    { name: 'FirstNationss', label: 'First Nations', icon: "Info" },
     { name: 'LegalAndReferralServices', label: 'Legal Services', icon: "Scale"},
     { name: 'Rehabilitation', label: 'Rehabilitation', icon: "BookOpen"},
     { name: 'Shelters', label: 'Shelters', icon: "House" }
@@ -89,16 +83,21 @@ const AdditionalResources = ({ resources }) => {
       fetchResourceData();
     }, [ ]);
 
+  type IconName = keyof typeof ICONS;
   // Get category icon by name
   const getCategoryIcon = (categoryName) => {
     const category = resourceCategories.find(c => c.name === categoryName);
     const iconKey = category?.icon;
-    console.log("CATEGORY ICON: ", iconKey);
+    console.log('Requested icon:', iconKey);
+    console.log('Available icons:', Object.keys(ICONS));
 
+    const IconComponent =
+    iconKey && iconKey in ICONS
+      ? ICONS[iconKey as IconName] 
+      : Filter;
 
-  // If iconKey exists and matches ICONS, use it; otherwise fallback
-    const IconComponent = iconKey && ICONS[iconKey] ? ICONS[iconKey] : Info;
-    console.log("CATEGORY ICON KEY: ", IconComponent);
+    console.log("ICON COMPONENT: ", IconComponent);
+     console.log("ICON COMPONENT AS OUTPUT: ", <IconComponent className="w-4 h-4" />);
     return <IconComponent className="w-4 h-4" />;
   };
 
@@ -162,7 +161,8 @@ const AdditionalResources = ({ resources }) => {
                     : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}
                 `}
               >
-                {category.icon}
+                {getCategoryIcon(category.icon)}
+                {/* {category.icon} */}
                 {category.label}
               </button>
             ))}

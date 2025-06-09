@@ -138,8 +138,8 @@
             }
         ]},
         {
-        "name": "FirstNations",
-        "label": "First Nations",
+        "name": "FirstNationsResources",
+        "label": "First Nations Resources",
         "icon": "Info",
         "fields": [
             {

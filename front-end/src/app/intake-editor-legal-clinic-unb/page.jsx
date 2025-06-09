@@ -634,26 +634,6 @@ const FormEditor = () => {
     }
   }, []);
 
-  //Get resources
-  useEffect(() => {
-        async function fetchResourceData() {
-          try {
-            console.log('Fetching resource data from API...');
-            const res = await fetch('/api/resource');
-            const data = await res.json();
-            if (!res.ok) {
-              throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
-            }
-            const formData = data[data.length-1];
-            console.log('Data: ', formData);
-          } catch (error) {
-            console.error('Failed to fetch resource data:', error);
-          }
-        }
-    
-        fetchResourceData()
-      }, [ ]);
-
   // Handle lock timer countdown
   useEffect(() => {
     let interval;
@@ -757,39 +737,6 @@ const FormEditor = () => {
     setDraggedItemType(active.data?.current?.type);
     setDraggedItem(active.data?.current?.field || active.data?.current?.step);
   };
-
-  //Returns the form to the last known entry
-  const restoreLastSaveSimple = async () => {
-    if (window.confirm('Are you sure you want to reset to the previous form configuration?')) {
-      try {
-        setSaveStatus('Resetting...');
-        
-        // Load the original JSON file
-        const response = await fetch('api/intake')
-        //Gets collection
-        if (!response.ok) {
-          // If API fails, use initial state
-          console.warn('Failed to load form data, using initial state');
-          setFormData(initialState);
-          return;
-        }
-
-        const data = await response.json()
-        console.log('RAW JSON DATA: ', data);
-        setFormData(data[0]);
-        
-        // Reset form data
-        
-        setSaveStatus('Reset complete!');
-        setTimeout(() => setSaveStatus(''), 3000);
-      } catch (error) {
-        console.error('Failed to reset eligibility form:', error);
-        setSaveStatus('Reset failed');
-        setTimeout(() => setSaveStatus(''), 3000);
-      }
-    }
-  };
-
 
   // Handle drag end
   const handleDragEnd = (event) => {

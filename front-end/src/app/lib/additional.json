@@ -130,14 +130,14 @@
             "category":"Rehabilitation"
         }
     ],
-    "FirstNationsResources": [
+    "FirstNations": [
         {
             "name": "Addictions/Mental-Wellness St Mary's",
             "description": "Healthcare services centered on indigenous values, including in-person medical visits at the St. Mary’s Veterans Memorial Health Centre and crisis counseling ",
             "location": "St. Mary's First Nation",
             "phoneNumber": "(506) 452-2750",
             "email": "chrisbrooks@smfn.ca",
-            "category":"FirstNationsResources"
+            "category":"FirstNations"
         },
         {
             "name": "Apatawsuwikuwam",
@@ -146,7 +146,7 @@
             "phoneNumber": "(506)-206-1005",
             "email": "admin@apatawsuwikuwam.com",
             "website": "https://www.facebook.com/Apatawsuwikuwam/",
-            "category":"FirstNationsResources"
+            "category":"FirstNations"
         },
         {
             "name": "Elsipogtog Health & Wellness Centre",
@@ -154,7 +154,7 @@
             "location": "Elsipogtog",
             "phoneNumber": "(506)-523-8227",
             "website": "https://ehwc.ca/",
-            "category":"FirstNationsResources"
+            "category":"FirstNations"
         },
         {
             "name": "Rising Sun Treatment Centre",
@@ -163,7 +163,7 @@
             "phoneNumber": "(833)-444-4626",
             "email": "info@risingsuntreatment.ca",
             "website": "https://www.risingsuntreatment.ca/",
-            "category":"FirstNationsResources"
+            "category":"FirstNations"
         },
         {
             "name": "Wolastoqewiyik Healing Lodge - Outpatient",
@@ -171,7 +171,7 @@
             "location": "Tobique",
             "phoneNumber": "(506) 273-5403",
             "website": "https://healing-lodge.ca",
-            "category":"FirstNationsResources"
+            "category":"FirstNations"
         }
     ],
     "LegalAndReferralServices": [

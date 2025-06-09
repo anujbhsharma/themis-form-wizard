@@ -106,13 +106,50 @@ const SortableField = ({ field, fieldId, children }) => {
   );
 };
 
+// SortableStep component
+const SortableStep = ({ step, stepIndex, children }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ 
+    name: step.id,
+    data: {
+      type: 'step',
+      stepIndex,
+      step
+    }
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <Card className={`mb-4 ${isDragging ? 'border-2 border-blue-500' : ''}`}>
+        <CardContent className="p-6">
+          <div className="cursor-move" {...listeners}>
+            {children}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
 // Main Form Editor Component
 const FormEditor = () => {
   const initialFormState = {
     steps: [
       {
         name: "FirstNations",
-        label: "First Nations Resources",
+        label: "First Nations",
         icon: "Info",
         fields: []
       },
@@ -147,6 +184,26 @@ const FormEditor = () => {
   const [activeField, setActiveField] = useState(null);
   const [draggedItemType, setDraggedItemType] = useState(null);
   const [draggedItem, setDraggedItem] = useState(null);
+  const resetSimple = async () => {
+    if (window.confirm('Are you sure you want to reset the form to the original configuration? All changes will be lost.')) {
+      try {
+        setSaveStatus('Resetting...');
+        
+        // Load the original JSON file
+        const dummyJson = await import('./api/dummy.json');
+        
+        // Reset only the form data
+        setFormData(dummyJson.default);
+        
+        setSaveStatus('Reset complete!');
+        setTimeout(() => setSaveStatus(''), 3000);
+      } catch (error) {
+        console.error('Failed to reset form:', error);
+        setSaveStatus('Reset failed');
+        setTimeout(() => setSaveStatus(''), 3000);
+      }
+    }
+  };
   
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -651,7 +708,7 @@ const FormEditor = () => {
                             >
                               <div className="w-full">
                                 <div className="flex items-center justify-between">
-                                  <span className="font-medium">{field.name || 'Unnamed Field'}</span>
+                                  <span className="font-medium text-gray-700">{field.name || 'Unnamed Field'}</span>
                                   <div className="flex items-center gap-2">
                                     <button
                                       onClick={() => setExpandedField(expandedField === `${stepIndex}-${fieldIndex}` ? null : `${stepIndex}-${fieldIndex}`)}
@@ -758,7 +815,7 @@ const FormEditor = () => {
                       {activeId && (
                         <div className="bg-gray-50 rounded-lg p-4 border-2 border-blue-500 opacity-50">
                           <div className="flex items-center gap-2">
-                            <GripVertical className="text-gray-400" size={16} />
+                            <GripVertical className="text-gray-600" size={16} />
                             <span className="font-medium">
                               {step.fields[parseInt(activeId)]?.name || 'Unnamed Field'}
                             </span>

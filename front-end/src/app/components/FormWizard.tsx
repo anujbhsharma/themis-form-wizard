@@ -319,10 +319,10 @@ export default function LegalClinicForm() {
     // // Handle indigenous status
     // if (name === 'indigenous' && value === 'first-nations') {
     //   // Add First Nations specific resources
-    //   const firstNationsResources = RESOURCES.shelters.filter(
+    //   const FirstNations = RESOURCES.shelters.filter(
     //     resource => resource.notes?.toLowerCase().includes('first nations')
     //   );
-    //   updatedResources.push(...firstNationsResources);
+    //   updatedResources.push(...FirstNations);
     // }
 
     // // Handle disability status
