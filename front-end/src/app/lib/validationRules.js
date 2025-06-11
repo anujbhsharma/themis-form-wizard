@@ -57,11 +57,12 @@ export const validationRules = {
   },
 
   isInFuture: (value) => {    
+    if (!value) return { isValid: true }
     const courtDate = new Date(value);
     const today = new Date();
 
     return {
-      isValid: courtDate < today,
+      isValid: courtDate > today,
       message: `Date must be in the future`
     };
   },

@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const emailContent = req.body;
+  const { emailContent } = req.body;
 
   // Configure Nodemailer with SMTP (Gmail example)
   const transporter = nodemailer.createTransport({

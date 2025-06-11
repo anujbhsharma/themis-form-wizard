@@ -185,27 +185,6 @@ export default function LegalClinicForm() {
     setSelectedFiles(prev => prev.filter((_, index) => index !== fileIndex));
   };
 
-  const handleSubmission = async () => {
-    if (!validateStep(currentStep)) {
-      return;
-    }
-
-    setSubmitStatus({ loading: true, error: null });
-    console.log('LOADING: ', submitStatus);
-    try {
-      const response = await submitFormWithFiles(formData, selectedFiles);
-      console.log('LOADING 2: ', submitStatus);
-      setSubmissionId(response.submissionId);
-      setShowSuccess(true);
-      setSubmitStatus({ loading: false, error: null });
-    } catch (error) {
-      setSubmitStatus({ 
-        loading: false, 
-        error: 'Failed to submit form. Please try again.' 
-      });
-    }
-  };
-
   // FOR EMAIL
   const handleSubmit = async () => {
     if (!validateStep(currentStep)) {
@@ -229,17 +208,22 @@ export default function LegalClinicForm() {
         submitData.append('files', file); // 'files' stays same for all files
       });
     }
-
+    console.log("DATA TO EMAIL: ", JSON.stringify({
+          formData
+        }));
     try {
-      const res = await fetch('./api/server', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
-        body: submitData, // No need for headers, fetch auto-sets for FormData
+        body: JSON.stringify({
+          formData
+        }),
+  
       });
 
       const result = await res.json();
-        setSubmissionId(result.submissionId);
-        setShowSuccess(true);
-        setSubmitStatus({ loading: false, error: null });
+      setSubmissionId(result.submissionId);
+      setShowSuccess(true);
+      setSubmitStatus({ loading: false, error: null });
     } catch (error) {
         setSubmitStatus({ 
           loading: false, 
