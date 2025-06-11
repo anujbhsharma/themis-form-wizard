@@ -75,7 +75,7 @@ const SortableField = ({ field, fieldId, children }) => {
     transition,
     isDragging,
   } = useSortable({ 
-    id: fieldId,
+    name: fieldId,
     data: {
       type: 'field',
       field
@@ -85,7 +85,7 @@ const SortableField = ({ field, fieldId, children }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0 : 1,
+    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
@@ -591,12 +591,6 @@ const FormEditor = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
             >
                 <Lock size={16} /> Logout
-            </button>
-            <button
-                onClick={resetSimple}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
-            >
-                <RefreshCcw size={16} /> Reset Form
             </button>
             {saveStatus && (
               <span className={`text-sm font-medium ${

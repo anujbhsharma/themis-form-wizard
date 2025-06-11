@@ -508,7 +508,6 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
               <option value="phoneNumber">Phone Number</option>
               <option value="postalCode">Postal Code</option>
               <option value="dateOfBirth">Date of Birth</option>
-              <option value="isInFuture">Is In Future</option>
               <option value="required">Required</option>
               <option value="numeric">Numeric</option>
             </select>
@@ -759,16 +758,6 @@ const FormPreview = ({ formData }) => {
               if (formValues[field.name] && !/^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(formValues[field.name])) {
                 newErrors[field.name] = 'Please enter a valid postal code in format: A1A 1A1';
                 isValid = false;
-              }
-              break;
-            case 'isInFuture':
-              if (formValues[field.name]) {
-                const courtDate = new Date(formValues[field.name]);
-                const today = new Date();
-                if (courtDate < today) {
-                  newErrors[field.name] = 'Please enter a future date';
-                  isValid = false;
-                }
               }
               break;
             case 'dateOfBirth':
