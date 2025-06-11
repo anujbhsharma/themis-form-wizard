@@ -88,16 +88,12 @@ const AdditionalResources = ({ resources }) => {
   const getCategoryIcon = (categoryName) => {
     const category = resourceCategories.find(c => c.name === categoryName);
     const iconKey = category?.icon;
-    console.log('Requested icon:', iconKey);
-    console.log('Available icons:', Object.keys(ICONS));
-
+    
     const IconComponent =
     iconKey && iconKey in ICONS
       ? ICONS[iconKey as IconName] 
       : Filter;
 
-    console.log("ICON COMPONENT: ", IconComponent);
-     console.log("ICON COMPONENT AS OUTPUT: ", <IconComponent className="w-4 h-4" />);
     return <IconComponent className="w-4 h-4" />;
   };
 
