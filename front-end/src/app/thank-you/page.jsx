@@ -31,14 +31,14 @@ export default function ThankYou() {
               Return to Home
             </Link>
             
-            <Link
-              href="/form"
+            {/* <Link
+              href="/"
               className="inline-flex items-center justify-center w-full px-4 py-2 text-sm 
                 font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Submit Another Application
-            </Link>
+            </Link> */}
           </div>
 
           <p className="mt-6 text-sm text-gray-500">

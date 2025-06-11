@@ -30,6 +30,7 @@ import configData from '../eligibility-editor-legal-clinic-unb/api/dummy.json';
 import { validationRules, combineValidations } from '../lib/validationRules';
 
 import { submitFormWithFiles } from '../lib/api';
+import { saveFormData } from './formHelper';
 
 export default function LegalClinicForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -50,19 +51,20 @@ export default function LegalClinicForm() {
   const [RESOURCES, setResources] = useState(null);
   const [MONTHLY_THRESHOLDS, setThresholds] = useState(null);
 
+  // Gets the form template from the api
   useEffect(() => {
     async function fetchEligibilityData() {
       try {
-        console.log('Fetching eligibility data from API...');
+        console.log('Fetching eligibility data from Eligibility API...');
         const res = await fetch('/api/eligibility');
         const data = await res.json();
         if (!res.ok) {
           throw new Error(`Error fetching data: ${data.message || 'Unknown error'}`);
         }
-        const formData = data[data.length-1];
-        setThresholds(formData.MONTHLY_THRESHOLDS);
-        setResources(formData.RESOURCES);
-        setConfig({...formData.formConfig});
+        const dataForm = data[data.length-1];
+        setThresholds(dataForm.MONTHLY_THRESHOLDS);
+        setResources(dataForm.RESOURCES);
+        setConfig({...dataForm.formConfig});
       } catch (error) {
         console.error('Failed to fetch eligibility data:', error);
       }
@@ -183,15 +185,16 @@ export default function LegalClinicForm() {
     setSelectedFiles(prev => prev.filter((_, index) => index !== fileIndex));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmission = async () => {
     if (!validateStep(currentStep)) {
       return;
     }
 
     setSubmitStatus({ loading: true, error: null });
-
+    console.log('LOADING: ', submitStatus);
     try {
       const response = await submitFormWithFiles(formData, selectedFiles);
+      console.log('LOADING 2: ', submitStatus);
       setSubmissionId(response.submissionId);
       setShowSuccess(true);
       setSubmitStatus({ loading: false, error: null });
@@ -200,6 +203,48 @@ export default function LegalClinicForm() {
         loading: false, 
         error: 'Failed to submit form. Please try again.' 
       });
+    }
+  };
+
+  // FOR EMAIL
+  const handleSubmit = async () => {
+    if (!validateStep(currentStep)) {
+      return;
+    }
+
+    const submitData = new FormData();
+
+    // Append individual fields from formData (best approach)
+    for (const [key, value] of Object.entries(formData)) {
+      if (typeof value === 'string' || value instanceof Blob) {
+      submitData.append(key, value);
+    } else {
+      submitData.append(key, JSON.stringify(value)); //  fallback
+    }
+    }
+
+    // Append multiple files (same key = valid)
+    if (selectedFiles && selectedFiles.length > 0) {
+      selectedFiles.forEach((file) => {
+        submitData.append('files', file); // 'files' stays same for all files
+      });
+    }
+
+    try {
+      const res = await fetch('./api/server', {
+        method: 'POST',
+        body: submitData, // No need for headers, fetch auto-sets for FormData
+      });
+
+      const result = await res.json();
+        setSubmissionId(result.submissionId);
+        setShowSuccess(true);
+        setSubmitStatus({ loading: false, error: null });
+    } catch (error) {
+        setSubmitStatus({ 
+          loading: false, 
+          error: 'Failed to submit form. Please try again.' 
+        });
     }
   };
 
@@ -319,10 +364,10 @@ export default function LegalClinicForm() {
     // // Handle indigenous status
     // if (name === 'indigenous' && value === 'first-nations') {
     //   // Add First Nations specific resources
-    //   const FirstNations = RESOURCES.shelters.filter(
+    //   const firstNationsResources = RESOURCES.shelters.filter(
     //     resource => resource.notes?.toLowerCase().includes('first nations')
     //   );
-    //   updatedResources.push(...FirstNations);
+    //   updatedResources.push(...firstNationsResources);
     // }
 
     // // Handle disability status
@@ -511,7 +556,7 @@ export default function LegalClinicForm() {
 
     // Special handling for number fields with currency
     if (field.type === 'number' && 
-       (field.name.toLowerCase().includes('(total amount per month)') || 
+       (field.name.toLowerCase().includes('amount') || 
         field.name.toLowerCase().includes('income') || 
         field.name.toLowerCase().includes('expense') || 
         field.name.toLowerCase().includes('assets'))) {

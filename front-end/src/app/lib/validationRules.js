@@ -56,6 +56,16 @@ export const validationRules = {
     };
   },
 
+  isInFuture: (value) => {    
+    const courtDate = new Date(value);
+    const today = new Date();
+
+    return {
+      isValid: courtDate < today,
+      message: `Date must be in the future`
+    };
+  },
+
   postalCode: (value) => {
     const postalCodeRegex = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
     return {
@@ -193,5 +203,7 @@ export const {
   numeric,
   email,
   phoneNumber,
+  dateOfBirth,
+  isInFuture,
   postalCode
 } = validationRules;
