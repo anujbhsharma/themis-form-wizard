@@ -4,7 +4,6 @@ const allowedOrigin = '/api/eligibility';
 export async function saveFormData(formData) {
   try {
     const { _id, ...safeData } = formData; 
-    console.log('Saving form data:', safeData);
     const response = await fetch(allowedOrigin, {
       method: 'POST',
       headers: {
@@ -14,7 +13,6 @@ export async function saveFormData(formData) {
     });
 
     const result = await response.json();
-    console.log('Insert result:', result);
     if (!response.ok) {
       throw new Error(result.error || 'Failed to save data');
     }

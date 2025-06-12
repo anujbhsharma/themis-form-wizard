@@ -1,7 +1,7 @@
 export function generateEmailHTML(formData: Record<string, any>): string {
   return `
-    <div style="font-family: sans-serif; line-height: 1.5;">
-      <h2>New Form Submission</h2>
+    <div style="font-family: sans-serif; line-height: 2;">
+      <h2>New Eligibility Form Submission</h2>
       <table style="width: 100%; border-collapse: collapse;">
         ${Object.entries(formData)
           .map(

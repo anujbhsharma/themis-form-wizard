@@ -8,14 +8,12 @@ export const submitFormWithFiles = async (formData, files) => {
       
       // Add form data as a string
       submitData.append('formData', JSON.stringify(formData));
-      console.log('SUBMISSION: ', submitData);
       // Add files with unique names
       if (files && files.length > 0) {
         files.forEach((file, index) => {
           submitData.append(`files`, file); // Keep the field name as 'files'
         });
       }
-      console.log('SUBMISSION: ', submitData);
       const response = await fetch(`${getApiUrl()}/api/submit`, {
         method: 'POST',
         body: submitData,
@@ -43,7 +41,6 @@ export const submitFormWithFiles = async (formData, files) => {
       
       // Add form data as a string
       submitData.append('formData', JSON.stringify(formData));
-      console.log('SUBMISSION WITHOUT FILES: ', submitData);
       
       const response = await fetch(`${getApiUrl()}/api/submitintake`, {
         method: 'POST',

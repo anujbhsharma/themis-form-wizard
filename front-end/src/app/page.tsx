@@ -74,7 +74,6 @@ export default function Home() {
           throw new Error(`Failed to fetch: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Content loaded:", data);
         setContent(data);
       } catch (err) {
         console.error("Error fetching content:", err);
@@ -145,7 +144,7 @@ export default function Home() {
            {/* Display active announcements */}
       {content?.announcements && content.announcements.length > 0 && (
         <div className="bg-gray-50 py-2">
-          <h2 className="text-xl font-bold text-blue-800 mb-3">Announcements</h2>
+          <h2 className="text-xl font-bold text-blue-800 mb-3 px-3">Announcements</h2>
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="space-y-2">
               {content.announcements
@@ -211,7 +210,7 @@ export default function Home() {
           <div className="p-6">
             {/* Tab Navigation */}
             <div className="flex flex-col items-center mb-6">
-              <div className="inline-flex rounded-xl bg-blue-50 p-1.5 gap-1 mb-4 shadow-sm">
+              <div className="inline-flex rounded-xl bg-blue-50 p-1.5 gap-1 shadow-sm">
                 {tabItems.map((tab) => (
                   <TabButton
                     key={tab.id}
@@ -221,9 +220,9 @@ export default function Home() {
                   />
                 ))}
               </div>
-              <p className="text-gray-600 text-sm">
+              {/* <p className="text-gray-600 text-sm">
                 {tabItems[activeTab].description}
-              </p>
+              </p> */}
             </div>
 
             {/* Content Area */}

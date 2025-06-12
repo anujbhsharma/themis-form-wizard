@@ -96,7 +96,6 @@ export default function IntakeForm() {
     useEffect(() => {
       async function fetchIntakeData() {
         try {
-          console.log('Fetching intake data from Intake API...');
           const res = await fetch('/api/intake');
           const data = await res.json();
           if (!res.ok) {

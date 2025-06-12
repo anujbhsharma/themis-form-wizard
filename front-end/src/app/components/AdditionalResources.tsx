@@ -37,8 +37,7 @@ const AdditionalResources = ({ resources }) => {
     (selectedCategory === 'all' || 
      resource.category.toLowerCase().includes(selectedCategory.toLowerCase())) &&
     (resource.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     (resource.description && resource.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-     (resource.matters && resource.matters.toLowerCase().includes(searchTerm.toLowerCase())))
+     (resource.description && resource.description.toLowerCase().includes(searchTerm.toLowerCase())))
   );
 
   // Sort resources
@@ -54,7 +53,7 @@ const AdditionalResources = ({ resources }) => {
 
 
    const categories = [
-    { name: 'FirstNationss', label: 'First Nations', icon: "Info" },
+    { name: 'FirstNations', label: 'First Nations', icon: "Info" },
     { name: 'LegalAndReferralServices', label: 'Legal Services', icon: "Scale"},
     { name: 'Rehabilitation', label: 'Rehabilitation', icon: "BookOpen"},
     { name: 'Shelters', label: 'Shelters', icon: "House" }
@@ -64,16 +63,13 @@ const AdditionalResources = ({ resources }) => {
 
   useEffect(() => {
       async function fetchResourceData() {
-          console.log('Fetching resource data from API...');
           const res = await fetch('/api/resource')
           .then(res => res.json())
           .then(data => {
             if (data[data.length-1].steps) {
               const steps = data[data.length - 1].steps;
               setCategories(steps);
-              console.log("Categories: ", resourceCategories);
               setResources(steps.flatMap(step => Array.isArray(step.fields) ? step.fields : []));
-              console.log("Resources: ", steps.flatMap(step => Array.isArray(step.fields) ? step.fields : []));
             } else {
               console.error('No field steps in response');
             }
@@ -158,8 +154,7 @@ const AdditionalResources = ({ resources }) => {
                 `}
               >
                 {getCategoryIcon(category.icon)}
-                {/* {category.icon} */}
-                {category.label}
+                {category.name}
               </button>
             ))}
           </div>
@@ -272,7 +267,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm line-clamp-3 hover:line-clamp-6 flex-grow">
+        <p className="text-gray-600 mb-4 text-sm flex-grow line-clamp-3 hover:line-clamp-none transition-all">
           {resource.description}
         </p>
       )}
@@ -320,14 +315,14 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
           </div>
         )}
         
-        {resource.matters && (
+        {/* {resource.matters && (
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
               <Tag className="w-4 h-4 text-blue-600" />
             </div>
             <span className="text-gray-600">{resource.matters}</span>
           </div>
-        )}
+        )} */}
 
         {resource.location && (
           <div className="flex items-center gap-3">
@@ -434,13 +429,13 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
                   <Phone className="w-4 h-4 text-blue-600" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500">Services</div>
+                  <div className="text-xs text-gray-500">Phone Number</div>
                   <div className="text-sm text-gray-700">{resource.phoneNumber}</div>
                 </div>
               </div>
             )}
             
-            {resource.matters && (
+            {/* {resource.matters && (
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
                   <Tag className="w-4 h-4 text-blue-600" />
@@ -450,7 +445,7 @@ const ResourceListItem = ({ resource, getCategoryIcon }) => {
                   <div className="text-sm text-gray-700">{resource.matters}</div>
                 </div>
               </div>
-            )}
+            )} */}
             
             {resource.location && (
               <div className="flex items-center gap-3">

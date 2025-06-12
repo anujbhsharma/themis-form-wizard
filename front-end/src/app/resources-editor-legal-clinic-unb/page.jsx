@@ -85,7 +85,7 @@ const SortableField = ({ field, fieldId, children }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0 : 1,
+    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
@@ -105,6 +105,9 @@ const SortableField = ({ field, fieldId, children }) => {
     </div>
   );
 };
+
+
+  
 
 // SortableStep component
 const SortableStep = ({ step, stepIndex, children }) => {
@@ -262,7 +265,6 @@ const FormEditor = () => {
       try {
         const { success, data, error } = await getFormData();
         if (success && data) {
-          console.log('Loaded form data:', data);
           setFormData(data[data.length-1]);
         } else {
           console.error('Error loading data:', error);
@@ -300,32 +302,45 @@ const FormEditor = () => {
   };
 
   // Auto-save functionality
-  useEffect(() => {
-    if (!isInitialized || !isAuthenticated) return;
+  // useEffect(() => {
+  //   if (!isInitialized || !isAuthenticated) return;
 
-    const autoSave = async () => {
-      if (formData) {
-        try {
-          setSaveStatus('Saving...');
-          const { success, error } = await saveFormData(formData);
+  //   const autoSave = async () => {
+  //     if (formData) {
+  //       try {
+  //         setSaveStatus('Saving...');
+  //         const { success, error } = await saveFormData(formData);
           
-          if (success) {
-            setSaveStatus('Saved successfully!');
-          } else {
-            throw new Error(error);
-          }
-        } catch (error) {
-          console.error('Error auto-saving form data:', error);
-          setSaveStatus('Error saving changes');
-        } finally {
-          setTimeout(() => setSaveStatus(''), 3000);
-        }
-      }
-    };
+  //         if (success) {
+  //           setSaveStatus('Saved successfully!');
+  //         } else {
+  //           throw new Error(error);
+  //         }
+  //       } catch (error) {
+  //         console.error('Error auto-saving form data:', error);
+  //         setSaveStatus('Error saving changes');
+  //       } finally {
+  //         setTimeout(() => setSaveStatus(''), 3000);
+  //       }
+  //     }
+  //   };
 
-    const timeoutId = setTimeout(autoSave, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [formData, isInitialized, isAuthenticated]);
+  //   const timeoutId = setTimeout(autoSave, 1000);
+  //   return () => clearTimeout(timeoutId);
+  // }, [formData, isInitialized, isAuthenticated]);
+
+  const handleSave = async () => {
+      setSaveStatus('Saving...');
+      try {
+        const { success } = await saveFormData(formData);
+        setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
+      } catch (error) {
+        setSaveStatus('Error saving');
+        console.error('Save error:', error);
+      }
+      setTimeout(() => setSaveStatus(''), 3000);
+    };
+    
 
   // Authentication form submission
   const handleSubmit = (e) => {
@@ -594,9 +609,17 @@ const FormEditor = () => {
             </button>
             <button
                 onClick={resetSimple}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
+                className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition"
             >
                 <RefreshCcw size={16} /> Reset Form
+            </button>
+            <button
+              onClick={() => {
+                handleSave();
+              }}
+              className="flex items-center gap-2 px-2 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              <Save size={14} /> Save Changes
             </button>
             {saveStatus && (
               <span className={`text-sm font-medium ${
@@ -636,8 +659,8 @@ const FormEditor = () => {
                       })}
                       <input
                         type="text"
-                        value={step.label}
-                        onChange={(e) => handleStepChange(stepIndex, 'label', e.target.value)}
+                        value={step.name}
+                        onChange={(e) => handleStepChange(stepIndex, 'name', e.target.value)}
                         className="font-semibold p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
@@ -675,6 +698,7 @@ const FormEditor = () => {
                     <DndContext
                       sensors={sensors}
                       collisionDetection={closestCenter}
+                      onDragStart={handleDragStart}
                       onDragEnd={(event) => {
                         const { active, over } = event;
                         if (!over || active.name === over.name) return;
@@ -766,11 +790,11 @@ const FormEditor = () => {
                                       </div>
   
                                         <div>
-                                          <label className="block text-sm font-medium mb-1">Website</label>
+                                          <label className="block text-sm font-medium mb-1">Phone Number</label>
                                           <input
                                             type="text"
-                                            value={field.website || ''}
-                                            onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'website', e.target.value)}
+                                            value={field.phoneNumber || ''}
+                                            onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'phoneNumber', e.target.value)}
                                             className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                           />
                                         </div>
@@ -778,11 +802,11 @@ const FormEditor = () => {
                                   
                                   <div className="grid grid-cols-1 gap-4">
                                       <div>
-                                        <label className="block text-sm font-medium mb-1">Phone Number</label>
+                                        <label className="block text-sm font-medium mb-1">Website</label>
                                         <input
                                           type="text"
-                                          value={field.phoneNumber || ''}
-                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'phoneNumber', e.target.value)}
+                                          value={field.website || ''}
+                                          onChange={(e) => handleFieldChange(stepIndex, fieldIndex, 'website', e.target.value)}
                                           className="w-full p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
                                       </div>

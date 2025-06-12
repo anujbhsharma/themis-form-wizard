@@ -402,7 +402,7 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
   };
 
   return (
-    <div className="space-y-6 max-h-[80vh] overflow-y-auto">
+    <div className="space-y-6 overflow-y-auto">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Field Name (ID)</label>
@@ -440,6 +440,7 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
           >
             <option value="text">Text</option>
             <option value="number">Number</option>
+            <option value="currency">Currency</option>
             <option value="email">Email</option>
             <option value="tel">Telephone</option>
             <option value="date">Date</option>
@@ -508,7 +509,6 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
               <option value="phoneNumber">Phone Number</option>
               <option value="postalCode">Postal Code</option>
               <option value="dateOfBirth">Date of Birth</option>
-              <option value="isInFuture">Is In Future</option>
               <option value="required">Required</option>
               <option value="numeric">Numeric</option>
             </select>
@@ -761,16 +761,6 @@ const FormPreview = ({ formData }) => {
                 isValid = false;
               }
               break;
-            case 'isInFuture':
-              if (formValues[field.name]) {
-                const courtDate = new Date(formValues[field.name]);
-                const today = new Date();
-                if (courtDate < today) {
-                  newErrors[field.name] = 'Please enter a future date';
-                  isValid = false;
-                }
-              }
-              break;
             case 'dateOfBirth':
               if (formValues[field.name]) {
                 const birthDate = new Date(formValues[field.name]);
@@ -885,7 +875,8 @@ const FormPreview = ({ formData }) => {
           );
 
         case 'number':
-          if (field.name.toLowerCase().includes('income') || 
+          if (field.name.toLowerCase().includes('amount') || 
+              field.name.toLowerCase().includes('income') || 
               field.name.toLowerCase().includes('expense') || 
               field.name.toLowerCase().includes('assets')) {
             return (
@@ -902,6 +893,20 @@ const FormPreview = ({ formData }) => {
             );
           }
           return <input type="number" {...fieldProps} />;
+        
+        case 'currency':
+            return (
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                <input
+                  type="number"
+                  {...fieldProps}
+                  className={`${fieldProps.className} pl-8`}
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+            );
 
         case 'textarea':
           return <textarea {...fieldProps} rows={4} />;
@@ -1619,7 +1624,7 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragStart = (event) => {
@@ -2464,7 +2469,6 @@ const FormEditor = () => {
         }
 
         const data = await response.json()
-        console.log('RAW JSON DATA: ', data);
         setFormData(data[0]);
         
         // Reset form data
@@ -2569,7 +2573,6 @@ const FormEditor = () => {
         }
 
        const data = await response.json()
-        console.log('RAW JSON DATA: ', data);
         setFormData(data[data.length-1]);
 
       } catch (error) {

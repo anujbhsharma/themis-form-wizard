@@ -55,7 +55,6 @@ export default function LegalClinicForm() {
   useEffect(() => {
     async function fetchEligibilityData() {
       try {
-        console.log('Fetching eligibility data from Eligibility API...');
         const res = await fetch('/api/eligibility');
         const data = await res.json();
         if (!res.ok) {
@@ -196,21 +195,17 @@ export default function LegalClinicForm() {
     // Append individual fields from formData (best approach)
     for (const [key, value] of Object.entries(formData)) {
       if (typeof value === 'string' || value instanceof Blob) {
-      submitData.append(key, value);
-    } else {
-      submitData.append(key, JSON.stringify(value)); //  fallback
+        submitData.append(key, value);
+      } else {
+        submitData.append(key, JSON.stringify(value)); //  fallback
+      }
     }
-    }
-
     // Append multiple files (same key = valid)
     if (selectedFiles && selectedFiles.length > 0) {
       selectedFiles.forEach((file) => {
         submitData.append('files', file); // 'files' stays same for all files
       });
     }
-    console.log("DATA TO EMAIL: ", JSON.stringify({
-          formData
-        }));
     try {
       const res = await fetch('/api/send-email', {
         method: 'POST',
@@ -539,24 +534,37 @@ export default function LegalClinicForm() {
     }
 
     // Special handling for number fields with currency
-    if (field.type === 'number' && 
-       (field.name.toLowerCase().includes('amount') || 
+    if (field.type === 'number') {
+       if(field.name.toLowerCase().includes('amount') || 
         field.name.toLowerCase().includes('income') || 
         field.name.toLowerCase().includes('expense') || 
-        field.name.toLowerCase().includes('assets'))) {
+        field.name.toLowerCase().includes('assets')) {
+        return (
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+            <input
+              type="number"
+              value={formData[field.name] || ''}
+              onChange={(e) => handleFieldChange(field.name, e.target.value)}
+              className={`${commonClasses} pl-8`}
+              min="0"
+              step="0.01"
+            />
+          </div>
+        );
+      }
       return (
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-          <input
-            type="number"
-            value={formData[field.name] || ''}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            className={`${commonClasses} pl-8`}
-            min="0"
-            step="0.01"
-          />
-        </div>
-      );
+          <div className="relative">
+            <input
+              type="number"
+              value={formData[field.name] || ''}
+              onChange={(e) => handleFieldChange(field.name, e.target.value)}
+              className={`${commonClasses}`}
+              min="0"
+              step="1"
+            />
+          </div>
+        );
     }
 
     switch (field.type) {
@@ -889,7 +897,7 @@ export default function LegalClinicForm() {
         </div>
 
         {/* Emergency alert */}
-        {showEmergencyAlert && (
+        {currentStep === 0 && showEmergencyAlert && (
           <div className="mb-6">
             <div className="bg-red-50 border border-red-200 rounded-lg shadow-md p-5 animate-pulse">
               <div className="flex items-start gap-4">

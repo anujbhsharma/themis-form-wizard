@@ -656,7 +656,6 @@ const FormEditor = () => {
       try {
         const { success, data, error } = await getFormData();
         if (success && data) {
-          console.log('Loaded form data:', data);
           setFormData(data[data.length-1]);
         } else {
           console.error('Error loading data:', error);
@@ -673,32 +672,44 @@ const FormEditor = () => {
   }, [isAuthenticated]);
 
   // Auto-save functionality
-  useEffect(() => {
-    if (!isInitialized || !isAuthenticated) return;
+  // useEffect(() => {
+  //   if (!isInitialized || !isAuthenticated) return;
 
-    const autoSave = async () => {
-      if (formData) {
-        try {
-          setSaveStatus('Saving...');
-          const { success, error } = await saveFormData(formData);
+  //   const autoSave = async () => {
+  //     if (formData) {
+  //       try {
+  //         setSaveStatus('Saving...');
+  //         const { success, error } = await saveFormData(formData);
           
-          if (success) {
-            setSaveStatus('Saved successfully!');
-          } else {
-            throw new Error(error);
-          }
-        } catch (error) {
-          console.error('Error auto-saving form data:', error);
-          setSaveStatus('Error saving changes');
-        } finally {
-          setTimeout(() => setSaveStatus(''), 3000);
-        }
-      }
-    };
+  //         if (success) {
+  //           setSaveStatus('Saved successfully!');
+  //         } else {
+  //           throw new Error(error);
+  //         }
+  //       } catch (error) {
+  //         console.error('Error auto-saving form data:', error);
+  //         setSaveStatus('Error saving changes');
+  //       } finally {
+  //         setTimeout(() => setSaveStatus(''), 3000);
+  //       }
+  //     }
+  //   };
 
-    const timeoutId = setTimeout(autoSave, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [formData, isInitialized, isAuthenticated]);
+  //   const timeoutId = setTimeout(autoSave, 1000);
+  //   return () => clearTimeout(timeoutId);
+  // }, [formData, isInitialized, isAuthenticated]);
+
+  const handleSave = async () => {
+        setSaveStatus('Saving...');
+        try {
+          const { success } = await saveFormData(formData);
+          setSaveStatus(success ? 'Saved successfully!' : 'Error saving');
+        } catch (error) {
+          setSaveStatus('Error saving');
+          console.error('Save error:', error);
+        }
+        setTimeout(() => setSaveStatus(''), 3000);
+      };
 
   // Authentication form submission
   const handleSubmit = (e) => {
@@ -981,27 +992,35 @@ const FormEditor = () => {
               <EyeIcon size={16} />
               Preview
             </button>
-          </div>
-          <div className="flex items-center gap-4">
-          <button
-              onClick={resetIntakeSimple}
-              className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors"
-            >
-              <RefreshCcw size={16} /> Reset to Original
-            </button>
             <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
-            >
-              <Lock size={16} /> Logout
-            </button>
-            {saveStatus && (
+            onClick={() => {
+              handleSave();
+            }}
+            className="flex items-center gap-2 px-2 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            <Save size={14} /> Save Changes
+          </button>
+           {saveStatus && (
               <span className={`text-sm font-medium ${
                 saveStatus.includes('Error') ? 'text-red-500' : 'text-green-500'
               }`}>
                 {saveStatus}
               </span>
             )}
+          </div>
+          <div className="flex items-center gap-4">
+          <button
+              onClick={resetIntakeSimple}
+              className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors"
+            >
+              <RefreshCcw size={14} /> Reset to Original
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 mr-4"
+            >
+              <Lock size={14} /> Logout
+            </button>
           </div>
         </div>
       </div>
@@ -1152,6 +1171,8 @@ const FormEditor = () => {
                     <DndContext
                       sensors={sensors}
                       collisionDetection={closestCenter}
+                      onDragStart={handleDragStart}
+                      // onDragEnd={handleDragEnd}
                       onDragEnd={(event) => {
                         const { active, over } = event;
                         if (!over || active.id === over.id) return;
