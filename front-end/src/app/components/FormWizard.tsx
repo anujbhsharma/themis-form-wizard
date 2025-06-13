@@ -217,7 +217,7 @@ export default function LegalClinicForm() {
 
       const result = await res.json();
       setSubmissionId(result.submissionId);
-      setShowSuccess(true);
+      //setShowSuccess(true);
       setSubmitStatus({ loading: false, error: null });
     } catch (error) {
         setSubmitStatus({ 
@@ -532,12 +532,21 @@ export default function LegalClinicForm() {
         </div>
       );
     }
+    //SHOW IF HANDLING
+    // if (field.showif) {
+    //     const [dependentField, expectedValue] = field.showIf.split(' === ');
+    //     if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
+    //       continue;
+    //     }
+    //   }
+    // }
 
     // Special handling for number fields with currency
     if (field.type === 'number') {
-       if(field.name.toLowerCase().includes('amount') || 
+       if(
         field.name.toLowerCase().includes('income') || 
         field.name.toLowerCase().includes('expense') || 
+        field.label.toLowerCase().includes('amount') || 
         field.name.toLowerCase().includes('assets')) {
         return (
           <div className="relative">
@@ -1071,6 +1080,7 @@ export default function LegalClinicForm() {
               <div ref={formRef} className="max-h-[600vh] overflow-y-auto pr-2 space-y-6 scrollbar-thin">
                 {currentStepConfig.fields.map(field => (
                   <div key={field.name} className="mb-8 last:mb-0 animate-fadeIn">
+                    
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <label className="block text-sm font-medium text-gray-700">
                         {field.label}

@@ -375,12 +375,12 @@ export default function IntakeForm() {
     let isValid = true;
 
     for (const field of step.fields) {
-      if (field.showIf) {
-        const [dependentField, expectedValue] = field.showIf.split(' === ');
-        if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
-          continue;
-        }
-      }
+      // if (field.showIf) {
+      //   const [dependentField, expectedValue] = field.showIf.split(' === ');
+      //   if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
+      //     continue;
+      //   }
+      // }
 
       const validation = validateField(field, formData[field.name]);
       if (!validation.isValid) {
@@ -442,12 +442,12 @@ export default function IntakeForm() {
 
   const renderField = (field) => {
     // Check if field should be shown based on dependencies
-    if (field.showIf) {
-      const [dependentField, expectedValue] = field.showIf.split(' === ');
-      if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
-        return null;
-      }
-    }
+    // if (field.showIf) {
+    //   const [dependentField, expectedValue] = field.showIf.split(' === ');
+    //   if (formData[dependentField] !== expectedValue.replace(/['"]/g, '')) {
+    //     return null;
+    //   }
+    // }
 
     const hasError = errors[field.name];
 

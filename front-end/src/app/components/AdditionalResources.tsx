@@ -24,10 +24,10 @@ const AdditionalResources = ({ resources }) => {
 
   // Combine all resources
   const allResources = [
-    ...resources.Shelters, 
-    ...resources.Rehabilitation, 
-    ...resources.FirstNations,
-    ...resources.LegalAndReferralServices
+    ...resources.steps[0].fields, 
+    ...resources.steps[1].fields, 
+    ...resources.steps[2].fields,
+    ...resources.steps[3].fields
   ];
 
   const [totalResources, setResources] = useState(allResources);
@@ -51,12 +51,11 @@ const AdditionalResources = ({ resources }) => {
   });
 
 
-
-   const categories = [
-    { name: 'FirstNations', label: 'First Nations', icon: "Info" },
-    { name: 'LegalAndReferralServices', label: 'Legal Services', icon: "Scale"},
-    { name: 'Rehabilitation', label: 'Rehabilitation', icon: "BookOpen"},
-    { name: 'Shelters', label: 'Shelters', icon: "House" }
+  const categories = [
+    { name: 'First Nations', icon: "Info" },
+    { name: 'Legal And Referral Services',  icon: "Scale"},
+    { name: 'Rehabilitation',  icon: "BookOpen"},
+    { name: 'Shelters', icon: "House" }
   ];
 
   const [resourceCategories, setCategories] = useState(categories); 
@@ -254,7 +253,6 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
           {getCategoryIcon(resource.category)}
           {resource.category.replace(/([A-Z])/g, ' $1').trim()}
         </div>
-        
         {resource.emergency && (
           <span className="px-3 py-1 bg-red-50 text-red-700 rounded-full text-xs font-medium">
             Emergency
@@ -267,7 +265,7 @@ const ResourceCard = ({ resource, getCategoryIcon }) => {
       </h2>
       
       {resource.description && (
-        <p className="text-gray-600 mb-4 text-sm flex-grow line-clamp-3 hover:line-clamp-none transition-all">
+        <p className="text-gray-600 mb-4 text-sm flex-grow  transition-all">
           {resource.description}
         </p>
       )}

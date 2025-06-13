@@ -362,27 +362,6 @@
             "requird": false
           },
           {
-            "name": "housing",
-            "label": "Do you currently have housing?",
-            "type": "radio",
-            "required": true,
-            "validation": {
-              "rules": [
-                "required"
-              ]
-            },
-            "options": [
-              {
-                "value": "yes",
-                "label": "Yes"
-              },
-              {
-                "value": "no",
-                "label": "No"
-              }
-            ]
-          },
-          {
             "name": "address",
             "label": "Address",
             "type": "text",
@@ -391,8 +370,7 @@
               "rules": [
                 "required"
               ]
-            },
-            "showIf": "housing === 'yes'"
+            }
           },
           {
             "name": "cityProvince",
@@ -414,8 +392,7 @@
               "rules": [
                 "postalCode"
               ]
-            },
-            "showIf": "housing === 'yes'"
+            }
           },
           {
             "name": "phoneNumber",

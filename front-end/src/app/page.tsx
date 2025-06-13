@@ -98,7 +98,7 @@ export default function Home() {
           {/* About section */}
           <div className="bg-blue-50 p-6 rounded-lg shadow-sm">
             <h2 className="text-xl font-bold text-blue-800 mb-3">About Us</h2>
-            <p className="text-gray-700">{content?.clinicInfo?.aboutText || "Information not available."}</p>
+            <div className="text-gray-700">{content?.clinicInfo?.aboutText || "Information not available."}</div>
           </div>
           
           {/* Services section */}

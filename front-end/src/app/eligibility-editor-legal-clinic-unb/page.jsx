@@ -475,7 +475,7 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
       </div>
 
       {/* Conditional logic */}
-      <div>
+      {/* <div>
         <label className="block text-sm font-medium mb-1">Show If (Conditional Logic)</label>
         <input
           type="text"
@@ -487,7 +487,7 @@ const FieldPropertiesEditor = ({ field, onSave, onCancel }) => {
         <p className="text-xs text-gray-500 mt-1">
           JavaScript condition to determine if this field should be displayed
         </p>
-      </div>
+      </div> */}
 
       {/* Validation Rules */}
       <div>
@@ -2091,12 +2091,12 @@ const FormStepsEditor = ({ formConfig, onChange }) => {
               </div>
             )}
             
-            {field.showIf && (
+            {/* {field.showIf && (
               <div>
                 <label className="block text-xs text-gray-500">Show If</label>
                 <p className="text-sm font-mono">{field.showIf}</p>
               </div>
-            )}
+            )} */}
           </div>
         )}
       </div>

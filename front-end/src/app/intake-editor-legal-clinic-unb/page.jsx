@@ -1172,7 +1172,6 @@ const FormEditor = () => {
                       sensors={sensors}
                       collisionDetection={closestCenter}
                       onDragStart={handleDragStart}
-                      // onDragEnd={handleDragEnd}
                       onDragEnd={(event) => {
                         const { active, over } = event;
                         if (!over || active.id === over.id) return;

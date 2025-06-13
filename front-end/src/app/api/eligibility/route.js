@@ -29,7 +29,7 @@ export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db();
-    const data = await db.collection('eligibility').find().sort({ _id: -1}).limit(2).toArray();
+    const data = await db.collection('eligibility').find().sort({ _id: -1}).limit(1).toArray();
     return new Response(JSON.stringify(data), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Failed to fetch data' }), { status: 500 });

@@ -1,7 +1,6 @@
 {
     "steps": [{
         "name": "Shelters",
-        "label": "Shelters",
         "icon": "House",
         "fields": [{
                 "name": "Gignoo Aboriginal Transition House",
@@ -73,7 +72,6 @@
         ]},
         {
         "name": "Rehabilitation",
-        "label": "Rehabilitation",
         "icon": "BookOpen",
         "fields": [
             {
@@ -141,8 +139,7 @@
             }
         ]},
         {
-        "name": "FirstNationsResources",
-        "label": "First Nations Resources",
+        "name": "First Nations",
         "icon": "Info",
         "fields": [
             {
@@ -151,7 +148,7 @@
                 "location": "St. Mary's First Nation",
                 "phoneNumber": "(506) 452-2750",
                 "email": "chrisbrooks@smfn.ca",
-                "category":"FirstNationsResources"
+                "category":"First Nations"
             },
             {
                 "name": "Apatawsuwikuwam",
@@ -160,7 +157,7 @@
                 "phoneNumber": "(506)-206-1005",
                 "email": "admin@apatawsuwikuwam.com",
                 "website": "https://www.facebook.com/Apatawsuwikuwam/",
-                "category":"FirstNationsResources"
+                "category":"First Nations"
             },
             {
                 "name": "Elsipogtog Health & Wellness Centre",
@@ -168,7 +165,7 @@
                 "location": "Elsipogtog",
                 "phoneNumber": "(506)-523-8227",
                 "website": "https://ehwc.ca/",
-                "category":"FirstNationsResources"
+                "category":"First Nations"
             },
             {
                 "name": "Rising Sun Treatment Centre",
@@ -177,7 +174,7 @@
                 "phoneNumber": "(833)-444-4626",
                 "email": "info@risingsuntreatment.ca",
                 "website": "https://www.risingsuntreatment.ca/",
-                "category":"FirstNationsResources"
+                "category":"First Nations"
             },
             {
                 "name": "Wolastoqewiyik Healing Lodge - Outpatient",
@@ -185,12 +182,11 @@
                 "location": "Tobique",
                 "phoneNumber": "(506) 273-5403",
                 "website": "https://healing-lodge.ca",
-                "category":"FirstNationsResources"
+                "category":"First Nations"
             }
         ]},
         {
-        "name": "LegalAndReferralServices",
-        "label": "Legal and Referral Services",
+        "name": "Legal and Referral Services",
         "icon": "Scale",
         "fields": [
             {

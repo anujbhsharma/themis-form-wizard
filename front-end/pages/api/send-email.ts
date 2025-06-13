@@ -15,7 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT),
+    secure: true,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD, // App password
@@ -23,8 +25,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_USERNAME,
-    to: process.env.EMAIL_USERNAME, 
+    from: `"Eligibility Screening" <${process.env.EMAIL_TO}>`,
+    to: process.env.EMAIL_TO, 
     subject: `New Eligibility Form Submission: ${submissionId}`,
     html: emailContent,
   };

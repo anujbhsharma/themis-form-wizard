@@ -151,26 +151,22 @@ const FormEditor = () => {
   const initialFormState = {
     steps: [
       {
-        name: "FirstNations",
-        label: "First Nations",
+        name: "First Nations",
         icon: "Info",
         fields: []
       },
       {
         name: "Rehabilitation",
-        label: "Rehabilitation",
         icon: "BookOpen",
         fields: []
       },
       {
         name: "Shelters",
-        label: "Shelters",
         icon: "House",
         fields: []
       },
       {
-        name: "LegalAndReferralServices",
-        label: "Legal And Referral Services",
+        name: "Legal And Referral Services",
         icon: "Scale",
         fields: []
       }
@@ -374,7 +370,15 @@ const FormEditor = () => {
   };
 
   // Handle drag start
-  const handleDragStart = (event) => {
+  // const handleDragStart = (event) => {
+  //   const { active } = event;
+  //   setActiveId(active.id);
+    
+  //   if (active.data?.current) {
+  //     setDraggedItem(active.data.current);
+  //   }
+  // };
+   const handleDragStart = (event) => {
     const { active } = event;
     setDraggedItemType(active.data?.current?.type);
     setDraggedItem(active.data?.current?.field || active.data?.current?.step);
@@ -438,7 +442,6 @@ const FormEditor = () => {
       ...prev,
       steps: [...prev.steps, {
         name: `category_${prev.steps.length + 1}`,
-        label: "New Category",
         icon: "User",
         fields: []
       }]
@@ -462,7 +465,11 @@ const FormEditor = () => {
       const newSteps = [...prev.steps];
       newSteps[stepIndex] = {
         ...newSteps[stepIndex],
-        [field]: value
+        [field]: value,
+        fields: newSteps[stepIndex].fields.map(f => ({
+          ...f,
+          category: value, 
+        })),
       };
       return { ...prev, steps: newSteps };
     });
@@ -478,7 +485,6 @@ const FormEditor = () => {
           {
             type: 'text',
             name: `entry_${newSteps[stepIndex].fields.length + 1}`,
-            label: 'New Entry',
             category: `${newSteps[stepIndex].name}`,
           }
         ]
