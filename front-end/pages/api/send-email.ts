@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const submissionId = randomUUID();
   const formdata = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
   const emailContent = generateEmailHTML(formdata.formData);
-  const pkArmor = fs.readFileSync('publicKey.asc', 'utf8');
+  const pkArmor = fs.readFileSync('pages/api/publicKey.asc', 'utf8');
 
   const publicKey = await openpgp.readKey({ armoredKey: pkArmor });
 
