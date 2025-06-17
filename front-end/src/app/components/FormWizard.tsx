@@ -211,8 +211,7 @@ export default function LegalClinicForm() {
         method: 'POST',
         body: JSON.stringify({
           formData
-        }),
-  
+        }),  
       });
 
       const result = await res.json();

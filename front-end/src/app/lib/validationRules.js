@@ -67,6 +67,17 @@ export const validationRules = {
     };
   },
 
+  isInPast: (value) => {    
+    if (!value) return { isValid: true }
+    const courtDate = new Date(value);
+    const today = new Date();
+
+    return {
+      isValid: courtDate < today,
+      message: `Date must be in the past`
+    };
+  },
+
   postalCode: (value) => {
     const postalCodeRegex = /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/;
     return {
@@ -206,5 +217,6 @@ export const {
   phoneNumber,
   dateOfBirth,
   isInFuture,
+  isInPast,
   postalCode
 } = validationRules;

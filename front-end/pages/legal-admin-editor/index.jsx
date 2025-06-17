@@ -263,6 +263,77 @@ const handleToggleAnnouncementActive = async (id) => {
     }
   };
 
+
+
+
+
+
+
+
+
+
+  const handlePKChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Check if it's an image
+    if (!file.type.startsWith('image/')) {
+      setMessage('Please upload an image file');
+      return;
+    }
+    
+    // Show loading state
+    setSaving(true);
+    setMessage('Uploading logo...');
+    
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append('logo', file);
+    formData.append('secretCode', secretCode);
+    
+    try {
+      const response = await fetch('/api/upload-logo', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error uploading logo');
+      }
+      
+      const data = await response.json();
+      
+      // Use the URL directly from the API response - it already has the timestamp
+      const logoUrl = data.logoUrl;
+      
+      // Fetch the latest content to ensure we're working with the most current data
+      const contentResponse = await fetch('/api/content', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
+      if (!contentResponse.ok) {
+        throw new Error('Error fetching updated content');
+      }
+      
+      // Update the local state with the freshly fetched content
+      const updatedContent = await contentResponse.json();
+      setContent(updatedContent);
+      
+      setMessage('Logo uploaded successfully!');
+    } catch (error) {
+      setMessage('Error handling logo: ' + error.message);
+      console.error('Error handling logo:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // Render login form if not authenticated
   if (!authenticated) {
     return (
