@@ -11,7 +11,7 @@ async function generatePGPKeyPair(name, email) {
   });
 
     fs.writeFileSync('publicKey.asc', publicKey);
-    fs.writeFileSync('privateKey.asc', privateKey);
+   // fs.writeFileSync('privateKey.asc', privateKey);
   return { publicKey, privateKey };
 }
 

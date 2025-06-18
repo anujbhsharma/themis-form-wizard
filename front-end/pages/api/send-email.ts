@@ -9,21 +9,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const openpgp = require('openpgp');
+  // const openpgp = require('openpgp');
   const fs = require('fs');
   const submissionId = randomUUID();
   const formdata = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
   const emailContent = generateEmailHTML(formdata.formData);
-  const pkArmor = fs.readFileSync('pages/api/publicKey.asc', 'utf8');
+  // const pkArmor = fs.readFileSync('pages/api/publicKey.asc', 'utf8');
 
-  const publicKey = await openpgp.readKey({ armoredKey: pkArmor });
+  // const publicKey = await openpgp.readKey({ armoredKey: pkArmor });
 
-  const encrypted = await openpgp.encrypt({
-    message: await openpgp.createMessage({ text: emailContent }),
-    encryptionKeys: publicKey
-  });
+  // const encrypted = await openpgp.encrypt({
+  //   message: await openpgp.createMessage({ text: emailContent }),
+  //   encryptionKeys: publicKey
+  // });
 
-      fs.writeFileSync('encrypt.asc', encrypted);
+      // fs.writeFileSync('encrypt.asc', encrypted);
 
 
   const transporter = nodemailer.createTransport({
@@ -40,12 +40,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     from: `"Eligibility Screening" <${process.env.EMAIL_TO}>`,
     to: process.env.EMAIL_TO, 
     subject: `New Eligibility Form Submission: ${submissionId}`,
-    html: encrypted,
+    html: emailContent,
   };
 
 
   try {
-    fs.writeFileSync('encrypt.asc', encrypted);
+    fs.writeFileSync('encrypt.asc', emailContent);
     await transporter.sendMail(mailOptions);
     return res.status(200).json({ message: 'Email sent successfully', submissionId  });
   } catch (err: any) {
